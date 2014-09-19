@@ -32,7 +32,7 @@ Os nos podem ser nomes
 
 #define versao "1.0i - 03/11/2013"
 #include <stdio.h>
-#include <conio.h>
+#include <curses.h>
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -136,7 +136,7 @@ int numero(char *nome)
 
 int main(void)
 {
-  clrscr();
+  system("clear");
   printf("Programa demonstrativo de analise nodal modificada\n");
   printf("Por Antonio Carlos M. de Queiroz - acmq@coe.ufrj.br\n");
   printf("Versao %s\n",versao);
@@ -335,7 +335,7 @@ int main(void)
   /* Resolve o sistema */
   if (resolversistema()) {
     getch();
-    exit;
+    exit(0);
   }
 #ifdef DEBUG
   /* Opcional: Mostra o sistema resolvido */
