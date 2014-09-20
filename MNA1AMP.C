@@ -29,7 +29,7 @@ de forma a que o numero de equacoes nunca excede o numero de nos.
 
 #define versao "1.0a - 03/11/2013"
 #include <stdio.h>
-#include <conio.h>
+#include <curses.h>
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -181,7 +181,7 @@ void corrente(double i, int a, int b) {
 
 int main(void)
 {
-  clrscr();
+  system("clear");
   printf("Programa demonstrativo de analise nodal modificada\n");
   printf("Por Antonio Carlos M. de Queiroz - acmq@coe.ufrj.br\n");
   printf("Versao %s\n",versao);
@@ -361,7 +361,7 @@ int main(void)
   /* Resolve o sistema */
   if (resolversistema()) {
     getch();
-    exit;   
+    exit(0);   
   }
 #ifdef DEBUG
   /* Opcional: Mostra o sistema resolvido */
