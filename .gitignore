@@ -26,5 +26,4 @@
 *.exe
 *.out
 *.app
-MNA1
-MNA1AMP
+bin/*
