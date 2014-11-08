@@ -32,7 +32,11 @@ Os nos podem ser nomes
 
 #define versao "1.0i - 03/11/2013"
 #include <stdio.h>
-#include <curses.h>
+#ifdef WIN32
+    #include <conio.h>
+#elif __linux__
+    #include <curses.h>
+#endif
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
