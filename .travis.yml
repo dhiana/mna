@@ -1,0 +1,32 @@
+language: cpp
+compiler:
+  - gcc
+  - clang
+before_install:
+  - echo $LANG
+  - echo $LC_ALL
+script: scons
+branches:
+  only:
+    - master
+notifications:
+  recipients:
+    - dhiana.deva@gmail.com
+  email:
+    on_success: change
+    on_failure: always
+os:
+  - linux
+env:
+  global:
+   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+   #   via the "travis encrypt" command using the project repo's public key
+    - secure: "NNcM7iZYDdtdR894s1wqnQ7W1keMbnsItTm4gbLTsZomXDVu3Q3XpkNS8ixwMTixnkawSCsK223W9txTFCtpNcq5QClJG3akCidYq92JyuiGBh50Y3z+kJAHPL1mPCm80mSKKuLHlywJJiVjItvbNlj7j6YRO1R6sJQploFrkKc="
+addons:
+  coverity_scan:
+    project:
+      name: "dhiana/mna"
+      description: "Build submitted via Travis CI"
+    notification_email: dhiana.deva@gmail.com
+    build_command:   "scons"
+    branch_pattern: master
