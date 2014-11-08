@@ -8,8 +8,7 @@ Linux version of MNA1 and MNA1AMP programs by Prof. Moreirão available at
 Compiling
 ---------
 
-    $ g++ -Wall src/MNA1.C -o bin/MNA1 -lncurses
-    $ g++ -Wall src/MNA1AMP.C -o bin/MNA1AMP -lncurses
+    $ scons
 
 
 Running
