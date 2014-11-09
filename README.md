@@ -52,3 +52,5 @@ At Linux:
 Or at Visual Studio:
 
     F5 (Start Debugging!)
+
+When prompted, try using data/simples.net and see MNA in action!
