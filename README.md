@@ -1,6 +1,6 @@
 Modified Nodal Analysis
 =======================
-[![Build Status](https://travis-ci.org/dhiana/mna.svg?branch=master)](https://travis-ci.org/dhiana/mna)[![Coverity Scan Build Status](https://scan.coverity.com/projects/3335/badge.svg)](https://scan.coverity.com/projects/3335) 
+[![Build Status](https://travis-ci.org/dhiana/mna.svg?branch=master)](https://travis-ci.org/dhiana/mna) [![Coverity Scan Build Status](https://scan.coverity.com/projects/3453/badge.svg)](https://scan.coverity.com/projects/3453) 
 
 Cross-platform version of MNA1 program by Prof. Moreirão available at
 [http://www.coe.ufrj.br/~acmq/cursos/](http://www.coe.ufrj.br/~acmq/cursos/)
@@ -51,3 +51,5 @@ At Linux:
 Or at Visual Studio:
 
     F5 (Start Debugging!)
+
+When prompted, try using data/simples.net and see MNA in action!

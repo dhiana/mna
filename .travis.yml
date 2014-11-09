@@ -17,3 +17,14 @@ notifications:
     on_failure: always
 os:
   - linux
+env:
+  global:
+   - secure: "OBlGvebHS5WYCc91G4PqOt8xoEV+xtnFmcPyV1ZAZ+FqhAQMIHgOreTpZ1h21X3J0Z3G7k+VozulOpk2T5QVYQb7jUxwO/PVI/3qEch+e+pwnySy5jnuh/YDLEwTiAiU614bUkIWu1X/CkUDuEL01ZSFIR2nowhwK+R+fPGPOl4="
+addons:
+  coverity_scan:
+    project:
+      name: "dhiana/mna"
+      description: "Build submitted via Travis CI"
+    notification_email: dhiana.deva@gmail.com
+    build_command: "scons"
+    branch_pattern: master
