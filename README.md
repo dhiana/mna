@@ -46,7 +46,6 @@ Running
 At Linux:
 
     $ ./bin/MNA1
-    $ ./bin/MNA1AMP
 
 Or at Visual Studio:
 
