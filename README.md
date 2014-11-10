@@ -58,3 +58,36 @@ Or at Visual Studio:
     F5 (Start Debugging!)
 
 When prompted, try using data/simples.net and see mna in action!
+
+Running the tests!
+------------------
+
+At linux (precompiled):
+
+    1 - Install gtest libs
+
+        $ sudo yum install gtest-devel
+        $ g++ tests/simple.cpp -lgtest -lgtest_main -o bin/test_mna
+
+
+At linux (non-precompiled):
+
+    1 - Download [Google Test](https://googletest.googlecode.com/files/gtest-1.7.0.zip)
+
+    2 - Add GTEST_ROOT path to ~/.bashrc, example:
+
+            export GTEST_ROOT=$HOME/Devel/gtest-1.7.0/
+
+    3 - Build Google Test:
+
+            $ cd $GTEST_ROOT
+            $ cmake .
+            $ make
+
+    4 - Compile tests:
+
+            $ g++ -I$GTEST_ROOT/include tests/simple.cpp $GTEST_ROOT/libgtest.a $GTEST_ROOT/libgtest_main.a -lpthread -o ./bin/test_mna
+
+    5 - Run tests:
+
+            $ ./bin/test_mna

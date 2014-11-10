@@ -5,6 +5,8 @@ compiler:
 before_install:
   - echo $LANG
   - echo $LC_ALL
+  - sudo apt-get update
+  - sudo apt-get install libgtest-dev
 script: scons
 branches:
   only:
