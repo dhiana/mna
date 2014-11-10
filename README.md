@@ -6,16 +6,22 @@ Cross-platform version of MNA1 program by Prof. Moreirão available at
 [http://www.coe.ufrj.br/~acmq/cursos/](http://www.coe.ufrj.br/~acmq/cursos/)
 
 
+MNA1?!
+------
+
+Of course! Modified Nodal Analysis! ;)
+
+
 Compiling
 ---------
 
 You may use g++:
 
-    $ g++ -Wall src/MNA1.C -o bin/MNA1 -lncurses
+    $ g++ -Wall src/mna.c -o bin/mna -lncurses
 
 You may also use clang:
 
-    $ clang src/MNA1.C -o bin/MNA1 -lncurses
+    $ clang src/mna.c -o bin/mna -lncurses
 
 Or, if you have Scons installed:
 
@@ -27,7 +33,7 @@ And if you are using Windows... Feel free to use Visual Studio!
     2 - Visual C++ -> Empty Project
     3 - Name: "mna"
     4 - Location: Onde estiver este repositório!
-    5 - Right click on src/MNA.C
+    5 - Right click on src/mna.c
     6 - Include in Project
 
 But apperently strcpy is unsafe...
@@ -45,10 +51,10 @@ Running
 
 At Linux:
 
-    $ ./bin/MNA1
+    $ ./bin/mna
 
 Or at Visual Studio:
 
     F5 (Start Debugging!)
 
-When prompted, try using data/simples.net and see MNA in action!
+When prompted, try using data/simples.net and see mna in action!

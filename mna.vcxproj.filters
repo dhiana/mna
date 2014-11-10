@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\MNA1.C">
+    <ClCompile Include="src\mna.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
