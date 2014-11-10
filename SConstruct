@@ -8,7 +8,7 @@ env.Prepend(CPPPATH = ['$GTEST_ROOT',
                        '$GTEST_ROOT/include'])
 gtest = 'libgtest.a'
 gtest_main = 'libgtest_main.a'
-gtest_libs = [gtest, gtest_main]
+gtest_libs = [gtest, gtest_main, 'pthread']
 env.Program(target='bin/test_mna_local',
             source=["tests/simple.cpp"],
             LIBS=gtest_libs)
@@ -16,4 +16,4 @@ env.Program(target='bin/test_mna_local',
 # $ g++ tests/simple.cpp -lgtest -lgtest_main -o bin/test_mna
 env.Program(target='bin/test_mna',
             source=["tests/simple.cpp"],
-            LIBS=[gtest, gtest_main])
+            LIBS=['gtest', 'gtest_main', 'pthread'])
