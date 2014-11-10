@@ -8,7 +8,7 @@ before_install:
   - sudo apt-get update
   - sudo apt-get install libgtest-dev
   - "cd /usr/src/gtest && sudo cmake . && sudo cmake --build . && sudo mv libg* /usr/local/lib/ ; cd -"
-script: scons
+script: scons && ./bin/test_mna
 branches:
   only:
     - master
@@ -29,5 +29,5 @@ addons:
       name: "dhiana/mna"
       description: "Build submitted via Travis CI"
     notification_email: dhiana.deva@gmail.com
-    build_command: "scons"
+    build_command: "scons && ./bin/test_mna"
     branch_pattern: master
