@@ -91,3 +91,48 @@ At linux (non-precompiled):
     5 - Run tests:
 
             $ ./bin/test_mna
+
+
+At Visual Studio:
+
+    1 - Include project at solutions
+
+    2 - Use Visual Studio to compile gtest libraries
+
+        Unzip gtest-1.7.0
+        Use existing solution at msvc directory
+        Convert to new Visual Studio files
+        Build!
+
+    3 - Add gtest paths as "Additional Include Directories"
+
+        Project "tests" -> Properties -> Configuration Properties -> C++ -> General
+
+        <path-to-gtest-1.7.0
+        <path-to-gtest-1.7.0>\include
+
+    4 - Add gtest compiled libs as "Additional Dependencies" 
+
+        Project "tests" -> Properties -> Configuration Properties -> Linker -> Input
+
+        <path-to-gtest-1.7.0>\msvc\gtest\Debug\gtest_maind.lib
+        <path-to-gtest-1.7.0\msvc\gtest\Debug\gtestd.lib
+
+    5 - Update "Runtime Library"
+
+        Project "tests" -> Properties -> Configuration Properties -> C/C++ -> Code Generaion
+
+        Select option "MTd"
+
+    6 - Configure Solution Startup
+
+        Solution "mna" -> Properties -> Commom Properties -> Startup Properties
+        
+            Multiple Startup Projects:
+
+                mna     -> Start
+                tests   -> Start without Debugging
+
+    7 - Start (or F5)!
+
+        Start will run both the program and the tests!
