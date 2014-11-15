@@ -2,9 +2,8 @@
 
 
 TEST(SimpleMathTest, Sum) {
-  // This test is named "Negative", and belongs to the "FactorialTest"
-  // test case.
-  EXPECT_EQ(2, 1+1);
+
+  EXPECT_EQ(2, 1+1 );
   EXPECT_EQ(4, 2+2);
  // EXPECT_EQ(expected, actual)
 }
