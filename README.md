@@ -54,11 +54,11 @@ But apperently strcpy is unsafe...
 Running
 -------
 
-At Linux:
+###At Linux:
 
     $ ./bin/mna
 
-Or at Visual Studio:
+###Or at Visual Studio:
 
     F5 (Start Debugging!)
 
@@ -67,98 +67,98 @@ When prompted, try using data/simples.net and see mna in action!
 Running the tests!
 ------------------
 
-At linux (precompiled):
+###At linux (precompiled):
 
-    1 - Install gtest libs
+1 - Install gtest libs
 
-        $ sudo yum install gtest-devel
-        $ g++ tests/simple.cpp -lgtest -lgtest_main -o bin/test_mna
+    $ sudo yum install gtest-devel
+    $ g++ tests/simple.cpp -lgtest -lgtest_main -o bin/test_mna
 
-    2 - Run tests:
+2 - Run tests:
 
-        $ ./bin/test_mna
-
-
-At linux (non-precompiled):
-
-    1 - Download [Google Test](https://googletest.googlecode.com/files/gtest-1.7.0.zip)
-
-    2 - Add GTEST_ROOT path to ~/.bashrc, example:
-
-            export GTEST_ROOT=$HOME/Devel/gtest-1.7.0/
-
-    3 - Build Google Test:
-
-            $ cd $GTEST_ROOT
-            $ cmake .
-            $ make
-
-    4 - Compile tests:
-
-            $ g++ -I$GTEST_ROOT/include tests/simple.cpp $GTEST_ROOT/libgtest.a $GTEST_ROOT/libgtest_main.a -lpthread -o ./bin/test_mna
-
-    5 - Run tests:
-
-            $ ./bin/test_mna
+    $ ./bin/test_mna
 
 
-At Visual Studio:
+###At linux (non-precompiled):
 
-    1 - Open mna.sln file
+1 - Download [Google Test](https://googletest.googlecode.com/files/gtest-1.7.0.zip)
 
-    2 - Configure Solution Startup
+2 - Add GTEST_ROOT path to ~/.bashrc, example:
 
-        Solution "mna" -> Properties -> Commom Properties -> Startup Properties
-        
-            Multiple Startup Projects:
+    export GTEST_ROOT=$HOME/Devel/gtest-1.7.0/
 
-                mna     -> Start
-                tests   -> Start without Debugging
+3 - Build Google Test:
 
-    3 - Start (or F5)!
+    $ cd $GTEST_ROOT
+    $ cmake .
+    $ make
 
-        Start will run both the program and the tests!
+4 - Compile tests:
 
-At Visual Studio (from scratch):
+    $ g++ -I$GTEST_ROOT/include tests/simple.cpp $GTEST_ROOT/libgtest.a $GTEST_ROOT/libgtest_main.a -lpthread -o ./bin/test_mna
 
-    1 - Include project at solutions
+5 - Run tests:
 
-    2 - Use Visual Studio to compile gtest libraries
+    $ ./bin/test_mna
 
-        Unzip gtest-1.7.0
-        Use existing solution at msvc directory
-        Convert to new Visual Studio files
-        Build!
 
-    3 - Add gtest paths as "Additional Include Directories"
+###At Visual Studio:
 
-        Project "tests" -> Properties -> Configuration Properties -> C++ -> General
+1 - Open mna.sln file
 
-        <path-to-gtest-1.7.0
-        <path-to-gtest-1.7.0>\include
+2 - Configure Solution Startup
 
-    4 - Add gtest compiled libs as "Additional Dependencies" 
+    Solution "mna" -> Properties -> Commom Properties -> Startup Properties
 
-        Project "tests" -> Properties -> Configuration Properties -> Linker -> Input
+    Multiple Startup Projects:
 
-        <path-to-gtest-1.7.0>\msvc\gtest\Debug\gtest_maind.lib
-        <path-to-gtest-1.7.0\msvc\gtest\Debug\gtestd.lib
+        mna     -> Start
+        tests   -> Start without Debugging
 
-    5 - Update "Runtime Library"
-
-        Project "tests" -> Properties -> Configuration Properties -> C/C++ -> Code Generaion
-
-        Select option "MTd"
-
-    6 - Configure Solution Startup
-
-        Solution "mna" -> Properties -> Commom Properties -> Startup Properties
-        
-            Multiple Startup Projects:
-
-                mna     -> Start
-                tests   -> Start without Debugging
-
-    7 - Start (or F5)!
+3 - Start (or F5)!
 
         Start will run both the program and the tests!
+
+###At Visual Studio (from scratch):
+
+1 - Include project at solutions
+
+2 - Use Visual Studio to compile gtest libraries
+
+    Unzip gtest-1.7.0
+    Use existing solution at msvc directory
+    Convert to new Visual Studio files
+    Build!
+
+3 - Add gtest paths as "Additional Include Directories"
+
+    Project "tests" -> Properties -> Configuration Properties -> C++ -> General
+
+    <path-to-gtest-1.7.0
+    <path-to-gtest-1.7.0>\include
+
+4 - Add gtest compiled libs as "Additional Dependencies"
+
+    Project "tests" -> Properties -> Configuration  Properties -> Linker -> Input
+
+    <path-to-gtest-1.7.0>\msvc\gtest\Debug\gtest_maind.lib
+    <path-to-gtest-1.7.0\msvc\gtest\Debug\gtestd.lib
+
+5 - Update "Runtime Library"
+
+    Project "tests" -> Properties -> Configuration Properties -> C/C++ -> Code Generaion
+
+    Select option "MTd"
+
+6 - Configure Solution Startup
+
+    Solution "mna" -> Properties -> Commom Properties -> Startup Properties
+
+    Multiple Startup Projects:
+
+        mna     -> Start
+        tests   -> Start without Debugging
+
+7 - Start (or F5)!
+
+    Start will run both the program and the tests!
