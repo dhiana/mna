@@ -32,16 +32,14 @@ Os nos podem ser nomes
 
 #define versao "1.0i - 03/11/2013"
 #include "matrix/solve.h"
+#include <iostream>
 #include <cstdio>
-#ifdef _WIN32
-    #include <conio.h>
-#elif __linux__
-    #include <curses.h>
-#endif
 #include <cstring>
 #include <cstdlib>
 #include <cctype>
 #include <cmath>
+
+using namespace std;
 
 #define MAX_LINHA 80
 #define MAX_NOME 11
@@ -160,7 +158,7 @@ int main(void)
     }
     else {
       printf("Elemento desconhecido: %s\n",txt);
-      _getch();
+      cin.get();
       exit(1);
     }
   }
@@ -191,12 +189,12 @@ int main(void)
       netlist[i].y=nv;
     }
   }
-  _getch();
+  cin.get();
   /* Lista tudo */
   printf("Variaveis internas: \n");
   for (i=0; i<=nv; i++)
     printf("%d -> %s\n",i,lista[i]);
-  _getch();
+  cin.get();
   printf("Netlist interno final\n");
   for (i=1; i<=ne; i++) {
     tipo=netlist[i].nome[0];
@@ -214,10 +212,10 @@ int main(void)
     else if (tipo=='H')
       printf("Correntes jx e jy: %d, %d\n",netlist[i].x,netlist[i].y);
   }
-  _getch();
+  cin.get();
   /* Monta o sistema nodal modificado */
   printf("O circuito tem %d nos, %d variaveis e %d elementos\n",nn,nv,ne);
-  _getch();
+  cin.get();
   /* Zera sistema */
   for (i=0; i<=nv; i++) {
     for (j=0; j<=nv+1; j++)
@@ -297,12 +295,12 @@ int main(void)
         else printf(" ... ");
       printf("\n");
     }
-    _getch();
+    cin.get();
 #endif
   }
   /* Resolve o sistema */
   if (solve(nv, Yn)) {
-    _getch();
+    cin.get();
     exit(0);
   }
 #ifdef DEBUG
@@ -314,7 +312,7 @@ int main(void)
         else printf(" ... ");
       printf("\n");
     }
-  _getch();
+  cin.get();
 #endif
   /* Mostra solucao */
   printf("Solucao:\n");
@@ -323,6 +321,6 @@ int main(void)
     if (i==nn+1) strcpy(txt,"Corrente");
     printf("%s %s: %g\n",txt,lista[i],Yn[i][nv+1]);
   }
-  _getch();
+  cin.get();
 }
 
