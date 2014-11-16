@@ -1,6 +1,6 @@
 Modified Nodal Analysis
 =======================
-[![Build Status](https://travis-ci.org/dhiana/mna.svg?branch=master)](https://travis-ci.org/dhiana/mna) [![Coverity Scan Build Status](https://scan.coverity.com/projects/3453/badge.svg)](https://scan.coverity.com/projects/3453) 
+[![Build Status](https://travis-ci.org/dhiana/mna.svg?branch=master)](https://travis-ci.org/dhiana/mna)
 
 Cross-platform version of MNA1 program by Prof. Moreirão available at
 [http://www.coe.ufrj.br/~acmq/cursos/](http://www.coe.ufrj.br/~acmq/cursos/)
