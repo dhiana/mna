@@ -36,7 +36,7 @@ Os nos podem ser nomes
 #ifdef _WIN32
     #include <conio.h>
 #elif __linux__
-    #include <curses>
+    #include <curses.h>
 #endif
 #include <cstring>
 #include <cstdlib>
