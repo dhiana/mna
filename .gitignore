@@ -1,3 +1,8 @@
+# Linux
+*.swp
+*~
+*.lock
+
 # Compiled Object files
 *.slo
 *.lo
