@@ -29,6 +29,11 @@ Or, if you have Scons installed:
 
 And if you are using Windows... Feel free to use Visual Studio!
 
+    1 - Open mna.sln
+    2 - Run (F5)!
+
+Or, from scratch:
+
     1 - New project
     2 - Visual C++ -> Empty Project
     3 - Name: "mna"
@@ -69,6 +74,10 @@ At linux (precompiled):
         $ sudo yum install gtest-devel
         $ g++ tests/simple.cpp -lgtest -lgtest_main -o bin/test_mna
 
+    2 - Run tests:
+
+        $ ./bin/test_mna
+
 
 At linux (non-precompiled):
 
@@ -94,6 +103,23 @@ At linux (non-precompiled):
 
 
 At Visual Studio:
+
+    1 - Open mna.sln file
+
+    2 - Configure Solution Startup
+
+        Solution "mna" -> Properties -> Commom Properties -> Startup Properties
+        
+            Multiple Startup Projects:
+
+                mna     -> Start
+                tests   -> Start without Debugging
+
+    3 - Start (or F5)!
+
+        Start will run both the program and the tests!
+
+At Visual Studio (from scratch):
 
     1 - Include project at solutions
 
