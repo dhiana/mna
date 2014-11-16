@@ -32,16 +32,17 @@ Os nos podem ser nomes
 
 #define versao "1.0i - 03/11/2013"
 #include "matrix/solve.h"
-#include <stdio.h>
-#ifdef WIN32
+#include <cstdio>
+#ifdef _WIN32
     #include <conio.h>
 #elif __linux__
-    #include <curses.h>
+    #include <curses>
 #endif
-#include <string.h>
-#include <stdlib.h>
-#include <ctype.h>
-#include <math.h>
+#include <cstring>
+#include <cstdlib>
+#include <cctype>
+#include <cmath>
+
 #define MAX_LINHA 80
 #define MAX_NOME 11
 #define MAX_ELEM 50
@@ -112,6 +113,7 @@ int main(void)
   printf("Nome do arquivo com o netlist (ex: mna.net): ");
   scanf("%50s",nomearquivo);
   arquivo=fopen(nomearquivo,"r");
+
   if (arquivo==0) {
     printf("Arquivo %s inexistente\n",nomearquivo);
     goto denovo;
@@ -158,7 +160,7 @@ int main(void)
     }
     else {
       printf("Elemento desconhecido: %s\n",txt);
-      getch();
+      _getch();
       exit(1);
     }
   }
@@ -189,12 +191,12 @@ int main(void)
       netlist[i].y=nv;
     }
   }
-  getch();
+  _getch();
   /* Lista tudo */
   printf("Variaveis internas: \n");
   for (i=0; i<=nv; i++)
     printf("%d -> %s\n",i,lista[i]);
-  getch();
+  _getch();
   printf("Netlist interno final\n");
   for (i=1; i<=ne; i++) {
     tipo=netlist[i].nome[0];
@@ -212,10 +214,10 @@ int main(void)
     else if (tipo=='H')
       printf("Correntes jx e jy: %d, %d\n",netlist[i].x,netlist[i].y);
   }
-  getch();
+  _getch();
   /* Monta o sistema nodal modificado */
   printf("O circuito tem %d nos, %d variaveis e %d elementos\n",nn,nv,ne);
-  getch();
+  _getch();
   /* Zera sistema */
   for (i=0; i<=nv; i++) {
     for (j=0; j<=nv+1; j++)
@@ -295,12 +297,12 @@ int main(void)
         else printf(" ... ");
       printf("\n");
     }
-    getch();
+    _getch();
 #endif
   }
   /* Resolve o sistema */
   if (solve(nv, Yn)) {
-    getch();
+    _getch();
     exit(0);
   }
 #ifdef DEBUG
@@ -312,7 +314,7 @@ int main(void)
         else printf(" ... ");
       printf("\n");
     }
-  getch();
+  _getch();
 #endif
   /* Mostra solucao */
   printf("Solucao:\n");
@@ -321,6 +323,6 @@ int main(void)
     if (i==nn+1) strcpy(txt,"Corrente");
     printf("%s %s: %g\n",txt,lista[i],Yn[i][nv+1]);
   }
-  getch();
+  _getch();
 }
 

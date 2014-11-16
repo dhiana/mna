@@ -13,10 +13,24 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\matrix">
+      <UniqueIdentifier>{3da6e2c9-b762-4328-b949-2a9cc51f7971}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\matrix">
+      <UniqueIdentifier>{35ff07b7-12a4-4653-ae79-da9d25a21f74}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\mna.c">
+    <ClCompile Include="src\mna.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\matrix\solve.cpp">
+      <Filter>Source Files\matrix</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\matrix\solve.h">
+      <Filter>Header Files\matrix</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

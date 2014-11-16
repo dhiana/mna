@@ -1,6 +1,6 @@
 #include "matrix/solve.h"
-#include <math.h>
-#include <stdio.h>
+#include <cmath>
+#include <cstdio>
 
 int solve( int nv, double Yn[MAX_NOS+1][MAX_NOS+2] ){
     int i, j, l, a;
