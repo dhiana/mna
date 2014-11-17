@@ -103,7 +103,6 @@ int main(void)
            txt;
     vector<string> lista(MAX_NOME+2); /*Tem que caber jx antes do nome */
 
-    system("clear");
     cout << "Programa demonstrativo de analise nodal modificada" << endl;
     cout << "Por Antonio Carlos M. de Queiroz - acmq@coe.ufrj.br" << endl;
     cout << "Versao " << versao << endl;
