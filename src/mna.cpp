@@ -34,6 +34,7 @@ Os nos podem ser nomes
 #include "matrix/solve.h"
 #include <iostream>
 #include <iomanip>
+#include <string>
 #include <cstdio>
 #include <cstring>
 #include <cstdlib>
@@ -101,6 +102,8 @@ int numero(char *nome)
 
 int main(void)
 {
+    string nomearquivo;
+
     system("clear");
     cout << "Programa demonstrativo de analise nodal modificada" << endl;
     cout << "Por Antonio Carlos M. de Queiroz - acmq@coe.ufrj.br" << endl;
@@ -109,8 +112,8 @@ int main(void)
     /* Leitura do netlist */
     ne=0; nv=0; strcpy(lista[0],"0");
     cout << "Nome do arquivo com o netlist (ex: mna.net): ";
-    scanf("%50s",nomearquivo);
-    arquivo=fopen(nomearquivo,"r");
+    cin >> nomearquivo;
+    arquivo=fopen(nomearquivo.c_str(),"r");
 
     if (arquivo==0) {
         cout << "Arquivo " << nomearquivo << " inexistente" << endl;
