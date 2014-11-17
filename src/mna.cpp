@@ -45,23 +45,6 @@ typedef struct elemento { /* Elemento do netlist */
     int a,b,c,d,x,y;
 } elemento;
 
-int
-    ne, /* Elementos */
-    nv, /* Variaveis */
-    nn, /* Nos */
-    i,j,k;
-
-char
-/* Foram colocados limites nos formatos de leitura para alguma protecao
-     contra excesso de caracteres nestas variaveis */
-    tipo,
-    na[MAX_NOME],nb[MAX_NOME],nc[MAX_NOME],nd[MAX_NOME],
-    *p;
-
-double
-    g,
-    Yn[MAX_NOS+1][MAX_NOS+2];
-
 /* Rotina que conta os nos e atribui numeros a eles */
 int numero(char *nome, int &nv, vector<string> &lista){
     int i=0, achou=0;
@@ -90,6 +73,20 @@ int main(void)
     vector<string> lista(MAX_NOME+2); /*Tem que caber jx antes do nome */
     vector<elemento> netlist(MAX_ELEM);
 
+    int ne, /* Elementos */
+        nv, /* Variaveis */
+        nn; /* Nos */
+
+    /* Foram colocados limites nos formatos de leitura para alguma protecao
+       contra excesso de caracteres nestas variaveis */
+    char tipo,
+         na[MAX_NOME],
+         nb[MAX_NOME],
+         nc[MAX_NOME],
+         nd[MAX_NOME];
+
+    double g,
+           Yn[MAX_NOS+1][MAX_NOS+2];
 
     cout << "Modified Nodal Analysis Demo" << endl;
     cout << "Originally by Antonio Carlos M. de Queiroz (acmq@coe.ufrj.br)" << endl;
@@ -161,7 +158,7 @@ int main(void)
 
     /* Acrescenta variaveis de corrente acima dos nos, anotando no netlist */
     nn=nv;
-    for (i=1; i<=ne; i++) {
+    for (int i=1; i<=ne; i++) {
         tipo=netlist[i].nome[0];
         if (tipo=='V' || tipo=='E' || tipo=='F' || tipo=='O') {
             nv++;
@@ -190,11 +187,11 @@ int main(void)
     cin.get();
     /* Lista tudo */
     cout << "Variaveis internas: " << endl;
-    for (i=0; i<=nv; i++)
+    for (int i=0; i<=nv; i++)
         cout << i << " -> " << lista[i] << endl;
     cin.get();
     cout << "Netlist interno final" << endl;
-    for (i=1; i<=ne; i++) {
+    for (int i=1; i<=ne; i++) {
         tipo=netlist[i].nome[0];
         if (tipo=='R' || tipo=='I' || tipo=='V') {
             cout << netlist[i].nome << " " << netlist[i].a << " " << netlist[i].b << " " << netlist[i].valor << endl;
@@ -217,12 +214,12 @@ int main(void)
     cout << "O circuito tem " << nn << " nos, " << nv << " variaveis e " << ne << " elementos" << endl;
     cin.get();
     /* Zera sistema */
-    for (i=0; i<=nv; i++) {
-        for (j=0; j<=nv+1; j++)
+    for (int i=0; i<=nv; i++) {
+        for (int j=0; j<=nv+1; j++)
             Yn[i][j]=0;
     }
     /* Monta estampas */
-    for (i=1; i<=ne; i++) {
+    for (int i=1; i<=ne; i++) {
         tipo=netlist[i].nome[0];
         if (tipo=='R') {
             g=1/netlist[i].valor;
@@ -289,8 +286,8 @@ int main(void)
 #ifdef DEBUG
         /* Opcional: Mostra o sistema apos a montagem da estampa */
         cout << "Sistema apos a estampa de " << netlist[i].nome << endl;
-        for (k=1; k<=nv; k++) {
-            for (j=1; j<=nv+1; j++)
+        for (int k=1; k<=nv; k++) {
+            for (int j=1; j<=nv+1; j++)
                 if (Yn[k][j]!=0){
                     cout << setprecision( 1 ) << fixed << setw( 3 ) << showpos;
                     cout << Yn[k][j] << " ";
@@ -309,8 +306,8 @@ int main(void)
 #ifdef DEBUG
     /* Opcional: Mostra o sistema resolvido */
     cout << "Sistema resolvido:" << endl;
-    for (i=1; i<=nv; i++) {
-        for (j=1; j<=nv+1; j++)
+    for (int i=1; i<=nv; i++) {
+        for (int j=1; j<=nv+1; j++)
             if (Yn[i][j]!=0){
                 cout << setprecision( 1 ) << fixed << setw( 3 ) << showpos;
                 cout << Yn[i][j] << " ";
@@ -323,7 +320,7 @@ int main(void)
     /* Mostra solucao */
     cout << "Solucao:" << endl;
     txt = "Tensao";
-    for (i=1; i<=nv; i++) {
+    for (int i=1; i<=nv; i++) {
         if (i==nn+1)
             txt = "Corrente";
         cout << txt << " " << lista[i] << ": " << Yn[i][nv+1] << endl;
