@@ -38,7 +38,6 @@ Os nos podem ser nomes
 #include <iomanip>
 #include <string>
 #include <vector>
-#include <cstring>
 #include <cstdlib>
 #include <cmath>
 
@@ -52,7 +51,7 @@ using namespace std;
 #define DEBUG
 
 typedef struct elemento { /* Elemento do netlist */
-    char nome[MAX_NOME];
+    string nome;
     double valor;
     int a,b,c,d,x,y;
 } elemento;
@@ -133,7 +132,7 @@ int main(void)
         stringstream txtstream(txt);
         txtstream >> netlist[ne].nome;
         //TODO: talvez nao seja preciso usar p
-        string p(txt, strlen(netlist[ne].nome), string::npos);
+        string p(txt, netlist[ne].nome.size(), string::npos);
         txtstream.str(p);
         /* O que e lido depende do tipo */
         if (tipo=='R' || tipo=='I' || tipo=='V') {
