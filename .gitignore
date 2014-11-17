@@ -220,3 +220,8 @@ UpgradeLog*.htm
 
 # Microsoft Fakes
 FakesAssemblies/
+
+# Qt project files
+*.pro
+*.user
+*.autosave
