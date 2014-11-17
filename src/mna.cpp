@@ -37,7 +37,6 @@ Os nos podem ser nomes
 #include <cstdio>
 #include <cstring>
 #include <cstdlib>
-#include <cctype>
 #include <cmath>
 
 using namespace std;
