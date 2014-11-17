@@ -33,6 +33,7 @@ Os nos podem ser nomes
 #define versao "1.0i - 03/11/2013"
 #include "matrix/solve.h"
 #include <iostream>
+#include <iomanip>
 #include <cstdio>
 #include <cstring>
 #include <cstdlib>
@@ -87,7 +88,7 @@ int numero(char *nome)
         if (!(achou=!strcmp(nome,lista[i]))) i++;
     if (!achou) {
         if (nv==MAX_NOS) {
-            printf("O programa so aceita ate %d nos\n",nv);
+            cout << "O programa so aceita ate " << nv <<  " nos" << endl;
             exit(1);
         }
         nv++;
@@ -102,27 +103,27 @@ int numero(char *nome)
 int main(void)
 {
     system("clear");
-    printf("Programa demonstrativo de analise nodal modificada\n");
-    printf("Por Antonio Carlos M. de Queiroz - acmq@coe.ufrj.br\n");
-    printf("Versao %s\n",versao);
+    cout << "Programa demonstrativo de analise nodal modificada" << endl;
+    cout << "Por Antonio Carlos M. de Queiroz - acmq@coe.ufrj.br" << endl;
+    cout << "Versao " << versao << endl;
  denovo:
     /* Leitura do netlist */
     ne=0; nv=0; strcpy(lista[0],"0");
-    printf("Nome do arquivo com o netlist (ex: mna.net): ");
+    cout << "Nome do arquivo com o netlist (ex: mna.net): ";
     scanf("%50s",nomearquivo);
     arquivo=fopen(nomearquivo,"r");
 
     if (arquivo==0) {
-        printf("Arquivo %s inexistente\n",nomearquivo);
+        cout << "Arquivo " << nomearquivo << " inexistente" << endl;
         goto denovo;
     }
-    printf("Lendo netlist:\n");
+    cout << "Lendo netlist:" << endl;
     fgets(txt,MAX_LINHA,arquivo);
-    printf("Titulo: %s",txt);
+    cout << "Titulo: " << txt;
     while (fgets(txt,MAX_LINHA,arquivo)) {
         ne++; /* Nao usa o netlist[0] */
         if (ne>MAX_ELEM) {
-            printf("O programa so aceita ate %d elementos\n",MAX_ELEM);
+            cout << "O programa so aceita ate " << MAX_ELEM << " elementos" << endl;
             exit(1);
         }
         txt[0]=toupper(txt[0]);
@@ -132,13 +133,14 @@ int main(void)
         /* O que e lido depende do tipo */
         if (tipo=='R' || tipo=='I' || tipo=='V') {
             sscanf(p,"%10s%10s%lg",na,nb,&netlist[ne].valor);
-            printf("%s %s %s %g\n",netlist[ne].nome,na,nb,netlist[ne].valor);
+            cout << netlist[ne].nome << " " << na << " " << nb << " " << netlist[ne].valor << endl;
             netlist[ne].a=numero(na);
             netlist[ne].b=numero(nb);
         }
         else if (tipo=='G' || tipo=='E' || tipo=='F' || tipo=='H') {
             sscanf(p,"%10s%10s%10s%10s%lg",na,nb,nc,nd,&netlist[ne].valor);
-            printf("%s %s %s %s %s %g\n",netlist[ne].nome,na,nb,nc,nd,netlist[ne].valor);
+            cout << netlist[ne].nome << " " << na << " " << nb << " " << nc << " "
+                 << nd << " "<< netlist[ne].valor << endl;
             netlist[ne].a=numero(na);
             netlist[ne].b=numero(nb);
             netlist[ne].c=numero(nc);
@@ -146,18 +148,18 @@ int main(void)
         }
         else if (tipo=='O') {
             sscanf(p,"%10s%10s%10s%10s",na,nb,nc,nd);
-            printf("%s %s %s %s %s\n",netlist[ne].nome,na,nb,nc,nd);
+            cout << netlist[ne].nome << " " << na << " " << nb << " " << nc << " " << nd << " " << endl;
             netlist[ne].a=numero(na);
             netlist[ne].b=numero(nb);
             netlist[ne].c=numero(nc);
             netlist[ne].d=numero(nd);
         }
         else if (tipo=='*') { /* Comentario comeca com "*" */
-            printf("Comentario: %s",txt);
+            cout << "Comentario: " << txt;
             ne--;
         }
         else {
-            printf("Elemento desconhecido: %s\n",txt);
+            cout << "Elemento desconhecido: " << txt << endl;
             cin.get();
             exit(1);
         }
@@ -170,7 +172,7 @@ int main(void)
         if (tipo=='V' || tipo=='E' || tipo=='F' || tipo=='O') {
             nv++;
             if (nv>MAX_NOS) {
-                printf("As correntes extra excederam o numero de variaveis permitido (%d)\n",MAX_NOS);
+                cout << "As correntes extra excederam o numero de variaveis permitido (" << MAX_NOS << ")" << endl;
                 exit(1);
             }
             strcpy(lista[nv],"j"); /* Tem espaco para mais dois caracteres */
@@ -180,7 +182,7 @@ int main(void)
         else if (tipo=='H') {
             nv=nv+2;
             if (nv>MAX_NOS) {
-                printf("As correntes extra excederam o numero de variaveis permitido (%d)\n",MAX_NOS);
+                cout << "As correntes extra excederam o numero de variaveis permitido (" << MAX_NOS << ")" << endl;
                 exit(1);
             }
             strcpy(lista[nv-1],"jx"); strcat(lista[nv-1],netlist[i].nome);
@@ -191,30 +193,32 @@ int main(void)
     }
     cin.get();
     /* Lista tudo */
-    printf("Variaveis internas: \n");
+    cout << "Variaveis internas: " << endl;
     for (i=0; i<=nv; i++)
-        printf("%d -> %s\n",i,lista[i]);
+        cout << i << " -> " << lista[i] << endl;
     cin.get();
-    printf("Netlist interno final\n");
+    cout << "Netlist interno final" << endl;
     for (i=1; i<=ne; i++) {
         tipo=netlist[i].nome[0];
         if (tipo=='R' || tipo=='I' || tipo=='V') {
-            printf("%s %d %d %g\n",netlist[i].nome,netlist[i].a,netlist[i].b,netlist[i].valor);
+            cout << netlist[i].nome << " " << netlist[i].a << " " << netlist[i].b << " " << netlist[i].valor << endl;
         }
         else if (tipo=='G' || tipo=='E' || tipo=='F' || tipo=='H') {
-            printf("%s %d %d %d %d %g\n",netlist[i].nome,netlist[i].a,netlist[i].b,netlist[i].c,netlist[i].d,netlist[i].valor);
+            cout << netlist[i].nome << " " << netlist[i].a << " " << netlist[i].b << " "
+                 << netlist[i].c << " " << netlist[i].d   << " " << netlist[i].valor << endl;
         }
         else if (tipo=='O') {
-            printf("%s %d %d %d %d\n",netlist[i].nome,netlist[i].a,netlist[i].b,netlist[i].c,netlist[i].d);
+            cout << netlist[i].nome << " " << netlist[i].a << " " << netlist[i].b << " "
+                 << netlist[i].c << " " << netlist[i].d   << endl;
         }
         if (tipo=='V' || tipo=='E' || tipo=='F' || tipo=='O')
-            printf("Corrente jx: %d\n",netlist[i].x);
+            cout << "Corrente jx: " << netlist[i].x << endl;
         else if (tipo=='H')
-            printf("Correntes jx e jy: %d, %d\n",netlist[i].x,netlist[i].y);
+            cout << "Correntes jx e jy: " << netlist[i].x << ", " << netlist[i].y << endl;
     }
     cin.get();
     /* Monta o sistema nodal modificado */
-    printf("O circuito tem %d nos, %d variaveis e %d elementos\n",nn,nv,ne);
+    cout << "O circuito tem " << nn << " nos, " << nv << " variaveis e " << ne << " elementos" << endl;
     cin.get();
     /* Zera sistema */
     for (i=0; i<=nv; i++) {
@@ -288,12 +292,15 @@ int main(void)
         }
 #ifdef DEBUG
         /* Opcional: Mostra o sistema apos a montagem da estampa */
-        printf("Sistema apos a estampa de %s\n",netlist[i].nome);
+        cout << "Sistema apos a estampa de " << netlist[i].nome << endl;
         for (k=1; k<=nv; k++) {
             for (j=1; j<=nv+1; j++)
-                if (Yn[k][j]!=0) printf("%+3.1f ",Yn[k][j]);
-                else printf(" ... ");
-            printf("\n");
+                if (Yn[k][j]!=0){
+                    cout << setprecision( 1 ) << fixed << setw( 3 ) << showpos;
+                    cout << Yn[k][j] << " ";
+                }
+                else cout << " ... ";
+            cout << endl;
         }
         cin.get();
 #endif
@@ -305,21 +312,24 @@ int main(void)
     }
 #ifdef DEBUG
     /* Opcional: Mostra o sistema resolvido */
-    printf("Sistema resolvido:\n");
+    cout << "Sistema resolvido:" << endl;
     for (i=1; i<=nv; i++) {
-            for (j=1; j<=nv+1; j++)
-                if (Yn[i][j]!=0) printf("%+3.1f ",Yn[i][j]);
-                else printf(" ... ");
-            printf("\n");
-        }
+        for (j=1; j<=nv+1; j++)
+            if (Yn[i][j]!=0){
+                cout << setprecision( 1 ) << fixed << setw( 3 ) << showpos;
+                cout << Yn[i][j] << " ";
+            }
+            else cout << " ... ";
+        cout << endl;
+    }
     cin.get();
 #endif
     /* Mostra solucao */
-    printf("Solucao:\n");
+    cout << "Solucao:" << endl;
     strcpy(txt,"Tensao");
     for (i=1; i<=nv; i++) {
         if (i==nn+1) strcpy(txt,"Corrente");
-        printf("%s %s: %g\n",txt,lista[i],Yn[i][nv+1]);
+        cout << txt << " " << lista[i] << ": " << Yn[i][nv+1] << endl;
     }
     cin.get();
 }
