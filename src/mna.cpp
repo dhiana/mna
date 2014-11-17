@@ -70,12 +70,14 @@ int main(void)
     ifstream arquivo;
     string nomearquivo,
            txt;
+    bool arquivovalido = false;
     vector<string> lista(MAX_NOME+2); /*Tem que caber jx antes do nome */
+    lista[0] = "0";
     vector<elemento> netlist(MAX_ELEM);
 
-    int ne, /* Elementos */
-        nv, /* Variaveis */
-        nn; /* Nos */
+    int ne=0, /* Elementos */
+        nv=0, /* Variaveis */
+        nn=0; /* Nos */
 
     /* Foram colocados limites nos formatos de leitura para alguma protecao
        contra excesso de caracteres nestas variaveis */
@@ -91,17 +93,19 @@ int main(void)
     cout << "Modified Nodal Analysis Demo" << endl;
     cout << "Originally by Antonio Carlos M. de Queiroz (acmq@coe.ufrj.br)" << endl;
     cout << "Modified by Dhiana Deva, Felipe de Leo, Silvino Vieira" << endl;
- denovo:
-    /* Leitura do netlist */
-    ne=0; nv=0; lista[0] = "0";
-    cout << "Nome do arquivo com o netlist (ex: mna.net): ";
-    cin >> nomearquivo;
-    arquivo.open(nomearquivo.c_str(), ifstream::in);
 
-    if( !arquivo.is_open() ){
-        cout << "Arquivo " << nomearquivo << " inexistente" << endl;
-        goto denovo;
-    }
+    /* Leitura do netlist */
+    do{
+        cout << "Nome do arquivo com o netlist (ex: mna.net): ";
+        cin >> nomearquivo;
+        arquivo.open(nomearquivo.c_str(), ifstream::in);
+        if(!arquivo.is_open()){
+            cout << "Arquivo " << nomearquivo << " inexistente" << endl;
+            continue;
+        }
+        arquivovalido = true;
+    } while(!arquivovalido);
+
     cout << "Lendo netlist:" << endl;
     getline(arquivo, txt);
     cout << "Titulo: " << txt;
