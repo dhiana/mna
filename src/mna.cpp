@@ -68,7 +68,6 @@ int
 char
 /* Foram colocados limites nos formatos de leitura para alguma protecao
      contra excesso de caracteres nestas variaveis */
-    nomearquivo[MAX_LINHA+1],
     tipo,
     na[MAX_NOME],nb[MAX_NOME],nc[MAX_NOME],nd[MAX_NOME],
     *p;
