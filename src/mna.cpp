@@ -46,7 +46,7 @@ typedef struct elemento { /* Elemento do netlist */
 } elemento;
 
 /* Rotina que conta os nos e atribui numeros a eles */
-int numero(char *nome, int &nv, vector<string> &lista){
+inline int numero(const char *nome, int &nv, vector<string> &lista){
     int i=0, achou=0;
 
     while (!achou && i<=nv)
