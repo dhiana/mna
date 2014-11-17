@@ -1,16 +1,7 @@
 /*
-Programa de demonstracao de analise nodal modificada
-Por Antonio Carlos M. de Queiroz acmq@coe.ufrj.br
-Versao 1.0 - 6/9/2000
-Versao 1.0a - 8/9/2000 Ignora comentarios
-Versao 1.0b - 15/9/2000 Aumentado Yn, retirado Js
-Versao 1.0c - 19/2/2001 Mais comentarios
-Versao 1.0d - 16/2/2003 Tratamento correto de nomes em minusculas
-Versao 1.0e - 21/8/2008 Estampas sempre somam. Ignora a primeira linha
-Versao 1.0f - 21/6/2009 Corrigidos limites de alocacao de Yn
-Versao 1.0g - 15/10/2009 Le as linhas inteiras
-Versao 1.0h - 18/6/2011 Estampas correspondendo a modelos
-Versao 1.0i - 03/11/2013 Correcoes em *p e saida com sistema singular.
+Demonstration of Modified Nodal Analysis
+Originally by Antonio Carlos M. de Queiroz (acmq@coe.ufrj.br)
+Modified by Dhiana Deva, Felipe de Leo, Silvino Vieira
 */
 
 /*
@@ -102,9 +93,9 @@ int main(void)
            txt;
     vector<string> lista(MAX_NOME+2); /*Tem que caber jx antes do nome */
 
-    cout << "Programa demonstrativo de analise nodal modificada" << endl;
-    cout << "Por Antonio Carlos M. de Queiroz - acmq@coe.ufrj.br" << endl;
-    cout << "Versao " << versao << endl;
+    cout << "Modified Nodal Analysis Demo" << endl;
+    cout << "Originally by Antonio Carlos M. de Queiroz (acmq@coe.ufrj.br)" << endl;
+    cout << "Modified by Dhiana Deva, Felipe de Leo, Silvino Vieira" << endl;
  denovo:
     /* Leitura do netlist */
     ne=0; nv=0; lista[0] = "0";
