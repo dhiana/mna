@@ -45,8 +45,6 @@ typedef struct elemento { /* Elemento do netlist */
     int a,b,c,d,x,y;
 } elemento;
 
-elemento netlist[MAX_ELEM]; /* Netlist */
-
 int
     ne, /* Elementos */
     nv, /* Variaveis */
@@ -90,6 +88,8 @@ int main(void)
     string nomearquivo,
            txt;
     vector<string> lista(MAX_NOME+2); /*Tem que caber jx antes do nome */
+    vector<elemento> netlist(MAX_ELEM);
+
 
     cout << "Modified Nodal Analysis Demo" << endl;
     cout << "Originally by Antonio Carlos M. de Queiroz (acmq@coe.ufrj.br)" << endl;
