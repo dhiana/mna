@@ -33,9 +33,11 @@ Os nos podem ser nomes
 #define versao "1.0i - 03/11/2013"
 #include "matrix/solve.h"
 #include <iostream>
+#include <fstream>
+#include <sstream>
 #include <iomanip>
 #include <string>
-#include <cstdio>
+#include <vector>
 #include <cstring>
 #include <cstdlib>
 #include <cmath>
@@ -69,30 +71,25 @@ char
     nomearquivo[MAX_LINHA+1],
     tipo,
     na[MAX_NOME],nb[MAX_NOME],nc[MAX_NOME],nd[MAX_NOME],
-    lista[MAX_NOS+1][MAX_NOME+2], /*Tem que caber jx antes do nome */
-    txt[MAX_LINHA+1],
     *p;
-FILE *arquivo;
 
 double
     g,
     Yn[MAX_NOS+1][MAX_NOS+2];
 
 /* Rotina que conta os nos e atribui numeros a eles */
-int numero(char *nome)
-{
-    int i,achou;
+int numero(char *nome, int &nv, vector<string> &lista){
+    int i=0, achou=0;
 
-    i=0; achou=0;
     while (!achou && i<=nv)
-        if (!(achou=!strcmp(nome,lista[i]))) i++;
+        if (!(achou=!lista[i].compare(nome))) i++;
     if (!achou) {
         if (nv==MAX_NOS) {
             cout << "O programa so aceita ate " << nv <<  " nos" << endl;
             exit(1);
         }
         nv++;
-        strcpy(lista[nv],nome);
+        lista[nv] = nome;
         return nv; /* novo no */
     }
     else {
@@ -102,7 +99,10 @@ int numero(char *nome)
 
 int main(void)
 {
-    string nomearquivo;
+    ifstream arquivo;
+    string nomearquivo,
+           txt;
+    vector<string> lista(MAX_NOME+2); /*Tem que caber jx antes do nome */
 
     system("clear");
     cout << "Programa demonstrativo de analise nodal modificada" << endl;
@@ -110,19 +110,19 @@ int main(void)
     cout << "Versao " << versao << endl;
  denovo:
     /* Leitura do netlist */
-    ne=0; nv=0; strcpy(lista[0],"0");
+    ne=0; nv=0; lista[0] = "0";
     cout << "Nome do arquivo com o netlist (ex: mna.net): ";
     cin >> nomearquivo;
-    arquivo=fopen(nomearquivo.c_str(),"r");
+    arquivo.open(nomearquivo.c_str(), ifstream::in);
 
-    if (arquivo==0) {
+    if( !arquivo.is_open() ){
         cout << "Arquivo " << nomearquivo << " inexistente" << endl;
         goto denovo;
     }
     cout << "Lendo netlist:" << endl;
-    fgets(txt,MAX_LINHA,arquivo);
+    getline(arquivo, txt);
     cout << "Titulo: " << txt;
-    while (fgets(txt,MAX_LINHA,arquivo)) {
+    while (getline(arquivo, txt)) {
         ne++; /* Nao usa o netlist[0] */
         if (ne>MAX_ELEM) {
             cout << "O programa so aceita ate " << MAX_ELEM << " elementos" << endl;
@@ -130,31 +130,36 @@ int main(void)
         }
         txt[0]=toupper(txt[0]);
         tipo=txt[0];
-        sscanf(txt,"%10s",netlist[ne].nome);
-        p=txt+strlen(netlist[ne].nome); /* Inicio dos parametros */
+        //TODO: verificar necessidade da string txt
+        // ver se eh possivel usar stringstream no getline
+        stringstream txtstream(txt);
+        txtstream >> netlist[ne].nome;
+        //TODO: talvez nao seja preciso usar p
+        string p(txt, strlen(netlist[ne].nome), string::npos);
+        txtstream.str(p);
         /* O que e lido depende do tipo */
         if (tipo=='R' || tipo=='I' || tipo=='V') {
-            sscanf(p,"%10s%10s%lg",na,nb,&netlist[ne].valor);
+            txtstream >> na >> nb >> netlist[ne].valor;
             cout << netlist[ne].nome << " " << na << " " << nb << " " << netlist[ne].valor << endl;
-            netlist[ne].a=numero(na);
-            netlist[ne].b=numero(nb);
+            netlist[ne].a = numero(na, nv, lista);
+            netlist[ne].b = numero(nb, nv, lista);
         }
         else if (tipo=='G' || tipo=='E' || tipo=='F' || tipo=='H') {
-            sscanf(p,"%10s%10s%10s%10s%lg",na,nb,nc,nd,&netlist[ne].valor);
+            txtstream >> na >> nb >> nc >> nd >> netlist[ne].valor;
             cout << netlist[ne].nome << " " << na << " " << nb << " " << nc << " "
                  << nd << " "<< netlist[ne].valor << endl;
-            netlist[ne].a=numero(na);
-            netlist[ne].b=numero(nb);
-            netlist[ne].c=numero(nc);
-            netlist[ne].d=numero(nd);
+            netlist[ne].a = numero(na, nv, lista);
+            netlist[ne].b = numero(nb, nv, lista);
+            netlist[ne].c = numero(nc, nv, lista);
+            netlist[ne].d = numero(nd, nv, lista);
         }
         else if (tipo=='O') {
-            sscanf(p,"%10s%10s%10s%10s",na,nb,nc,nd);
+            txtstream >> na >> nb >> nc >> nd;
             cout << netlist[ne].nome << " " << na << " " << nb << " " << nc << " " << nd << " " << endl;
-            netlist[ne].a=numero(na);
-            netlist[ne].b=numero(nb);
-            netlist[ne].c=numero(nc);
-            netlist[ne].d=numero(nd);
+            netlist[ne].a = numero(na, nv, lista);
+            netlist[ne].b = numero(nb, nv, lista);
+            netlist[ne].c = numero(nc, nv, lista);
+            netlist[ne].d = numero(nd, nv, lista);
         }
         else if (tipo=='*') { /* Comentario comeca com "*" */
             cout << "Comentario: " << txt;
@@ -166,7 +171,8 @@ int main(void)
             exit(1);
         }
     }
-    fclose(arquivo);
+    arquivo.close();
+
     /* Acrescenta variaveis de corrente acima dos nos, anotando no netlist */
     nn=nv;
     for (i=1; i<=ne; i++) {
@@ -177,8 +183,8 @@ int main(void)
                 cout << "As correntes extra excederam o numero de variaveis permitido (" << MAX_NOS << ")" << endl;
                 exit(1);
             }
-            strcpy(lista[nv],"j"); /* Tem espaco para mais dois caracteres */
-            strcat(lista[nv],netlist[i].nome);
+            lista[nv] = "j"; /* Tem espaco para mais dois caracteres */
+            lista[nv].append( netlist[i].nome );
             netlist[i].x=nv;
         }
         else if (tipo=='H') {
@@ -187,9 +193,11 @@ int main(void)
                 cout << "As correntes extra excederam o numero de variaveis permitido (" << MAX_NOS << ")" << endl;
                 exit(1);
             }
-            strcpy(lista[nv-1],"jx"); strcat(lista[nv-1],netlist[i].nome);
+            lista[nv-1] = "jx";
+            lista[nv-1].append(netlist[i].nome);
             netlist[i].x=nv-1;
-            strcpy(lista[nv],"jy"); strcat(lista[nv],netlist[i].nome);
+            lista[nv] = "jy";
+            lista[nv].append( netlist[i].nome );
             netlist[i].y=nv;
         }
     }
@@ -328,9 +336,10 @@ int main(void)
 #endif
     /* Mostra solucao */
     cout << "Solucao:" << endl;
-    strcpy(txt,"Tensao");
+    txt = "Tensao";
     for (i=1; i<=nv; i++) {
-        if (i==nn+1) strcpy(txt,"Corrente");
+        if (i==nn+1)
+            txt = "Corrente";
         cout << txt << " " << lista[i] << ": " << Yn[i][nv+1] << endl;
     }
     cin.get();
