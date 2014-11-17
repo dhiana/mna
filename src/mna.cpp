@@ -21,7 +21,6 @@ O amplificador operacional ideal tem a saida suspensa
 Os nos podem ser nomes
 */
 
-#define versao "1.0i - 03/11/2013"
 #include "matrix/solve.h"
 #include <iostream>
 #include <fstream>
