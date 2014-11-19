@@ -91,7 +91,7 @@ int main(int argc, char **argv){
             exit(EXIT_FAILURE);
     }
 
-    netlistFile.open(filepath, ifstream::in);
+    netlistFile.open(filepath.c_str(), ifstream::in);
     if(!netlistFile.is_open()){
         cerr << "FAILURE: Cannot open file " << filepath << endl;
         exit(EXIT_FAILURE);
