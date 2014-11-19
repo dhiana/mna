@@ -29,7 +29,6 @@ Os nos podem ser nomes
 #include <string>
 #include <vector>
 #include <cstdlib>
-#include <cmath>
 
 using namespace std;
 
