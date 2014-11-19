@@ -18,7 +18,7 @@ INCLUDEPATH += \
     include
 
 SOURCES += \
-    src/mna.cpp \
+    src/main.cpp \
     src/matrix/solve.cpp \
 
 HEADERS += \
