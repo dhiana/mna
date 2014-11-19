@@ -222,6 +222,5 @@ UpgradeLog*.htm
 FakesAssemblies/
 
 # Qt project files
-*.pro
 *.user
 *.autosave
