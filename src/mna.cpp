@@ -74,14 +74,12 @@ int main(int argc, char **argv){
     cout << endl;
 
     ifstream netlistFile;
-    const char *filepath;
+    string filepath;
 
     switch(argc) {
         case 1: {
-            string input;
             cout << "Enter path to netlist file: ";
-            cin >> input;
-            filepath = input.c_str();
+            cin >> filepath;
             break;
         }
         case 2: {
