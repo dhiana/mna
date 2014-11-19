@@ -65,12 +65,41 @@ inline int numero(const char *nome, int &nv, vector<string> &lista){
     }
 }
 
-int main(void)
-{
-    ifstream arquivo;
-    string nomearquivo,
-           txt;
-    bool arquivovalido = false;
+int main(int argc, char **argv){
+
+    cout << endl;
+    cout << "Modified Nodal Analysis" << endl;
+    cout << "Originally by Antonio Carlos M. de Queiroz (acmq@coe.ufrj.br)" << endl;
+    cout << "Modified by Dhiana Deva, Felipe de Leo and Silvino Vieira" << endl;
+    cout << endl;
+
+    ifstream netlistFile;
+    const char *filepath;
+
+    switch(argc) {
+        case 1: {
+            string input;
+            cout << "Enter path to netlist file: ";
+            cin >> input;
+            filepath = input.c_str();
+            break;
+        }
+        case 2: {
+            filepath = argv[1];
+            break;
+        }
+        default:
+            cerr << "FAILURE: Too much information!" << endl;
+            exit(EXIT_FAILURE);
+    }
+
+    netlistFile.open(filepath, ifstream::in);
+    if(!netlistFile.is_open()){
+        cerr << "FAILURE: Cannot open file " << filepath << endl;
+        exit(EXIT_FAILURE);
+    }
+
+    string txt;
     vector<string> lista(MAX_NOME+2); /*Tem que caber jx antes do nome */
     lista[0] = "0";
     vector<elemento> netlist(MAX_ELEM);
@@ -90,26 +119,10 @@ int main(void)
     double g,
            Yn[MAX_NOS+1][MAX_NOS+2];
 
-    cout << "Modified Nodal Analysis Demo" << endl;
-    cout << "Originally by Antonio Carlos M. de Queiroz (acmq@coe.ufrj.br)" << endl;
-    cout << "Modified by Dhiana Deva, Felipe de Leo, Silvino Vieira" << endl;
-
-    /* Leitura do netlist */
-    do{
-        cout << "Nome do arquivo com o netlist (ex: mna.net): ";
-        cin >> nomearquivo;
-        arquivo.open(nomearquivo.c_str(), ifstream::in);
-        if(!arquivo.is_open()){
-            cout << "Arquivo " << nomearquivo << " inexistente" << endl;
-            continue;
-        }
-        arquivovalido = true;
-    } while(!arquivovalido);
-
     cout << "Lendo netlist:" << endl;
-    getline(arquivo, txt);
+    getline(netlistFile, txt);
     cout << "Titulo: " << txt;
-    while (getline(arquivo, txt)) {
+    while (getline(netlistFile, txt)) {
         ne++; /* Nao usa o netlist[0] */
         if (ne>MAX_ELEM) {
             cout << "O programa so aceita ate " << MAX_ELEM << " elementos" << endl;
@@ -158,7 +171,7 @@ int main(void)
             exit(1);
         }
     }
-    arquivo.close();
+    netlistFile.close();
 
     /* Acrescenta variaveis de corrente acima dos nos, anotando no netlist */
     nn=nv;

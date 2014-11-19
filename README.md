@@ -6,11 +6,18 @@ Cross-platform version of MNA1 program by Prof. Moreirão available at
 [http://www.coe.ufrj.br/~acmq/cursos/](http://www.coe.ufrj.br/~acmq/cursos/)
 
 
-MNA1?!
-------
 
-Of course! Modified Nodal Analysis! ;)
+Usage
+-----
 
+#### Executing the program with no arguments
+
+    $ ./bin/mna
+    # Will prompt for netlist file path
+
+#### Executing the program giving netlist file path
+
+    $ ./bin/mna data/simples.net
 
 Compiling
 ---------
