@@ -1,26 +1,3 @@
-/*
-Demonstration of Modified Nodal Analysis
-Originally by Antonio Carlos M. de Queiroz (acmq@coe.ufrj.br)
-Modified by Dhiana Deva, Felipe de Leo, Silvino Vieira
-*/
-
-/*
-Elementos aceitos e linhas do netlist:
-
-Resistor:  R<nome> <no+> <no-> <resistencia>
-VCCS:            G<nome> <io+> <io-> <vi+> <vi-> <transcondutancia>
-VCVC:            E<nome> <vo+> <vo-> <vi+> <vi-> <ganho de tensao>
-CCCS:            F<nome> <io+> <io-> <ii+> <ii-> <ganho de corrente>
-CCVS:            H<nome> <vo+> <vo-> <ii+> <ii-> <transresistencia>
-Fonte I:     I<nome> <io+> <io-> <corrente>
-Fonte V:     V<nome> <vo+> <vo-> <tensao>
-Amp. op.:  O<nome> <vo1> <vo2> <vi1> <vi2>
-
-As fontes F e H tem o ramo de entrada em curto
-O amplificador operacional ideal tem a saida suspensa
-Os nos podem ser nomes
-*/
-
 #include "matrix/solve.h"
 #include <iostream>
 #include <fstream>
