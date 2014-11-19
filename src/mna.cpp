@@ -165,7 +165,6 @@ int main(int argc, char **argv){
         }
         else {
             cout << "Elemento desconhecido: " << txt << endl;
-            cin.get();
             exit(1);
         }
     }
@@ -199,12 +198,14 @@ int main(int argc, char **argv){
             netlist[i].y=nv;
         }
     }
-    cin.get();
+    cout << endl;
+
     /* Lista tudo */
     cout << "Variaveis internas: " << endl;
     for (int i=0; i<=nv; i++)
         cout << i << " -> " << lista[i] << endl;
-    cin.get();
+    cout << endl;
+
     cout << "Netlist interno final" << endl;
     for (int i=1; i<=ne; i++) {
         tipo=netlist[i].nome[0];
@@ -224,15 +225,18 @@ int main(int argc, char **argv){
         else if (tipo=='H')
             cout << "Correntes jx e jy: " << netlist[i].x << ", " << netlist[i].y << endl;
     }
-    cin.get();
+    cout << endl;
+
     /* Monta o sistema nodal modificado */
     cout << "O circuito tem " << nn << " nos, " << nv << " variaveis e " << ne << " elementos" << endl;
-    cin.get();
+    cout << endl;
+
     /* Zera sistema */
     for (int i=0; i<=nv; i++) {
         for (int j=0; j<=nv+1; j++)
             Yn[i][j]=0;
     }
+
     /* Monta estampas */
     for (int i=1; i<=ne; i++) {
         tipo=netlist[i].nome[0];
@@ -298,6 +302,7 @@ int main(int argc, char **argv){
             Yn[netlist[i].x][netlist[i].c]+=1;
             Yn[netlist[i].x][netlist[i].d]-=1;
         }
+
 #ifdef DEBUG
         /* Opcional: Mostra o sistema apos a montagem da estampa */
         cout << "Sistema apos a estampa de " << netlist[i].nome << endl;
@@ -310,14 +315,16 @@ int main(int argc, char **argv){
                 else cout << " ... ";
             cout << endl;
         }
-        cin.get();
+        cout << endl;
 #endif
+
     }
     /* Resolve o sistema */
     if (solve(nv, Yn)) {
-        cin.get();
+        cout << endl;
         exit(0);
     }
+
 #ifdef DEBUG
     /* Opcional: Mostra o sistema resolvido */
     cout << "Sistema resolvido:" << endl;
@@ -330,8 +337,9 @@ int main(int argc, char **argv){
             else cout << " ... ";
         cout << endl;
     }
-    cin.get();
+    cout << endl;
 #endif
+
     /* Mostra solucao */
     cout << "Solucao:" << endl;
     txt = "Tensao";
@@ -340,6 +348,9 @@ int main(int argc, char **argv){
             txt = "Corrente";
         cout << txt << " " << lista[i] << ": " << Yn[i][nv+1] << endl;
     }
-    cin.get();
+
+    #if defined (WIN32) || defined(_WIN32)
+    cin.get()
+    #endif
 }
 
