@@ -350,7 +350,7 @@ int main(int argc, char **argv){
     }
 
     #if defined (WIN32) || defined(_WIN32)
-    cin.get()
+	cin.get();
     #endif
 }
 
