@@ -2,6 +2,7 @@ env = Environment(CPPPATH='include')
 
 source_files = Glob('src/*.c*', 'include/*.h*')
 source_files.extend(Glob('src/matrix/*.c*', 'include/matrix/*.h*'))
+source_files.extend(Glob('src/circuits/*.c*', 'include/circuits/*.h*'))
 env.Program(target='bin/mna',
             source=source_files,
             LIBS='ncurses')
