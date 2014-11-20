@@ -16,29 +16,6 @@ static const int MAX_LINHA = 80;
 static const int MAX_NOME = 11;
 static const int MAX_ELEM = 50;
 
-/* Rotina que conta os nos e atribui numeros a eles */
-inline int numero(const char *nome, int &nv, vector<string> &lista){
-    int i=0, achou=0;
-
-    while (!achou && i<=nv)
-        if (!(achou=!lista[i].compare(nome))) i++;
-    if (!achou) {
-        if (nv==MAX_NOS) {
-            cout << "O programa so aceita ate " << nv <<  " nos" << endl;
-            #if defined (WIN32) || defined(_WIN32)
-	        cin.get();
-            #endif
-            exit(EXIT_FAILURE);
-        }
-        nv++;
-        lista[nv] = nome;
-        return nv; /* novo no */
-    }
-    else {
-        return i; /* no ja conhecido */
-    }
-}
-
 int main(int argc, char **argv){
 
     cout << endl;
@@ -105,7 +82,7 @@ int main(int argc, char **argv){
         if (ne>MAX_ELEM) {
             cout << "O programa so aceita ate " << MAX_ELEM << " elementos" << endl;
             #if defined (WIN32) || defined(_WIN32)
-	        cin.get();
+            cin.get();
             #endif
             exit(EXIT_FAILURE);
         }
@@ -122,25 +99,25 @@ int main(int argc, char **argv){
         if (tipo=='R' || tipo=='I' || tipo=='V') {
             txtstream >> na >> nb >> netlist[ne].valor;
             cout << netlist[ne].nome << " " << na << " " << nb << " " << netlist[ne].valor << endl;
-            netlist[ne].a = numero(na, nv, lista);
-            netlist[ne].b = numero(nb, nv, lista);
+            netlist[ne].a = Element::number(na, nv, lista);
+            netlist[ne].b = Element::number(nb, nv, lista);
         }
         else if (tipo=='G' || tipo=='E' || tipo=='F' || tipo=='H') {
             txtstream >> na >> nb >> nc >> nd >> netlist[ne].valor;
             cout << netlist[ne].nome << " " << na << " " << nb << " " << nc << " "
                  << nd << " "<< netlist[ne].valor << endl;
-            netlist[ne].a = numero(na, nv, lista);
-            netlist[ne].b = numero(nb, nv, lista);
-            netlist[ne].c = numero(nc, nv, lista);
-            netlist[ne].d = numero(nd, nv, lista);
+            netlist[ne].a = Element::number(na, nv, lista);
+            netlist[ne].b = Element::number(nb, nv, lista);
+            netlist[ne].c = Element::number(nc, nv, lista);
+            netlist[ne].d = Element::number(nd, nv, lista);
         }
         else if (tipo=='O') {
             txtstream >> na >> nb >> nc >> nd;
             cout << netlist[ne].nome << " " << na << " " << nb << " " << nc << " " << nd << " " << endl;
-            netlist[ne].a = numero(na, nv, lista);
-            netlist[ne].b = numero(nb, nv, lista);
-            netlist[ne].c = numero(nc, nv, lista);
-            netlist[ne].d = numero(nd, nv, lista);
+            netlist[ne].a = Element::number(na, nv, lista);
+            netlist[ne].b = Element::number(nb, nv, lista);
+            netlist[ne].c = Element::number(nc, nv, lista);
+            netlist[ne].d = Element::number(nd, nv, lista);
         }
         else if (tipo=='*') { /* Comentario comeca com "*" */
             cout << "Comentario: " << txt;
@@ -149,7 +126,7 @@ int main(int argc, char **argv){
         else {
             cout << "Elemento desconhecido: " << txt << endl;
             #if defined (WIN32) || defined(_WIN32)
-	        cin.get();
+            cin.get();
             #endif
             exit(EXIT_FAILURE);
         }
