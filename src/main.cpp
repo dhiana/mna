@@ -16,6 +16,17 @@ static const int MAX_LINHA = 80;
 static const int MAX_NOME = 11;
 static const int MAX_ELEM = 50;
 
+
+void exitPolitely(int exitCode) {
+	#if defined (WIN32) || defined(_WIN32)
+	cout << endl << "Press any key to exit...";
+	cin.get();
+	cin.get();
+	#endif
+	exit(exitCode);
+}
+
+
 int main(int argc, char **argv){
 
     cout << endl;
@@ -39,19 +50,13 @@ int main(int argc, char **argv){
         }
         default:
             cerr << "FAILURE: Too much information!" << endl;
-            #if defined (WIN32) || defined(_WIN32)
-	        cin.get();
-            #endif
-            exit(EXIT_FAILURE);
+            exitPolitely(EXIT_FAILURE);
     }
 
     netlistFile.open(filepath.c_str(), ifstream::in);
     if(!netlistFile.is_open()){
         cerr << "FAILURE: Cannot open file " << filepath << endl;
-        #if defined (WIN32) || defined(_WIN32)
-	    cin.get();
-        #endif
-        exit(EXIT_FAILURE);
+		exitPolitely(EXIT_FAILURE);
     }
 
     string txt;
@@ -76,10 +81,7 @@ int main(int argc, char **argv){
         Element::ne++; /* Nao usa o netlist[0] */
         if (Element::ne>MAX_ELEM) {
             cout << "O programa so aceita ate " << MAX_ELEM << " elementos" << endl;
-            #if defined (WIN32) || defined(_WIN32)
-            cin.get();
-            #endif
-            exit(EXIT_FAILURE);
+			exitPolitely(EXIT_FAILURE);
         }
         netlist[Element::ne] = Element(txt, nv, lista);
     }
@@ -93,10 +95,7 @@ int main(int argc, char **argv){
             nv++;
             if (nv>MAX_NOS) {
                 cout << "As correntes extra excederam o numero de variaveis permitido (" << MAX_NOS << ")" << endl;
-                #if defined (WIN32) || defined(_WIN32)
-	            cin.get();
-                #endif
-                exit(EXIT_FAILURE);
+                exitPolitely(EXIT_FAILURE);
             }
             lista[nv] = "j"; /* Tem espaco para mais dois caracteres */
             lista[nv].append( netlist[i].nome );
@@ -106,10 +105,7 @@ int main(int argc, char **argv){
             nv=nv+2;
             if (nv>MAX_NOS) {
                 cout << "As correntes extra excederam o numero de variaveis permitido (" << MAX_NOS << ")" << endl;
-                #if defined (WIN32) || defined(_WIN32)
-	            cin.get();
-                #endif
-                exit(EXIT_FAILURE);
+                exitPolitely(EXIT_FAILURE);
             }
             lista[nv-1] = "jx";
             lista[nv-1].append(netlist[i].nome);
@@ -243,10 +239,7 @@ int main(int argc, char **argv){
     /* Resolve o sistema */
     if (solve(nv, Yn)) {
         cout << "FAILURE: Could not solve!" << endl;
-        #if defined (WIN32) || defined(_WIN32)
-	    cin.get();
-        #endif
-        exit(EXIT_FAILURE);
+        exitPolitely(EXIT_FAILURE);
     }
 
 #ifdef DEBUG
@@ -272,9 +265,6 @@ int main(int argc, char **argv){
             txt = "Corrente";
         cout << txt << " " << lista[i] << ": " << Yn[i][nv+1] << endl;
     }
-
-    #if defined (WIN32) || defined(_WIN32)
-	cin.get();
-    #endif
+	exitPolitely(EXIT_SUCCESS);
 }
 
