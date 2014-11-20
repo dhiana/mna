@@ -59,17 +59,12 @@ int main(int argc, char **argv){
     lista[0] = "0";
     vector<Element> netlist(MAX_ELEM);
 
-    int ne=0, /* Elementos */
-        nv=0, /* Variaveis */
+    int nv=0, /* Variaveis */
         nn=0; /* Nos */
 
     /* Foram colocados limites nos formatos de leitura para alguma protecao
        contra excesso de caracteres nestas variaveis */
-    char tipo,
-         na[MAX_NOME],
-         nb[MAX_NOME],
-         nc[MAX_NOME],
-         nd[MAX_NOME];
+    char tipo;
 
     double g,
            Yn[MAX_NOS+1][MAX_NOS+2];
@@ -78,64 +73,21 @@ int main(int argc, char **argv){
     getline(netlistFile, txt);
     cout << "Titulo: " << txt;
     while (getline(netlistFile, txt)) {
-        ne++; /* Nao usa o netlist[0] */
-        if (ne>MAX_ELEM) {
+        Element::ne++; /* Nao usa o netlist[0] */
+        if (Element::ne>MAX_ELEM) {
             cout << "O programa so aceita ate " << MAX_ELEM << " elementos" << endl;
             #if defined (WIN32) || defined(_WIN32)
             cin.get();
             #endif
             exit(EXIT_FAILURE);
         }
-        txt[0]=toupper(txt[0]);
-        tipo=txt[0];
-        //TODO: verificar necessidade da string txt
-        // ver se eh possivel usar stringstream no getline
-        stringstream txtstream(txt);
-        txtstream >> netlist[ne].nome;
-        //TODO: talvez nao seja preciso usar p
-        string p(txt, netlist[ne].nome.size(), string::npos);
-        txtstream.str(p);
-        /* O que e lido depende do tipo */
-        if (tipo=='R' || tipo=='I' || tipo=='V') {
-            txtstream >> na >> nb >> netlist[ne].valor;
-            cout << netlist[ne].nome << " " << na << " " << nb << " " << netlist[ne].valor << endl;
-            netlist[ne].a = Element::number(na, nv, lista);
-            netlist[ne].b = Element::number(nb, nv, lista);
-        }
-        else if (tipo=='G' || tipo=='E' || tipo=='F' || tipo=='H') {
-            txtstream >> na >> nb >> nc >> nd >> netlist[ne].valor;
-            cout << netlist[ne].nome << " " << na << " " << nb << " " << nc << " "
-                 << nd << " "<< netlist[ne].valor << endl;
-            netlist[ne].a = Element::number(na, nv, lista);
-            netlist[ne].b = Element::number(nb, nv, lista);
-            netlist[ne].c = Element::number(nc, nv, lista);
-            netlist[ne].d = Element::number(nd, nv, lista);
-        }
-        else if (tipo=='O') {
-            txtstream >> na >> nb >> nc >> nd;
-            cout << netlist[ne].nome << " " << na << " " << nb << " " << nc << " " << nd << " " << endl;
-            netlist[ne].a = Element::number(na, nv, lista);
-            netlist[ne].b = Element::number(nb, nv, lista);
-            netlist[ne].c = Element::number(nc, nv, lista);
-            netlist[ne].d = Element::number(nd, nv, lista);
-        }
-        else if (tipo=='*') { /* Comentario comeca com "*" */
-            cout << "Comentario: " << txt;
-            ne--;
-        }
-        else {
-            cout << "Elemento desconhecido: " << txt << endl;
-            #if defined (WIN32) || defined(_WIN32)
-            cin.get();
-            #endif
-            exit(EXIT_FAILURE);
-        }
+        netlist[Element::ne] = Element(txt, nv, lista);
     }
     netlistFile.close();
 
     /* Acrescenta variaveis de corrente acima dos nos, anotando no netlist */
     nn=nv;
-    for (int i=1; i<=ne; i++) {
+    for (int i=1; i<=Element::ne; i++) {
         tipo=netlist[i].nome[0];
         if (tipo=='V' || tipo=='E' || tipo=='F' || tipo=='O') {
             nv++;
@@ -176,7 +128,7 @@ int main(int argc, char **argv){
     cout << endl;
 
     cout << "Netlist interno final" << endl;
-    for (int i=1; i<=ne; i++) {
+    for (int i=1; i<=Element::ne; i++) {
         tipo=netlist[i].nome[0];
         if (tipo=='R' || tipo=='I' || tipo=='V') {
             cout << netlist[i].nome << " " << netlist[i].a << " " << netlist[i].b << " " << netlist[i].valor << endl;
@@ -197,7 +149,7 @@ int main(int argc, char **argv){
     cout << endl;
 
     /* Monta o sistema nodal modificado */
-    cout << "O circuito tem " << nn << " nos, " << nv << " variaveis e " << ne << " elementos" << endl;
+    cout << "O circuito tem " << nn << " nos, " << nv << " variaveis e " << Element::ne << " elementos" << endl;
     cout << endl;
 
     /* Zera sistema */
@@ -207,7 +159,7 @@ int main(int argc, char **argv){
     }
 
     /* Monta estampas */
-    for (int i=1; i<=ne; i++) {
+    for (int i=1; i<=Element::ne; i++) {
         tipo=netlist[i].nome[0];
         if (tipo=='R') {
             g=1/netlist[i].valor;

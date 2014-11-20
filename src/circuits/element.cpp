@@ -1,14 +1,63 @@
 #include "circuits/element.h"
 
 #include "matrix/solve.h"
+#include <sstream>
 #include <cstdlib>
 
 //TODO: not to use cout inside Element class
 #include <iostream>
 //
 
+int Element::ne = 0;
+
 Element::Element()
 {
+}
+
+Element::Element(string netlistLine, int &nv, vector<string> &list)
+{
+    stringstream sstream(netlistLine);
+    char na[MAX_NOME], nb[MAX_NOME], nc[MAX_NOME], nd[MAX_NOME];
+
+    type = toupper( netlistLine[0] );
+    sstream >> nome;
+    //TODO: check if p is necessary
+    string p(netlistLine, nome.size(), string::npos);
+    sstream.str(p);
+    if (type=='R' || type=='I' || type=='V') {
+        sstream >> na >> nb >> valor;
+        cout << nome << " " << na << " " << nb << " " << valor << endl;
+        a = number(na, nv, list);
+        b = number(nb, nv, list);
+    }
+    else if (type=='G' || type=='E' || type=='F' || type=='H') {
+        sstream >> na >> nb >> nc >> nd >> valor;
+        cout << nome << " " << na << " " << nb << " " << nc << " "
+             << nd << " "<< valor << endl;
+        a = number(na, nv, list);
+        b = number(nb, nv, list);
+        c = number(nc, nv, list);
+        d = number(nd, nv, list);
+    }
+    else if (type=='O') {
+        sstream >> na >> nb >> nc >> nd;
+        cout << nome << " " << na << " " << nb << " " << nc << " " << nd << " " << endl;
+        a = number(na, nv, list);
+        b = number(nb, nv, list);
+        c = number(nc, nv, list);
+        d = number(nd, nv, list);
+    }
+    else if (type=='*') { /* Comentario comeca com "*" */
+        cout << "Comentario: " << netlistLine;
+        ne--;
+    }
+    else {
+        cout << "Elemento desconhecido: " << netlistLine << endl;
+        #if defined (WIN32) || defined(_WIN32)
+        cin.get();
+        #endif
+        exit(EXIT_FAILURE);
+    }
 }
 
 /** Rotina que conta os nos e atribui Element::numbers a eles */
