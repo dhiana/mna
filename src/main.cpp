@@ -1,3 +1,4 @@
+#include "circuits/element.h"
 #include "matrix/solve.h"
 #include <iostream>
 #include <fstream>
@@ -14,12 +15,6 @@ using namespace std;
 static const int MAX_LINHA = 80;
 static const int MAX_NOME = 11;
 static const int MAX_ELEM = 50;
-
-typedef struct elemento { /* Elemento do netlist */
-    string nome;
-    double valor;
-    int a,b,c,d,x,y;
-} elemento;
 
 /* Rotina que conta os nos e atribui numeros a eles */
 inline int numero(const char *nome, int &nv, vector<string> &lista){
@@ -85,7 +80,7 @@ int main(int argc, char **argv){
     string txt;
     vector<string> lista(MAX_NOME+2); /*Tem que caber jx antes do nome */
     lista[0] = "0";
-    vector<elemento> netlist(MAX_ELEM);
+    vector<Element> netlist(MAX_ELEM);
 
     int ne=0, /* Elementos */
         nv=0, /* Variaveis */
