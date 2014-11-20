@@ -20,9 +20,12 @@ INCLUDEPATH += \
 SOURCES += \
     src/mna.cpp \
     src/matrix/solve.cpp \
+    src/circuits/element.cpp
 
 HEADERS += \
-    include/matrix/solve.h
+    include/matrix/solve.h \
+    element.h \
+    include/circuits/element.h
 
 OTHER_FILES += \
     data/simples.net
