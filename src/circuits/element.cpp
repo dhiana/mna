@@ -1,6 +1,7 @@
 #include "circuits/element.h"
 
 #include "matrix/solve.h"
+#include <cstdlib>
 
 //TODO: not to use cout inside Element class
 #include <iostream>
