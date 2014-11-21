@@ -11,7 +11,7 @@ void applyStamps(int numElements, int nv, vector<Element> netlist, double Yn[MAX
     double g;
     char tipo;
     for (int i=1; i<=numElements; i++) {
-        tipo=netlist[i].nome[0];
+        tipo=netlist[i].name[0];
         if (tipo=='R') {
             g=1/netlist[i].valor;
             Yn[netlist[i].a][netlist[i].a]+=g;
@@ -77,7 +77,7 @@ void applyStamps(int numElements, int nv, vector<Element> netlist, double Yn[MAX
 
 #ifdef DEBUG
         /* Opcional: Mostra o sistema apos a montagem da estampa */
-        cout << "Sistema apos a estampa de " << netlist[i].nome << endl;
+        cout << "Sistema apos a estampa de " << netlist[i].name << endl;
         print(nv, Yn);
 #endif
 

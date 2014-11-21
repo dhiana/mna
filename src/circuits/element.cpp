@@ -18,19 +18,19 @@ Element::Element(string netlistLine, int &numElements,  int &nv, vector<string> 
     char na[MAX_NOME], nb[MAX_NOME], nc[MAX_NOME], nd[MAX_NOME];
 
     type = toupper( netlistLine[0] );
-    sstream >> nome;
+    sstream >> name;
     //TODO: check if p is necessary
-    string p(netlistLine, nome.size(), string::npos);
+    string p(netlistLine, name.size(), string::npos);
     sstream.str(p);
     if (type=='R' || type=='I' || type=='V') {
         sstream >> na >> nb >> valor;
-        cout << nome << " " << na << " " << nb << " " << valor << endl;
+        cout << name << " " << na << " " << nb << " " << valor << endl;
         a = number(na, nv, list);
         b = number(nb, nv, list);
     }
     else if (type=='G' || type=='E' || type=='F' || type=='H') {
         sstream >> na >> nb >> nc >> nd >> valor;
-        cout << nome << " " << na << " " << nb << " " << nc << " "
+        cout << name << " " << na << " " << nb << " " << nc << " "
              << nd << " "<< valor << endl;
         a = number(na, nv, list);
         b = number(nb, nv, list);
@@ -39,7 +39,7 @@ Element::Element(string netlistLine, int &numElements,  int &nv, vector<string> 
     }
     else if (type=='O') {
         sstream >> na >> nb >> nc >> nd;
-        cout << nome << " " << na << " " << nb << " " << nc << " " << nd << " " << endl;
+        cout << name << " " << na << " " << nb << " " << nc << " " << nd << " " << endl;
         a = number(na, nv, list);
         b = number(nb, nv, list);
         c = number(nc, nv, list);

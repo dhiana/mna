@@ -18,7 +18,7 @@ public:
     static int number(const char *name, int &nv, vector<string> &list);
 
     char type;
-    string nome;
+    string name;
     double valor;
     int a,b,c,d,x,y;
 };

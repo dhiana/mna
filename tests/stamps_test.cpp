@@ -15,7 +15,7 @@ TEST(CircuitStampsTest, SimpleResistor) {
     double matrix[MAX_NOS+1][MAX_NOS+2];
     init(numVariables, matrix);
     Element resistor;
-    resistor.nome = "R1";
+    resistor.name = "R1";
     resistor.a = 1;
     resistor.b = 2;
     resistor.valor = 2;
