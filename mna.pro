@@ -20,11 +20,12 @@ INCLUDEPATH += \
 SOURCES += \
     src/main.cpp \
     src/matrix/matrix.cpp \
+    src/circuits/circuit.cpp \
     src/circuits/element.cpp
 
 HEADERS += \
     include/matrix/matrix.h \
-    element.h \
+    include/circuits/circuit.h \
     include/circuits/element.h
 
 OTHER_FILES += \

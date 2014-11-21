@@ -72,11 +72,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\circuits\circuit.cpp" />
     <ClCompile Include="src\circuits\element.cpp" />
     <ClCompile Include="src\matrix\matrix.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\circuits\circuit.h" />
     <ClInclude Include="include\circuits\element.h" />
     <ClInclude Include="include\matrix\matrix.h" />
   </ItemGroup>

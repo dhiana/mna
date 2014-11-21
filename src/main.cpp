@@ -1,3 +1,4 @@
+#include "circuits/circuit.h"
 #include "circuits/element.h"
 #include "matrix/matrix.h"
 #include <iostream>
@@ -237,12 +238,7 @@ int main(int argc, char **argv){
 #endif
 
     /* Mostra solucao */
-    cout << "Solucao:" << endl;
-    txt = "Tensao";
-    for (int i=1; i<=nv; i++) {
-        if (i==nn+1)
-            txt = "Corrente";
-        cout << txt << " " << lista[i] << ": " << Yn[i][nv+1] << endl;
-    }
+    printSolution(nv, nn, Yn, lista);
+
 	exitPolitely(EXIT_SUCCESS);
 }
