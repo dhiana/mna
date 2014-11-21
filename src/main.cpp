@@ -74,6 +74,7 @@ int main(int argc, char **argv){
     vector<Element> netlist(MAX_ELEM);
 
     int nv=0, /* Variaveis */
+        numElements=0,
         nn=0; /* Nos */
 
     /* Foram colocados limites nos formatos de leitura para alguma protecao
@@ -86,18 +87,18 @@ int main(int argc, char **argv){
     getline(netlistFile, txt);
     cout << "Titulo: " << txt;
     while (getline(netlistFile, txt)) {
-        Element::ne++; /* Nao usa o netlist[0] */
-        if (Element::ne>MAX_ELEM) {
+        numElements++; /* Nao usa o netlist[0] */
+        if (numElements>MAX_ELEM) {
             cout << "O programa so aceita ate " << MAX_ELEM << " elementos" << endl;
 			exitPolitely(EXIT_FAILURE);
         }
-        netlist[Element::ne] = Element(txt, nv, lista);
+        netlist[numElements] = Element(txt, numElements, nv, lista);
     }
     netlistFile.close();
 
     /* Acrescenta variaveis de corrente acima dos nos, anotando no netlist */
     nn=nv;
-    for (int i=1; i<=Element::ne; i++) {
+    for (int i=1; i<=numElements; i++) {
         tipo=netlist[i].nome[0];
         if (tipo=='V' || tipo=='E' || tipo=='F' || tipo=='O') {
             nv++;
@@ -132,7 +133,7 @@ int main(int argc, char **argv){
     cout << endl;
 
     cout << "Netlist interno final" << endl;
-    for (int i=1; i<=Element::ne; i++) {
+    for (int i=1; i<=numElements; i++) {
         tipo=netlist[i].nome[0];
         if (tipo=='R' || tipo=='I' || tipo=='V') {
             cout << netlist[i].nome << " " << netlist[i].a << " " << netlist[i].b << " " << netlist[i].valor << endl;
@@ -153,14 +154,14 @@ int main(int argc, char **argv){
     cout << endl;
 
     /* Monta o sistema nodal modificado */
-    cout << "O circuito tem " << nn << " nos, " << nv << " variaveis e " << Element::ne << " elementos" << endl;
+    cout << "O circuito tem " << nn << " nos, " << nv << " variaveis e " << numElements << " elementos" << endl;
     cout << endl;
 
     /* Zera sistema */
     init(nv, Yn);
 
     /* Monta estampas */
-    applyStamps(Element::ne, nv, netlist, Yn);
+    applyStamps(numElements, nv, netlist, Yn);
 
     /* Resolve o sistema */
     if (solve(nv, Yn)) {

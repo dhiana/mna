@@ -8,13 +8,11 @@
 #include <iostream>
 //
 
-int Element::ne = 0;
-
 Element::Element()
 {
 }
 
-Element::Element(string netlistLine, int &nv, vector<string> &list)
+Element::Element(string netlistLine, int &numElements,  int &nv, vector<string> &list)
 {
     stringstream sstream(netlistLine);
     char na[MAX_NOME], nb[MAX_NOME], nc[MAX_NOME], nd[MAX_NOME];
@@ -49,7 +47,7 @@ Element::Element(string netlistLine, int &nv, vector<string> &list)
     }
     else if (type=='*') { /* Comentario comeca com "*" */
         cout << "Comentario: " << netlistLine;
-        ne--;
+        numElements--;
     }
     else {
         cout << "Elemento desconhecido: " << netlistLine << endl;
