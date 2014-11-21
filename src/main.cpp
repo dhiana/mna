@@ -28,15 +28,7 @@ void exitPolitely(int exitCode) {
 }
 
 
-int main(int argc, char **argv){
-
-    cout << endl;
-    cout << "Modified Nodal Analysis" << endl;
-    cout << "Originally by Antonio Carlos M. de Queiroz (acmq@coe.ufrj.br)" << endl;
-    cout << "Modified by Dhiana Deva, Felipe de Leo and Silvino Vieira" << endl;
-    cout << endl;
-
-    ifstream netlistFile;
+int readNetlistFile(int argc, char** argv, ifstream& netlistFile){
     string filepath;
 
     switch(argc) {
@@ -51,14 +43,30 @@ int main(int argc, char **argv){
         }
         default:
             cerr << "FAILURE: Too much information!" << endl;
-            exitPolitely(EXIT_FAILURE);
+            return EXIT_FAILURE;
     }
 
     netlistFile.open(filepath.c_str(), ifstream::in);
     if(!netlistFile.is_open()){
         cerr << "FAILURE: Cannot open file " << filepath << endl;
-		exitPolitely(EXIT_FAILURE);
+		return EXIT_FAILURE;
     }
+    return 0;
+}
+
+
+int main(int argc, char **argv){
+
+    cout << endl;
+    cout << "Modified Nodal Analysis" << endl;
+    cout << "Originally by Antonio Carlos M. de Queiroz (acmq@coe.ufrj.br)" << endl;
+    cout << "Modified by Dhiana Deva, Felipe de Leo and Silvino Vieira" << endl;
+    cout << endl;
+
+    ifstream netlistFile;
+    if (readNetlistFile(argc, argv, netlistFile)){
+        exitPolitely(EXIT_FAILURE);
+    };
 
     string txt;
     vector<string> lista(MAX_NOME+2); /*Tem que caber jx antes do nome */
