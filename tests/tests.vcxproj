@@ -59,7 +59,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(SolutionDir)\lib\gtest-1.7.0\msvc\mna\Debug\gtest_maind.lib;$(SolutionDir)\lib\gtest-1.7.0\msvc\mna\Debug\gtestd.lib;$(SolutionDir)\Debug\matrix.obj;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(SolutionDir)\lib\gtest-1.7.0\msvc\mna\Debug\gtest_maind.lib;$(SolutionDir)\lib\gtest-1.7.0\msvc\mna\Debug\gtestd.lib;$(SolutionDir)\Debug\matrix.obj;$(SolutionDir)\Debug\circuits.obj;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -79,12 +79,13 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>$(SolutionDir)\lib\gtest-1.7.0\msvc\mna\Debug\gtest_maind.lib;$(SolutionDir)\lib\gtest-1.7.0\msvc\mna\Debug\gtestd.lib;$(SolutionDir)\Debug\matrix.obj;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(SolutionDir)\lib\gtest-1.7.0\msvc\mna\Debug\gtest_maind.lib;$(SolutionDir)\lib\gtest-1.7.0\msvc\mna\Debug\gtestd.lib;$(SolutionDir)\Debug\matrix.obj;$(SolutionDir)\Debug\circuits.obj;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="math_test.cpp" />
     <ClCompile Include="matrix_test.cpp" />
+    <ClCompile Include="stamps_test.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
