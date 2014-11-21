@@ -1,6 +1,11 @@
 #include "matrix/matrix.h"
+#include <iostream>
+#include <iomanip>
 #include <cmath>
 #include <cstdio>
+
+using namespace std;
+
 
 int solve( int nv, double Yn[MAX_NOS+1][MAX_NOS+2] ){
     int i, j, l, a;
@@ -36,4 +41,19 @@ int solve( int nv, double Yn[MAX_NOS+1][MAX_NOS+2] ){
         }
     }
     return 0;
+}
+
+
+void print(int nv, double Yn[MAX_NOS+1][MAX_NOS+2]){
+    /* Opcional: Mostra o sistema apos a montagem da estampa */
+    for (int k=1; k<=nv; k++) {
+        for (int j=1; j<=nv+1; j++)
+            if (Yn[k][j]!=0){
+                cout << setprecision(1) << fixed << setw(3) << showpos;
+                cout << Yn[k][j] << " ";
+            }
+            else cout << " ... ";
+        cout << endl;
+    }
+    cout << endl;
 }

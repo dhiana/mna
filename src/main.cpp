@@ -223,16 +223,7 @@ int main(int argc, char **argv){
 #ifdef DEBUG
         /* Opcional: Mostra o sistema apos a montagem da estampa */
         cout << "Sistema apos a estampa de " << netlist[i].nome << endl;
-        for (int k=1; k<=nv; k++) {
-            for (int j=1; j<=nv+1; j++)
-                if (Yn[k][j]!=0){
-                    cout << setprecision( 1 ) << fixed << setw( 3 ) << showpos;
-                    cout << Yn[k][j] << " ";
-                }
-                else cout << " ... ";
-            cout << endl;
-        }
-        cout << endl;
+        print(nv, Yn);
 #endif
 
     }
@@ -245,16 +236,7 @@ int main(int argc, char **argv){
 #ifdef DEBUG
     /* Opcional: Mostra o sistema resolvido */
     cout << "Sistema resolvido:" << endl;
-    for (int i=1; i<=nv; i++) {
-        for (int j=1; j<=nv+1; j++)
-            if (Yn[i][j]!=0){
-                cout << setprecision( 1 ) << fixed << setw( 3 ) << showpos;
-                cout << Yn[i][j] << " ";
-            }
-            else cout << " ... ";
-        cout << endl;
-    }
-    cout << endl;
+    print(nv, Yn);
 #endif
 
     /* Mostra solucao */
