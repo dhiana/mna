@@ -149,10 +149,7 @@ int main(int argc, char **argv){
     cout << endl;
 
     /* Zera sistema */
-    for (int i=0; i<=nv; i++) {
-        for (int j=0; j<=nv+1; j++)
-            Yn[i][j]=0;
-    }
+    init(nv, Yn);
 
     /* Monta estampas */
     for (int i=1; i<=Element::ne; i++) {
