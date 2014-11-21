@@ -24,7 +24,7 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\matrix\solve.cpp">
+    <ClCompile Include="src\matrix\matrix.cpp">
       <Filter>Source Files\matrix</Filter>
     </ClCompile>
     <ClCompile Include="src\circuits\element.cpp">
@@ -32,7 +32,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\matrix\solve.h">
+    <ClInclude Include="include\matrix\matrix.h">
       <Filter>Header Files\matrix</Filter>
     </ClInclude>
     <ClInclude Include="include\circuits\element.h">

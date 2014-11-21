@@ -1,4 +1,4 @@
-#include "matrix/solve.h"
+#include "matrix/matrix.h"
 #include <cmath>
 #include <cstdio>
 

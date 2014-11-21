@@ -73,12 +73,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\circuits\element.cpp" />
-    <ClCompile Include="src\matrix\solve.cpp" />
+    <ClCompile Include="src\matrix\matrix.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\circuits\element.h" />
-    <ClInclude Include="include\matrix\solve.h" />
+    <ClInclude Include="include\matrix\matrix.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

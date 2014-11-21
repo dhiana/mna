@@ -1,5 +1,5 @@
 #include "circuits/element.h"
-#include "matrix/solve.h"
+#include "matrix/matrix.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -267,4 +267,3 @@ int main(int argc, char **argv){
     }
 	exitPolitely(EXIT_SUCCESS);
 }
-

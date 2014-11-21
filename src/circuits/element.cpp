@@ -1,6 +1,6 @@
 #include "circuits/element.h"
 
-#include "matrix/solve.h"
+#include "matrix/matrix.h"
 #include <sstream>
 #include <cstdlib>
 

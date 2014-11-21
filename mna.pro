@@ -19,11 +19,11 @@ INCLUDEPATH += \
 
 SOURCES += \
     src/main.cpp \
-    src/matrix/solve.cpp \
+    src/matrix/matrix.cpp \
     src/circuits/element.cpp
 
 HEADERS += \
-    include/matrix/solve.h \
+    include/matrix/matrix.h \
     element.h \
     include/circuits/element.h
 
