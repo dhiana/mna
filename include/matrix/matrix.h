@@ -1,5 +1,5 @@
-#ifndef MNA_MATRIX_SOLVE_H_
-#define MNA_MATRIX_SOLVE_H_
+#ifndef MNA_MATRIX_MATRIX_H_
+#define MNA_MATRIX_MATRIX_H_
 
 
 static const int MAX_NOS = 50;
