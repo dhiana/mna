@@ -75,18 +75,9 @@ int main(int argc, char **argv){
     char tipo;
     double Yn[MAX_NODES+1][MAX_NODES+2];
 
-    cout << "Lendo netlist:" << endl;
-    getline(netlistFile, txt);
-    cout << "Titulo: " << txt;
-    while (getline(netlistFile, txt)) {
-        numElements++; /* Nao usa o netlist[0] */
-        if (numElements>MAX_ELEMS) {
-            cout << "O programa so aceita ate " << MAX_ELEMS << " elementos" << endl;
-			exitPolitely(EXIT_FAILURE);
-        }
-        netlist[numElements] = Element(txt, numElements, numVariables, lista);
+    if (readElementsFromNetlist(numElements, numVariables, netlistFile, lista, netlist)){
+        exitPolitely(EXIT_FAILURE);
     }
-    netlistFile.close();
 
     /* Acrescenta variaveis de corrente acima dos nos, anotando no netlist */
     numNodes=numVariables;

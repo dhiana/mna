@@ -1,13 +1,32 @@
 #include "consts.h"
-#include "circuits/element.h"
+#include "circuits/circuit.h"
 #include "circuits/element.h"
 #include "matrix/matrix.h"
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <string>
+#include <cstdlib>
 
 using namespace std;
 
+
+int readElementsFromNetlist(int &numElements, int &numVariables, ifstream &netlistFile, vector<string> &list, vector<Element> &netlist){
+    string txt;
+    cout << "Reading netlist:" << endl;
+    getline(netlistFile, txt);
+    cout << "Title: " << txt;
+    while (getline(netlistFile, txt)) {
+        numElements++; /* XXX Starts from netlist[1] */
+        if (numElements>MAX_ELEMS) {
+            cout << "Invalid number of elements. Maximum number of elements is " << MAX_ELEMS << endl;
+            return(EXIT_FAILURE);
+        }
+        netlist[numElements] = Element(txt, numElements, numVariables, list);
+    }
+    netlistFile.close();
+    return 0;
+}
 
 void printSummary(int numNodes, int numVariables, int numElements){
     /* Monta o sistema nodal modificado */
