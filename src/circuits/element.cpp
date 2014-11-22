@@ -19,9 +19,7 @@ Element::Element(string netlistLine, int &numElements,  int &nv, vector<string> 
 
     type = toupper( netlistLine[0] );
     sstream >> name;
-    //TODO: check if p is necessary
-    string p(netlistLine, name.size(), string::npos);
-    sstream.str(p);
+    sstream.str( string(netlistLine, name.size(), string::npos) );
     if (type=='R' || type=='I' || type=='V') {
         sstream >> na >> nb >> valor;
         cout << name << " " << na << " " << nb << " " << valor << endl;
