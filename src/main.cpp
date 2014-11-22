@@ -70,14 +70,11 @@ int main(int argc, char **argv){
     lista[0] = "0";
     vector<Element> netlist(MAX_ELEM);
 
-    int nv=0, /* Variaveis */
+    int numVariables=0,
         numElements=0,
-        nn=0; /* Nos */
+        numNodes=0;
 
-    /* Foram colocados limites nos formatos de leitura para alguma protecao
-       contra excesso de caracteres nestas variaveis */
     char tipo;
-
     double Yn[MAX_NOS+1][MAX_NOS+2];
 
     cout << "Lendo netlist:" << endl;
@@ -89,43 +86,43 @@ int main(int argc, char **argv){
             cout << "O programa so aceita ate " << MAX_ELEM << " elementos" << endl;
 			exitPolitely(EXIT_FAILURE);
         }
-        netlist[numElements] = Element(txt, numElements, nv, lista);
+        netlist[numElements] = Element(txt, numElements, numVariables, lista);
     }
     netlistFile.close();
 
     /* Acrescenta variaveis de corrente acima dos nos, anotando no netlist */
-    nn=nv;
+    numNodes=numVariables;
     for (int i=1; i<=numElements; i++) {
         tipo=netlist[i].getType();
         if (tipo=='V' || tipo=='E' || tipo=='F' || tipo=='O') {
-            nv++;
-            if (nv>MAX_NOS) {
+            numVariables++;
+            if (numVariables>MAX_NOS) {
                 cout << "As correntes extra excederam o numero de variaveis permitido (" << MAX_NOS << ")" << endl;
                 exitPolitely(EXIT_FAILURE);
             }
-            lista[nv] = "j"; /* Tem espaco para mais dois caracteres */
-            lista[nv].append( netlist[i].getName() );
-            netlist[i].x=nv;
+            lista[numVariables] = "j"; /* Tem espaco para mais dois caracteres */
+            lista[numVariables].append( netlist[i].getName() );
+            netlist[i].x=numVariables;
         }
         else if (tipo=='H') {
-            nv=nv+2;
-            if (nv>MAX_NOS) {
+            numVariables=numVariables+2;
+            if (numVariables>MAX_NOS) {
                 cout << "As correntes extra excederam o numero de variaveis permitido (" << MAX_NOS << ")" << endl;
                 exitPolitely(EXIT_FAILURE);
             }
-            lista[nv-1] = "jx";
-            lista[nv-1].append(netlist[i].getName());
-            netlist[i].x=nv-1;
-            lista[nv] = "jy";
-            lista[nv].append( netlist[i].getName() );
-            netlist[i].y=nv;
+            lista[numVariables-1] = "jx";
+            lista[numVariables-1].append(netlist[i].getName());
+            netlist[i].x=numVariables-1;
+            lista[numVariables] = "jy";
+            lista[numVariables].append( netlist[i].getName() );
+            netlist[i].y=numVariables;
         }
     }
     cout << endl;
 
     /* Lista tudo */
     cout << "Variaveis internas: " << endl;
-    for (int i=0; i<=nv; i++)
+    for (int i=0; i<=numVariables; i++)
         cout << i << " -> " << lista[i] << endl;
     cout << endl;
 
@@ -151,17 +148,17 @@ int main(int argc, char **argv){
     cout << endl;
 
     /* Monta o sistema nodal modificado */
-    cout << "O circuito tem " << nn << " nos, " << nv << " variaveis e " << numElements << " elementos" << endl;
+    cout << "O circuito tem " << numNodes << " nos, " << numVariables << " variaveis e " << numElements << " elementos" << endl;
     cout << endl;
 
     /* Zera sistema */
-    init(nv, Yn);
+    init(numVariables, Yn);
 
     /* Monta estampas */
-    applyStamps(numElements, nv, netlist, Yn);
+    applyStamps(numElements, numVariables, netlist, Yn);
 
     /* Resolve o sistema */
-    if (solve(nv, Yn)) {
+    if (solve(numVariables, Yn)) {
         cout << "FAILURE: Could not solve!" << endl;
         exitPolitely(EXIT_FAILURE);
     }
@@ -169,11 +166,11 @@ int main(int argc, char **argv){
 #ifdef DEBUG
     /* Opcional: Mostra o sistema resolvido */
     cout << "Sistema resolvido:" << endl;
-    print(nv, Yn);
+    print(numVariables, Yn);
 #endif
 
     /* Mostra solucao */
-    printSolution(nv, nn, Yn, lista);
+    printSolution(numVariables, numNodes, Yn, lista);
 
 	exitPolitely(EXIT_SUCCESS);
 }
