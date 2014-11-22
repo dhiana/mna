@@ -10,7 +10,9 @@ using namespace std;
 
 void printSummary(int numNodes, int numVariables, int numElements){
     /* Monta o sistema nodal modificado */
-    cout << "O circuito tem " << numNodes << " nos, " << numVariables << " variaveis e " << numElements << " elementos" << endl;
+    cout << "Total nodes: " << numNodes << endl;
+    cout << "Total variables: " << numVariables << endl;
+    cout << "Total elements: " << numElements << endl;
     cout << endl;
 }
 
