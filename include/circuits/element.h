@@ -11,7 +11,7 @@ class Element
 public:
     Element();
     Element(string netlistLine, int &numElements, int &nv, vector<string> &list);
-    Element(string name, double value, int a, int b, int c, int d, int x, int y );
+    Element(string name, double value, int a, int b, int c = 0, int d = 0, int x = 0, int y = 0);
 
     //TODO: retirar definicao daqui e de main.cpp
     static const int MAX_NOME = 11;
