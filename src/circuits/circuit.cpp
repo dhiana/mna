@@ -1,6 +1,7 @@
 #include "consts.h"
 #include "circuits/element.h"
 #include "circuits/element.h"
+#include "matrix/matrix.h"
 #include <iostream>
 #include <vector>
 #include <string>
@@ -86,8 +87,7 @@ void applyStamps(int numElements, int numVariables, vector<Element> netlist, dou
         }
 
 #ifdef DEBUG
-        /* Opcional: Mostra o sistema apos a montagem da estampa */
-        cout << "Sistema apos a estampa de " << netlist[i].name << endl;
+        cout << "Sistema apos a estampa de " << netlist[i].getName() << endl;
         print(numVariables, Yn);
 #endif
 
