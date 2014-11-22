@@ -29,8 +29,8 @@ Compiling and Running
 
 ### Visual Studio
 
-1 - Open mna.sln
-2 - Run (F5)!
+1. Open mna.sln
+2. Run (F5)!
 
 
 Running the tests!
@@ -38,28 +38,29 @@ Running the tests!
 
 ### Linux
 
-1 - Install gtest libs
+1. Install gtest libs
 
-    $ sudo yum install gtest-devel
+        $ sudo yum install gtest-devel
 
-2 - Run tests:
+2. Run tests:
 
-    $ scons
-    $ ./bin/test
+        $ scons
+        $ ./bin/test
 
 ### Visual Studio
 
-1 - Open mna.sln file
+1. Open mna.sln file
 
-2 - Configure Solution Startup
+2. Configure Solution Startup
 
     Solution "mna" -> Properties -> Commom Properties -> Startup Properties
 
-    Multiple Startup Projects:
+    On Multiple Startup Projects:
 
-        mna     -> Start
-        tests   -> Start without Debugging
+    * mna     -> Start
 
-3 - Start (or F5)!
+    * tests   -> Start without Debugging
+
+3. Start (or F5)!
 
     Start will run both the program and the tests!
