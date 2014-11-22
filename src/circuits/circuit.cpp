@@ -75,6 +75,11 @@ int readElementsFromNetlist(int &numElements,
     return 0;
 }
 
+void printVariables(const int &numVariables, const vector<string> &lista){
+    for (int i=0; i<=numVariables; i++)
+        cout << i << " -> " << lista[i] << endl;
+    cout << endl;
+}
 void printSummary(int numNodes,
                   int numVariables,
                   int numElements){

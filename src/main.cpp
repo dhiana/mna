@@ -95,8 +95,13 @@ int main(int argc, char **argv){
         cout << i << " -> " << lista[i] << endl;
     cout << endl;
 
-    /* Monta o sistema nodal modificado */
+    #ifdef DEBUG
+    cout << "Internal variables:" << endl;
+    printVariables(numVariables, lista);
+
+    cout << "Summary:" << endl;
     printSummary(numNodes, numVariables, numElements);
+    #endif
 
     /* Zera sistema */
     init(numVariables, Yn);
