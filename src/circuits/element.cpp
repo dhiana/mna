@@ -21,15 +21,15 @@ Element::Element(string netlistLine, int &numElements,  int &numVariables, vecto
     setType(name[0]);
     sstream.str( string(netlistLine, name.size(), string::npos) );
     if (type=='R' || type=='I' || type=='V') {
-        sstream >> na >> nb >> valor;
-        cout << name << " " << na << " " << nb << " " << valor << endl;
+        sstream >> na >> nb >> value;
+        cout << name << " " << na << " " << nb << " " << value << endl;
         a = number(na, numVariables, list);
         b = number(nb, numVariables, list);
     }
     else if (type=='G' || type=='E' || type=='F' || type=='H') {
-        sstream >> na >> nb >> nc >> nd >> valor;
+        sstream >> na >> nb >> nc >> nd >> value;
         cout << name << " " << na << " " << nb << " " << nc << " "
-             << nd << " "<< valor << endl;
+             << nd << " "<< value << endl;
         a = number(na, numVariables, list);
         b = number(nb, numVariables, list);
         c = number(nc, numVariables, list);
@@ -60,7 +60,7 @@ Element::Element(string name, double value, int a, int b, int c, int d, int x, i
 {
     setType(name[0]);
     setName(name);
-    this->valor = value;
+    this->value = value;
     this->a = a;
     this->b = b;
     this->c = c;
