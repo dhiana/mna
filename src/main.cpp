@@ -99,7 +99,7 @@ int main(int argc, char **argv){
     /* Acrescenta variaveis de corrente acima dos nos, anotando no netlist */
     nn=nv;
     for (int i=1; i<=numElements; i++) {
-        tipo=netlist[i].name[0];
+        tipo=netlist[i].getType();
         if (tipo=='V' || tipo=='E' || tipo=='F' || tipo=='O') {
             nv++;
             if (nv>MAX_NOS) {
@@ -134,7 +134,7 @@ int main(int argc, char **argv){
 
     cout << "Netlist interno final" << endl;
     for (int i=1; i<=numElements; i++) {
-        tipo=netlist[i].name[0];
+        tipo=netlist[i].getType();
         if (tipo=='R' || tipo=='I' || tipo=='V') {
             cout << netlist[i].name << " " << netlist[i].a << " " << netlist[i].b << " " << netlist[i].valor << endl;
         }

@@ -81,3 +81,13 @@ int Element::number(const char *name, int &nv, vector<string> &list)
         return i; /* no ja conhecido */
     }
 }
+char Element::getType() const
+{
+    return type;
+}
+
+void Element::setType(char value)
+{
+    type = value;
+}
+

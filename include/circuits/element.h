@@ -17,10 +17,16 @@ public:
 
     static int number(const char *name, int &nv, vector<string> &list);
 
-    char type;
     string name;
     double valor;
     int a,b,c,d,x,y;
+
+    char getType() const;
+    void setType(char value);
+
+private:
+    char type;
+
 };
 
 #endif // ELEMENT_H
