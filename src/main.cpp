@@ -61,15 +61,11 @@ int main(int argc, char **argv){
     printIntro();
 
 	/* Creating a the variable "netlistFile" to use as input file to get the external data to the program */
-    ifstream netlistFile;
-
-    if (readNetlistFile(argc, argv, netlistFile)){
-        exitPolitely(EXIT_FAILURE);
-    };
-
     int numVariables=0,
         numElements=0,
-        numNodes=0;
+        numNodes=0,
+        rc=0;
+    ifstream netlistFile;
     vector<string> lista(MAX_NAME+2); /*Tem que caber jx antes do nome */
     vector<Element> netlist(MAX_ELEMS);
     double Yn[MAX_NODES+1][MAX_NODES+2];
@@ -78,23 +74,30 @@ int main(int argc, char **argv){
     // If it goes after readElements everything mixes up!
     lista[0] = "0";
 
-    if (readElementsFromNetlist(numElements, numVariables, netlistFile, lista, netlist)){
-        exitPolitely(EXIT_FAILURE);
-    }
 
-    if (addCurrentVariablesToNetlist(numElements,
+    rc = readNetlistFile(argc, argv, netlistFile);
+    if (rc) // if not return code 0 (success) 
+        exitPolitely(EXIT_FAILURE);
+
+
+    cout << "Reading netlist:" << endl;
+    rc = readElementsFromNetlist(numElements,
+                                numVariables,
+                                netlistFile,
+                                lista,
+                                netlist);
+    if (rc) // if not return code 0 (success) 
+        exitPolitely(EXIT_FAILURE);
+
+
+    rc = addCurrentVariablesToNetlist(numElements,
                                      numVariables,
                                      numNodes,
                                      lista,
-                                     netlist)){
+                                     netlist);
+    if (rc) // if not return code 0 (success) 
         exitPolitely(EXIT_FAILURE);
-    }
 
-    /* Lista tudo */
-    cout << "Variaveis internas: " << endl;
-    for (int i=0; i<=numVariables; i++)
-        cout << i << " -> " << lista[i] << endl;
-    cout << endl;
 
     #ifdef DEBUG
     cout << "Internal variables:" << endl;
@@ -104,33 +107,29 @@ int main(int argc, char **argv){
     printSummary(numNodes, numVariables, numElements);
     #endif
 
-    /* Zera sistema */
+
+    // Operations on the modified matrix...
     init(numVariables, Yn);
-
-    /* Monta estampas */
     applyStamps(numElements, numVariables, netlist, Yn);
-
-    /* Resolve o sistema */
-    if (solve(numVariables, Yn)) {
-        cout << "FAILURE: Could not solve!" << endl;
+    rc = solve(numVariables, Yn);
+    if (rc) // if not return code 0 (success) 
         exitPolitely(EXIT_FAILURE);
-    }
 
-#ifdef DEBUG
-    /* Opcional: Mostra o sistema resolvido */
-    cout << "Sistema resolvido:" << endl;
+
+    #ifdef DEBUG
+    cout << "Final system:" << endl;
     print(numVariables, Yn);
-#endif
 
-    /* Mostra solucao */
+    cout << "Solution:" << endl;
     printSolution(numVariables, numNodes, Yn, lista);
+    #endif
+
 
     /* Save solution to File */
     string OutputFile;
     OutputFile = "output.tab";
-
     WriteSolutionToFile(OutputFile, numVariables, numNodes, Yn, lista);
 
-    /* Finished the Analysis - Exit the program */
+
     exitPolitely(EXIT_SUCCESS);
 }
