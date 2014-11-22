@@ -63,51 +63,28 @@ int main(int argc, char **argv){
         exitPolitely(EXIT_FAILURE);
     };
 
-    string txt;
-    vector<string> lista(MAX_NAME+2); /*Tem que caber jx antes do nome */
-    lista[0] = "0";
-    vector<Element> netlist(MAX_ELEMS);
-
     int numVariables=0,
         numElements=0,
         numNodes=0;
-
-    char tipo;
+    vector<string> lista(MAX_NAME+2); /*Tem que caber jx antes do nome */
+    vector<Element> netlist(MAX_ELEMS);
     double Yn[MAX_NODES+1][MAX_NODES+2];
+
+    // XXX Magic! Really important!
+    // If it goes after readElements everything mixes up!
+    lista[0] = "0";
 
     if (readElementsFromNetlist(numElements, numVariables, netlistFile, lista, netlist)){
         exitPolitely(EXIT_FAILURE);
     }
 
-    /* Acrescenta variaveis de corrente acima dos nos, anotando no netlist */
-    numNodes=numVariables;
-    for (int i=1; i<=numElements; i++) {
-        tipo=netlist[i].getType();
-        if (tipo=='V' || tipo=='E' || tipo=='F' || tipo=='O') {
-            numVariables++;
-            if (numVariables>MAX_NODES) {
-                cout << "As correntes extra excederam o numero de variaveis permitido (" << MAX_NODES << ")" << endl;
-                exitPolitely(EXIT_FAILURE);
-            }
-            lista[numVariables] = "j"; /* Tem espaco para mais dois caracteres */
-            lista[numVariables].append( netlist[i].getName() );
-            netlist[i].x=numVariables;
-        }
-        else if (tipo=='H') {
-            numVariables=numVariables+2;
-            if (numVariables>MAX_NODES) {
-                cout << "As correntes extra excederam o numero de variaveis permitido (" << MAX_NODES << ")" << endl;
-                exitPolitely(EXIT_FAILURE);
-            }
-            lista[numVariables-1] = "jx";
-            lista[numVariables-1].append(netlist[i].getName());
-            netlist[i].x=numVariables-1;
-            lista[numVariables] = "jy";
-            lista[numVariables].append( netlist[i].getName() );
-            netlist[i].y=numVariables;
-        }
+    if (addCurrentVariablesToNetlist(numElements,
+                                     numVariables,
+                                     numNodes,
+                                     lista,
+                                     netlist)){
+        exitPolitely(EXIT_FAILURE);
     }
-    cout << endl;
 
     /* Lista tudo */
     cout << "Variaveis internas: " << endl;

@@ -11,6 +11,44 @@
 using namespace std;
 
 
+int addCurrentVariablesToNetlist(int &numElements,
+                                 int &numVariables,
+                                 int &numNodes,
+                                 vector<string> &variablesList,
+                                 vector<Element> &netlist){
+    char tipo;
+    numNodes=numVariables;
+    for (int i=1; i<=numElements; i++) {
+        tipo=netlist[i].getType();
+        if (tipo=='V' || tipo=='E' || tipo=='F' || tipo=='O') {
+            numVariables++;
+            if (numVariables>MAX_NODES) {
+                cout << "As correntes extra excederam o numero de variaveis permitido (" << MAX_NODES << ")" << endl;
+                return(EXIT_FAILURE);
+            }
+            variablesList[numVariables] = "j"; /* Tem espaco para mais dois caracteres */
+            variablesList[numVariables].append( netlist[i].getName() );
+            netlist[i].x=numVariables;
+        }
+        else if (tipo=='H') {
+            numVariables=numVariables+2;
+            if (numVariables>MAX_NODES) {
+                cout << "As correntes extra excederam o numero de variaveis permitido (" << MAX_NODES << ")" << endl;
+                return(EXIT_FAILURE);
+            }
+            variablesList[numVariables-1] = "jx";
+            variablesList[numVariables-1].append(netlist[i].getName());
+            netlist[i].x=numVariables-1;
+            variablesList[numVariables] = "jy";
+            variablesList[numVariables].append( netlist[i].getName() );
+            netlist[i].y=numVariables;
+        }
+    }
+    cout << endl;
+    return 0;
+}
+
+
 int readElementsFromNetlist(int &numElements,
                             int &numVariables,
                             ifstream &netlistFile,
