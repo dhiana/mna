@@ -55,7 +55,6 @@ int readElementsFromNetlist(int &numElements,
                             vector<string> &variablesList,
                             vector<Element> &netlist){
     string txt;
-    cout << "Reading netlist:" << endl;
     getline(netlistFile, txt);
     cout << "Title: " << txt;
     while (getline(netlistFile, txt)) {
@@ -71,8 +70,13 @@ int readElementsFromNetlist(int &numElements,
                                       );
     }
     netlistFile.close();
-    cout << endl;
     return 0;
+}
+
+void printVariables(const int &numVariables, const vector<string> &lista){
+    for (int i=0; i<=numVariables; i++)
+        cout << i << " -> " << lista[i] << endl;
+    cout << endl;
 }
 
 void printSummary(int numNodes,
@@ -165,14 +169,12 @@ void printSolution(int numVariables,
                    int numNodes,
                    double Yn[MAX_NODES+1][MAX_NODES+2],
                    vector<string> lista){
-    cout << "Solution:" << endl;
     for (int i=1; i<=numVariables; i++) {
         cout << lista[i] << ":\t" << Yn[i][numVariables+1] << endl;
     }
 }
 
 /* Function to write the Solution into an Output File */
-
 bool WriteSolutionToFile(string filename, int numVariables, int numNodes, double Yn[MAX_NODES+1][MAX_NODES+2], vector<string> lista){
     // Opening the File for Writing
     ofstream file(filename.c_str(), ofstream::out);

@@ -24,6 +24,8 @@ SOURCES += \
     src/circuits/element.cpp
 
 HEADERS += \
+    include/consts.h \
+    include/utils.h \
     include/matrix/matrix.h \
     include/circuits/circuit.h \
     include/circuits/element.h
