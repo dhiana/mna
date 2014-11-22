@@ -11,7 +11,7 @@
 using namespace std;
 
 
-int readElementsFromNetlist(int &numElements, int &numVariables, ifstream &netlistFile, vector<string> &list, vector<Element> &netlist){
+int readElementsFromNetlist(int &numElements, int &numVariables, ifstream &netlistFile, vector<string> &variablesList, vector<Element> &netlist){
     string txt;
     cout << "Reading netlist:" << endl;
     getline(netlistFile, txt);
@@ -22,7 +22,7 @@ int readElementsFromNetlist(int &numElements, int &numVariables, ifstream &netli
             cout << "Invalid number of elements. Maximum number of elements is " << MAX_ELEMS << endl;
             return(EXIT_FAILURE);
         }
-        netlist[numElements] = Element(txt, numElements, numVariables, list);
+        netlist[numElements] = Element(txt, numElements, numVariables, variableList);
     }
     netlistFile.close();
     return 0;
