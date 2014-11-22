@@ -8,6 +8,13 @@
 using namespace std;
 
 
+void printSummary(int numNodes, int numVariables, int numElements){
+    /* Monta o sistema nodal modificado */
+    cout << "O circuito tem " << numNodes << " nos, " << numVariables << " variaveis e " << numElements << " elementos" << endl;
+    cout << endl;
+}
+
+
 void applyStamps(int numElements, int numVariables, vector<Element> netlist, double Yn[MAX_NODES+1][MAX_NODES+2]){
     double g;
     char tipo;

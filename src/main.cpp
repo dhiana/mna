@@ -148,8 +148,7 @@ int main(int argc, char **argv){
     cout << endl;
 
     /* Monta o sistema nodal modificado */
-    cout << "O circuito tem " << numNodes << " nos, " << numVariables << " variaveis e " << numElements << " elementos" << endl;
-    cout << endl;
+    printSummary(numNodes, numVariables, numElements);
 
     /* Zera sistema */
     init(numVariables, Yn);
