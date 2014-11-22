@@ -224,3 +224,6 @@ FakesAssemblies/
 # Qt project files
 *.user
 *.autosave
+
+# Output Files
+*.tab
