@@ -4,6 +4,7 @@
 #include <string>
 #include "circuits/element.h"
 #include "matrix/matrix.h"
+#include "consts.h"
 
 
 using namespace std;

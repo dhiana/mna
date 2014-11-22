@@ -1,3 +1,4 @@
+#include "consts.h"
 #include "circuits/circuit.h"
 #include "circuits/element.h"
 #include "matrix/matrix.h"
@@ -12,10 +13,6 @@
 using namespace std;
 
 #define DEBUG
-
-static const int MAX_LINHA = 80;
-static const int MAX_NOME = 11;
-static const int MAX_ELEM = 50;
 
 
 void exitPolitely(int exitCode) {

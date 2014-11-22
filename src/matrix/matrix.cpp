@@ -1,3 +1,4 @@
+#include "consts.h"
 #include "matrix/matrix.h"
 #include <iostream>
 #include <iomanip>

@@ -1,4 +1,5 @@
-#include "circuits/circuit.h"
+#include "consts.h"
+#include "circuits/element.h"
 #include "circuits/element.h"
 #include <iostream>
 #include <vector>
