@@ -115,27 +115,6 @@ int main(int argc, char **argv){
         cout << i << " -> " << lista[i] << endl;
     cout << endl;
 
-    cout << "Netlist interno final" << endl;
-    for (int i=1; i<=numElements; i++) {
-        tipo=netlist[i].getType();
-        if (tipo=='R' || tipo=='I' || tipo=='V') {
-            cout << netlist[i].getName() << " " << netlist[i].a << " " << netlist[i].b << " " << netlist[i].valor << endl;
-        }
-        else if (tipo=='G' || tipo=='E' || tipo=='F' || tipo=='H') {
-            cout << netlist[i].getName() << " " << netlist[i].a << " " << netlist[i].b << " "
-                 << netlist[i].c << " " << netlist[i].d   << " " << netlist[i].valor << endl;
-        }
-        else if (tipo=='O') {
-            cout << netlist[i].getName() << " " << netlist[i].a << " " << netlist[i].b << " "
-                 << netlist[i].c << " " << netlist[i].d   << endl;
-        }
-        if (tipo=='V' || tipo=='E' || tipo=='F' || tipo=='O')
-            cout << "Corrente jx: " << netlist[i].x << endl;
-        else if (tipo=='H')
-            cout << "Correntes jx e jy: " << netlist[i].x << ", " << netlist[i].y << endl;
-    }
-    cout << endl;
-
     /* Monta o sistema nodal modificado */
     printSummary(numNodes, numVariables, numElements);
 
