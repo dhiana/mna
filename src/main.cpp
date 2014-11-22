@@ -12,8 +12,6 @@
 
 using namespace std;
 
-#define DEBUG
-
 
 void exitPolitely(int exitCode) {
 	#if defined (WIN32) || defined(_WIN32)
