@@ -6,33 +6,37 @@
 TEST(MatrixSolveTest, Dummy) {
     // Arrange
     int numVariables = 3;
+    // XXX this function expects a column and a row filled with zeros!
     double matrix[MAX_NOS+1][MAX_NOS+2] = {
-        {1, 0, 0, 1},
-        {0, 1, 0, 2},
-        {0, 0, 1, 3}
+        {0, 0, 0, 0, 0},
+        {0, 1, 0, 0, 1},
+        {0, 0, 1, 0, 2},
+        {0, 0, 0, 1, 3}
     };
     // Act
     solve(numVariables, matrix);
     // Assert
-	EXPECT_EQ(1, matrix[0][numVariables]);
-	EXPECT_EQ(2, matrix[1][numVariables]);
-	EXPECT_EQ(3, matrix[2][numVariables]);
+	EXPECT_EQ(1, matrix[1][numVariables+1]);
+	EXPECT_EQ(2, matrix[2][numVariables+1]);
+	EXPECT_EQ(3, matrix[3][numVariables+1]);
 }
 
 TEST(MatrixSolveTest, AlmostDummy) {
     // Arrange
     int numVariables = 3;
+    // XXX this function expects a column and a row filled with zeros!
     double matrix[MAX_NOS+1][MAX_NOS+2] = {
-        {1, 0, 1, 1},
-        {0, 1, 1, 2},
-        {1, 1, 0, 0}
+        {0, 0, 0, 0, 0},
+        {0, 1, 0, 1, 1},
+        {0, 0, 1, 1, 2},
+        {0, 1, 1, 0, 0}
     };
     // Act
     solve(numVariables, matrix);
     // Assert
-	EXPECT_EQ(1, matrix[0][numVariables]);
-	EXPECT_EQ(0, matrix[1][numVariables]);
-	EXPECT_EQ(2, matrix[2][numVariables]);
+	EXPECT_EQ(-0.5, matrix[1][numVariables+1]);
+	EXPECT_EQ(0.5, matrix[2][numVariables+1]);
+	EXPECT_EQ(1.5, matrix[3][numVariables+1]);
 }
 
 TEST(MatrixSolveTest, SimpleCircuit) {
@@ -40,6 +44,8 @@ TEST(MatrixSolveTest, SimpleCircuit) {
     int numVariables = 9;
     // Augmented matrix for data/simples.net
     // Needs row zero and column zero... ¯\_(ツ)_/¯
+    // XXX this function expects a column and a row filled with zeros!
+    // XXX result is totally different without it!
     double matrix[MAX_NOS+1][MAX_NOS+2] = {
         {0, 0,  0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 2, -1, -1, 0, 0, 0, 0, 0, 0, 0},
