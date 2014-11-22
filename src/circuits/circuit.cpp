@@ -8,7 +8,7 @@
 using namespace std;
 
 
-void applyStamps(int numElements, int nv, vector<Element> netlist, double Yn[MAX_NODES+1][MAX_NODES+2]){
+void applyStamps(int numElements, int numVariables, vector<Element> netlist, double Yn[MAX_NODES+1][MAX_NODES+2]){
     double g;
     char tipo;
     for (int i=1; i<=numElements; i++) {
@@ -29,15 +29,15 @@ void applyStamps(int numElements, int nv, vector<Element> netlist, double Yn[MAX
         }
         else if (tipo=='I') {
             g=netlist[i].valor;
-            Yn[netlist[i].a][nv+1]-=g;
-            Yn[netlist[i].b][nv+1]+=g;
+            Yn[netlist[i].a][numVariables+1]-=g;
+            Yn[netlist[i].b][numVariables+1]+=g;
         }
         else if (tipo=='V') {
             Yn[netlist[i].a][netlist[i].x]+=1;
             Yn[netlist[i].b][netlist[i].x]-=1;
             Yn[netlist[i].x][netlist[i].a]-=1;
             Yn[netlist[i].x][netlist[i].b]+=1;
-            Yn[netlist[i].x][nv+1]-=netlist[i].valor;
+            Yn[netlist[i].x][numVariables+1]-=netlist[i].valor;
         }
         else if (tipo=='E') {
             g=netlist[i].valor;
@@ -79,19 +79,19 @@ void applyStamps(int numElements, int nv, vector<Element> netlist, double Yn[MAX
 #ifdef DEBUG
         /* Opcional: Mostra o sistema apos a montagem da estampa */
         cout << "Sistema apos a estampa de " << netlist[i].name << endl;
-        print(nv, Yn);
+        print(numVariables, Yn);
 #endif
 
     }
 }
 
-void printSolution(int nv, int nn, double Yn[MAX_NODES+1][MAX_NODES+2], vector<string> lista){
+void printSolution(int numVariables, int numNodes, double Yn[MAX_NODES+1][MAX_NODES+2], vector<string> lista){
     string txt;
     cout << "Solucao:" << endl;
     txt = "Tensao";
-    for (int i=1; i<=nv; i++) {
-        if (i==nn+1)
+    for (int i=1; i<=numVariables; i++) {
+        if (i==numNodes+1)
             txt = "Corrente";
-        cout << txt << " " << lista[i] << ": " << Yn[i][nv+1] << endl;
+        cout << txt << " " << lista[i] << ": " << Yn[i][numVariables+1] << endl;
     }
 }
