@@ -49,15 +49,16 @@ int readNetlistFile(int argc, char** argv, ifstream& netlistFile){
     return 0;
 }
 
+void printIntro(){
+    cout << endl << "Modified Nodal Analysis"
+         << endl << "Originally by Antonio Carlos M. de Queiroz (acmq@coe.ufrj.br)"
+         << endl << "Modified by Dhiana Deva, Felipe de Leo and Silvino Vieira" << endl << endl;
+}
+
+
 /* The program starts here */
 int main(int argc, char **argv){
-
-// Description Strings
-    cout << endl;
-    cout << "Modified Nodal Analysis" << endl;
-    cout << "Originally by Antonio Carlos M. de Queiroz (acmq@coe.ufrj.br)" << endl;
-    cout << "Modified by Dhiana Deva, Felipe de Leo and Silvino Vieira" << endl;
-    cout << endl;
+    printIntro();
 
 	/* Creating a the variable "netlistFile" to use as input file to get the external data to the program */
     ifstream netlistFile;
