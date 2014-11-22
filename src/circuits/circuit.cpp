@@ -11,7 +11,11 @@
 using namespace std;
 
 
-int readElementsFromNetlist(int &numElements, int &numVariables, ifstream &netlistFile, vector<string> &variablesList, vector<Element> &netlist){
+int readElementsFromNetlist(int &numElements,
+                            int &numVariables,
+                            ifstream &netlistFile,
+                            vector<string> &variablesList,
+                            vector<Element> &netlist){
     string txt;
     cout << "Reading netlist:" << endl;
     getline(netlistFile, txt);
@@ -22,17 +26,23 @@ int readElementsFromNetlist(int &numElements, int &numVariables, ifstream &netli
             cout << "Invalid number of elements. Maximum number of elements is " << MAX_ELEMS << endl;
             return(EXIT_FAILURE);
         }
-        netlist[numElements] = Element(txt, numElements, numVariables, variablesList);
+        netlist[numElements] = Element(txt,
+                                       numElements,
+                                       numVariables,
+                                       variablesList
+                                      );
     }
     netlistFile.close();
+    cout << endl;
     return 0;
 }
 
-void printSummary(int numNodes, int numVariables, int numElements){
-    /* Monta o sistema nodal modificado */
-    cout << "Total nodes: " << numNodes << endl;
-    cout << "Total variables: " << numVariables << endl;
-    cout << "Total elements: " << numElements << endl;
+void printSummary(int numNodes,
+                  int numVariables,
+                  int numElements){
+    cout << "# nodes:\t" << numNodes << endl;
+    cout << "# variables:\t" << numVariables << endl;
+    cout << "# elements:\t" << numElements << endl;
     cout << endl;
 }
 
@@ -113,13 +123,12 @@ void applyStamps(int numElements, int numVariables, vector<Element> netlist, dou
     }
 }
 
-void printSolution(int numVariables, int numNodes, double Yn[MAX_NODES+1][MAX_NODES+2], vector<string> lista){
-    string txt;
-    cout << "Solucao:" << endl;
-    txt = "Tensao";
+void printSolution(int numVariables,
+                   int numNodes,
+                   double Yn[MAX_NODES+1][MAX_NODES+2],
+                   vector<string> lista){
+    cout << "Solution:" << endl;
     for (int i=1; i<=numVariables; i++) {
-        if (i==numNodes+1)
-            txt = "Corrente";
-        cout << txt << " " << lista[i] << ": " << Yn[i][numVariables+1] << endl;
+        cout << lista[i] << ":\t" << Yn[i][numVariables+1] << endl;
     }
 }
