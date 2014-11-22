@@ -22,7 +22,7 @@ int readElementsFromNetlist(int &numElements, int &numVariables, ifstream &netli
             cout << "Invalid number of elements. Maximum number of elements is " << MAX_ELEMS << endl;
             return(EXIT_FAILURE);
         }
-        netlist[numElements] = Element(txt, numElements, numVariables, variableList);
+        netlist[numElements] = Element(txt, numElements, numVariables, variablesList);
     }
     netlistFile.close();
     return 0;
