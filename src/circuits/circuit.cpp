@@ -95,21 +95,21 @@ void applyStamps(int numElements, int numVariables, vector<Element> netlist, dou
     for (int i=1; i<=numElements; i++) {
         tipo=netlist[i].getType();
         if (tipo=='R') {
-            g=1/netlist[i].valor;
+            g=1/netlist[i].value;
             Yn[netlist[i].a][netlist[i].a]+=g;
             Yn[netlist[i].b][netlist[i].b]+=g;
             Yn[netlist[i].a][netlist[i].b]-=g;
             Yn[netlist[i].b][netlist[i].a]-=g;
         }
         else if (tipo=='G') {
-            g=netlist[i].valor;
+            g=netlist[i].value;
             Yn[netlist[i].a][netlist[i].c]+=g;
             Yn[netlist[i].b][netlist[i].d]+=g;
             Yn[netlist[i].a][netlist[i].d]-=g;
             Yn[netlist[i].b][netlist[i].c]-=g;
         }
         else if (tipo=='I') {
-            g=netlist[i].valor;
+            g=netlist[i].value;
             Yn[netlist[i].a][numVariables+1]-=g;
             Yn[netlist[i].b][numVariables+1]+=g;
         }
@@ -118,10 +118,10 @@ void applyStamps(int numElements, int numVariables, vector<Element> netlist, dou
             Yn[netlist[i].b][netlist[i].x]-=1;
             Yn[netlist[i].x][netlist[i].a]-=1;
             Yn[netlist[i].x][netlist[i].b]+=1;
-            Yn[netlist[i].x][numVariables+1]-=netlist[i].valor;
+            Yn[netlist[i].x][numVariables+1]-=netlist[i].value;
         }
         else if (tipo=='E') {
-            g=netlist[i].valor;
+            g=netlist[i].value;
             Yn[netlist[i].a][netlist[i].x]+=1;
             Yn[netlist[i].b][netlist[i].x]-=1;
             Yn[netlist[i].x][netlist[i].a]-=1;
@@ -130,7 +130,7 @@ void applyStamps(int numElements, int numVariables, vector<Element> netlist, dou
             Yn[netlist[i].x][netlist[i].d]-=g;
         }
         else if (tipo=='F') {
-            g=netlist[i].valor;
+            g=netlist[i].value;
             Yn[netlist[i].a][netlist[i].x]+=g;
             Yn[netlist[i].b][netlist[i].x]-=g;
             Yn[netlist[i].c][netlist[i].x]+=1;
@@ -139,7 +139,7 @@ void applyStamps(int numElements, int numVariables, vector<Element> netlist, dou
             Yn[netlist[i].x][netlist[i].d]+=1;
         }
         else if (tipo=='H') {
-            g=netlist[i].valor;
+            g=netlist[i].value;
             Yn[netlist[i].a][netlist[i].y]+=1;
             Yn[netlist[i].b][netlist[i].y]-=1;
             Yn[netlist[i].c][netlist[i].x]+=1;

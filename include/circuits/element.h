@@ -15,7 +15,7 @@ public:
 
     static int number(const char *name, int &numVariables, vector<string> &list);
 
-    double valor;
+    double value;
     int a,b,c,d,x,y;
 
     char getType() const;
