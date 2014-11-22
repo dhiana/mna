@@ -142,5 +142,12 @@ int main(int argc, char **argv){
     /* Mostra solucao */
     printSolution(numVariables, numNodes, Yn, lista);
 
+	/* Save solution to File */
+	string OutputFile;
+	OutputFile = "output.tab";
+
+	WriteSolutionToFile(OutputFile, numVariables, numNodes, Yn, lista);
+
+	/* Finished the Analysis - Exit the program */
 	exitPolitely(EXIT_SUCCESS);
 }

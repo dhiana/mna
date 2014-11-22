@@ -13,5 +13,5 @@ int readElementsFromNetlist(int &numElements, int &numVariables, ifstream &netli
 void applyStamps(int numElements, int numVariables, vector<Element> netlist, double Yn[MAX_NODES+1][MAX_NODES+2]);
 void printSolution(int numVariables, int numNodes, double Yn[MAX_NODES+1][MAX_NODES+2], vector<string> lista);
 void printSummary(int numNodes, int numVariables, int numElements);
-
+bool WriteSolutionToFile(string filename, int numVariables, int numNodes, double Yn[MAX_NODES+1][MAX_NODES+2], vector<string> lista);
 #endif
