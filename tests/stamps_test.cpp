@@ -14,7 +14,7 @@ TEST(CircuitStampsTest, SimpleResistor) {
     int numVariables = 2;
     double matrix[MAX_NOS+1][MAX_NOS+2];
     init(numVariables, matrix);
-    Element resistor("R1", 2, 1, 2);
+    Element resistor("R1", 4, 1, 2);
     vector<Element> netlist(2);
     netlist[1] = resistor;
     // Act
@@ -22,8 +22,8 @@ TEST(CircuitStampsTest, SimpleResistor) {
     // Assert
     double expected[MAX_NOS+1][MAX_NOS+2] = {
         {0,    0,    0, 0},
-        {0,  0.5, -0.5, 0},
-        {0, -0.5,  0.5, 0}
+        {0,  0.25, -0.25, 0},
+        {0, -0.25,  0.25, 0}
     };
     for (int i=1; i<=numVariables; i++) {
         for (int j=1; j<=numVariables+1; j++) {
