@@ -178,7 +178,7 @@ bool WriteSolutionToFile(string filename, int numVariables, int numNodes, double
     ofstream file(filename.c_str(), ofstream::out);
 
     /* Writing the Header */
-    for (int i = 0; i <= numVariables; i++){
+    for (int i = 0; i<=numVariables; i++){
         if (i == 0)
             file << "t ";
         // The Nodal Tensions
@@ -193,11 +193,11 @@ bool WriteSolutionToFile(string filename, int numVariables, int numNodes, double
     /* End of Header */
 
     /* Start of Values Writing */
-    for (int i = 0; i < numVariables; i++){
+    for (int i = 0; i<=numVariables; i++){
         if (i == 0)
             file << "0 ";
         else if (i>0)
-            file << Yn[i][i] << " ";
+            file << Yn[i][numVariables+1] << " ";
     }
     file << std::endl;
 
