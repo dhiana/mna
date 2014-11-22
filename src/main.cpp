@@ -107,7 +107,7 @@ int main(int argc, char **argv){
                 exitPolitely(EXIT_FAILURE);
             }
             lista[nv] = "j"; /* Tem espaco para mais dois caracteres */
-            lista[nv].append( netlist[i].name );
+            lista[nv].append( netlist[i].getName() );
             netlist[i].x=nv;
         }
         else if (tipo=='H') {
@@ -117,10 +117,10 @@ int main(int argc, char **argv){
                 exitPolitely(EXIT_FAILURE);
             }
             lista[nv-1] = "jx";
-            lista[nv-1].append(netlist[i].name);
+            lista[nv-1].append(netlist[i].getName());
             netlist[i].x=nv-1;
             lista[nv] = "jy";
-            lista[nv].append( netlist[i].name );
+            lista[nv].append( netlist[i].getName() );
             netlist[i].y=nv;
         }
     }
@@ -136,14 +136,14 @@ int main(int argc, char **argv){
     for (int i=1; i<=numElements; i++) {
         tipo=netlist[i].getType();
         if (tipo=='R' || tipo=='I' || tipo=='V') {
-            cout << netlist[i].name << " " << netlist[i].a << " " << netlist[i].b << " " << netlist[i].valor << endl;
+            cout << netlist[i].getName() << " " << netlist[i].a << " " << netlist[i].b << " " << netlist[i].valor << endl;
         }
         else if (tipo=='G' || tipo=='E' || tipo=='F' || tipo=='H') {
-            cout << netlist[i].name << " " << netlist[i].a << " " << netlist[i].b << " "
+            cout << netlist[i].getName() << " " << netlist[i].a << " " << netlist[i].b << " "
                  << netlist[i].c << " " << netlist[i].d   << " " << netlist[i].valor << endl;
         }
         else if (tipo=='O') {
-            cout << netlist[i].name << " " << netlist[i].a << " " << netlist[i].b << " "
+            cout << netlist[i].getName() << " " << netlist[i].a << " " << netlist[i].b << " "
                  << netlist[i].c << " " << netlist[i].d   << endl;
         }
         if (tipo=='V' || tipo=='E' || tipo=='F' || tipo=='O')
