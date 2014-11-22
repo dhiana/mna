@@ -87,7 +87,7 @@ void applyStamps(int numElements, int numVariables, vector<Element> netlist, dou
         }
 
 #ifdef DEBUG
-        cout << "Sistema apos a estampa de " << netlist[i].getName() << endl;
+        cout << "System after stamp of " << netlist[i].getName() << endl;
         print(numVariables, Yn);
 #endif
 
