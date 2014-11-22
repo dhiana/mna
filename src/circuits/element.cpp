@@ -17,8 +17,8 @@ Element::Element(string netlistLine, int &numElements,  int &nv, vector<string> 
     stringstream sstream(netlistLine);
     char na[MAX_NOME], nb[MAX_NOME], nc[MAX_NOME], nd[MAX_NOME];
 
-    type = toupper( netlistLine[0] );
     sstream >> name;
+    setType(name[0]);
     sstream.str( string(netlistLine, name.size(), string::npos) );
     if (type=='R' || type=='I' || type=='V') {
         sstream >> na >> nb >> valor;
@@ -59,7 +59,7 @@ Element::Element(string netlistLine, int &numElements,  int &nv, vector<string> 
 Element::Element(string name, double value, int a, int b, int c, int d, int x, int y)
 {
     setType(name[0]);
-    this->name = name;
+    setName(name);
     this->valor = value;
     this->a = a;
     this->b = b;
@@ -92,6 +92,7 @@ int Element::number(const char *name, int &nv, vector<string> &list)
         return i; /* no ja conhecido */
     }
 }
+
 char Element::getType() const
 {
     return type;
@@ -99,6 +100,18 @@ char Element::getType() const
 
 void Element::setType(char value)
 {
-    type = value;
+    //TODO: comparar com tipos permitidos
+    type = toupper(value);
 }
+
+string Element::getName() const
+{
+    return name;
+}
+
+void Element::setName(const string &value)
+{
+    name = value;
+}
+
 

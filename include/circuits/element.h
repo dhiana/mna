@@ -18,15 +18,18 @@ public:
 
     static int number(const char *name, int &nv, vector<string> &list);
 
-    string name;
     double valor;
     int a,b,c,d,x,y;
 
     char getType() const;
     void setType(char value);
 
+    string getName() const;
+    void setName(const string &value);
+
 private:
     char type;
+    string name;
 
 };
 

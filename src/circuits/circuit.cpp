@@ -11,7 +11,7 @@ void applyStamps(int numElements, int nv, vector<Element> netlist, double Yn[MAX
     double g;
     char tipo;
     for (int i=1; i<=numElements; i++) {
-        tipo=netlist[i].name[0];
+        tipo=netlist[i].getType();
         if (tipo=='R') {
             g=1/netlist[i].valor;
             Yn[netlist[i].a][netlist[i].a]+=g;
