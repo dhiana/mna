@@ -170,3 +170,40 @@ void printSolution(int numVariables,
         cout << lista[i] << ":\t" << Yn[i][numVariables+1] << endl;
     }
 }
+
+/* Function to write the Solution into an Output File */
+
+bool WriteSolutionToFile(string filename, int numVariables, int numNodes, double Yn[MAX_NODES+1][MAX_NODES+2], vector<string> lista){
+    // Opening the File for Writing
+    ofstream file(filename.c_str(), ofstream::out);
+
+    /* Writing the Header */
+    for (int i = 0; i <= numVariables; i++){
+        if (i == 0)
+            file << "t ";
+        // The Nodal Tensions
+        else if (i <= numNodes)
+            file << lista[i] << " ";
+        // The currents
+        else if (i > numNodes){
+            file << lista[i] << " ";
+        }
+    }
+    file << endl;
+    /* End of Header */
+
+    /* Start of Values Writing */
+    for (int i = 0; i < numVariables; i++){
+        if (i == 0)
+            file << "0 ";
+        else if (i>0)
+            file << Yn[i][i] << " ";
+    }
+    file << std::endl;
+
+    /* Finish of Values Writing */
+
+    //Closing The File
+    file.close();
+    return true;
+}
