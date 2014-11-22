@@ -8,7 +8,7 @@
 using namespace std;
 
 
-void applyStamps(int numElements, int nv, vector<Element> netlist, double Yn[MAX_NOS+1][MAX_NOS+2]){
+void applyStamps(int numElements, int nv, vector<Element> netlist, double Yn[MAX_NODES+1][MAX_NODES+2]){
     double g;
     char tipo;
     for (int i=1; i<=numElements; i++) {
@@ -85,7 +85,7 @@ void applyStamps(int numElements, int nv, vector<Element> netlist, double Yn[MAX
     }
 }
 
-void printSolution(int nv, int nn, double Yn[MAX_NOS+1][MAX_NOS+2], vector<string> lista){
+void printSolution(int nv, int nn, double Yn[MAX_NODES+1][MAX_NODES+2], vector<string> lista){
     string txt;
     cout << "Solucao:" << endl;
     txt = "Tensao";

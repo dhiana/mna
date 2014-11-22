@@ -66,24 +66,24 @@ int main(int argc, char **argv){
     };
 
     string txt;
-    vector<string> lista(MAX_NOME+2); /*Tem que caber jx antes do nome */
+    vector<string> lista(MAX_NAME+2); /*Tem que caber jx antes do nome */
     lista[0] = "0";
-    vector<Element> netlist(MAX_ELEM);
+    vector<Element> netlist(MAX_ELEMS);
 
     int numVariables=0,
         numElements=0,
         numNodes=0;
 
     char tipo;
-    double Yn[MAX_NOS+1][MAX_NOS+2];
+    double Yn[MAX_NODES+1][MAX_NODES+2];
 
     cout << "Lendo netlist:" << endl;
     getline(netlistFile, txt);
     cout << "Titulo: " << txt;
     while (getline(netlistFile, txt)) {
         numElements++; /* Nao usa o netlist[0] */
-        if (numElements>MAX_ELEM) {
-            cout << "O programa so aceita ate " << MAX_ELEM << " elementos" << endl;
+        if (numElements>MAX_ELEMS) {
+            cout << "O programa so aceita ate " << MAX_ELEMS << " elementos" << endl;
 			exitPolitely(EXIT_FAILURE);
         }
         netlist[numElements] = Element(txt, numElements, numVariables, lista);
@@ -96,8 +96,8 @@ int main(int argc, char **argv){
         tipo=netlist[i].getType();
         if (tipo=='V' || tipo=='E' || tipo=='F' || tipo=='O') {
             numVariables++;
-            if (numVariables>MAX_NOS) {
-                cout << "As correntes extra excederam o numero de variaveis permitido (" << MAX_NOS << ")" << endl;
+            if (numVariables>MAX_NODES) {
+                cout << "As correntes extra excederam o numero de variaveis permitido (" << MAX_NODES << ")" << endl;
                 exitPolitely(EXIT_FAILURE);
             }
             lista[numVariables] = "j"; /* Tem espaco para mais dois caracteres */
@@ -106,8 +106,8 @@ int main(int argc, char **argv){
         }
         else if (tipo=='H') {
             numVariables=numVariables+2;
-            if (numVariables>MAX_NOS) {
-                cout << "As correntes extra excederam o numero de variaveis permitido (" << MAX_NOS << ")" << endl;
+            if (numVariables>MAX_NODES) {
+                cout << "As correntes extra excederam o numero de variaveis permitido (" << MAX_NODES << ")" << endl;
                 exitPolitely(EXIT_FAILURE);
             }
             lista[numVariables-1] = "jx";

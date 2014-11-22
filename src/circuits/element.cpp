@@ -15,7 +15,7 @@ Element::Element()
 Element::Element(string netlistLine, int &numElements,  int &nv, vector<string> &list)
 {
     stringstream sstream(netlistLine);
-    char na[MAX_NOME], nb[MAX_NOME], nc[MAX_NOME], nd[MAX_NOME];
+    char na[MAX_NAME], nb[MAX_NAME], nc[MAX_NAME], nd[MAX_NAME];
 
     sstream >> name;
     setType(name[0]);
@@ -77,7 +77,7 @@ int Element::number(const char *name, int &nv, vector<string> &list)
     while (!achou && i<=nv)
         if (!(achou=!list[i].compare(name))) i++;
     if (!achou) {
-        if (nv==MAX_NOS) {
+        if (nv==MAX_NODES) {
             cout << "O programa so aceita ate " << nv <<  " nos" << endl;
             #if defined (WIN32) || defined(_WIN32)
             cin.get();

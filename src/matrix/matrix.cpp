@@ -8,7 +8,7 @@
 using namespace std;
 
 
-void init(int nv, double Yn[MAX_NOS+1][MAX_NOS+2]){
+void init(int nv, double Yn[MAX_NODES+1][MAX_NODES+2]){
     for (int i=0; i<=nv; i++){
         for (int j=0; j<=nv+1; j++)
             Yn[i][j]=0;
@@ -16,7 +16,7 @@ void init(int nv, double Yn[MAX_NOS+1][MAX_NOS+2]){
 }
 
 
-void print(int nv, double Yn[MAX_NOS+1][MAX_NOS+2]){
+void print(int nv, double Yn[MAX_NODES+1][MAX_NODES+2]){
     /* Opcional: Mostra o sistema apos a montagem da estampa */
     for (int k=1; k<=nv; k++) {
         for (int j=1; j<=nv+1; j++)
@@ -31,7 +31,7 @@ void print(int nv, double Yn[MAX_NOS+1][MAX_NOS+2]){
 }
 
 
-int solve( int nv, double Yn[MAX_NOS+1][MAX_NOS+2] ){
+int solve( int nv, double Yn[MAX_NODES+1][MAX_NODES+2] ){
     int i, j, l, a;
     double t, p;
 

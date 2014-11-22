@@ -7,7 +7,7 @@ TEST(MatrixSolveTest, Dummy) {
     // Arrange
     int numVariables = 3;
     // XXX this function expects a column and a row filled with zeros!
-    double matrix[MAX_NOS+1][MAX_NOS+2] = {
+    double matrix[MAX_NODES+1][MAX_NODES+2] = {
         {0, 0, 0, 0, 0},
         {0, 1, 0, 0, 1},
         {0, 0, 1, 0, 2},
@@ -25,7 +25,7 @@ TEST(MatrixSolveTest, AlmostDummy) {
     // Arrange
     int numVariables = 3;
     // XXX this function expects a column and a row filled with zeros!
-    double matrix[MAX_NOS+1][MAX_NOS+2] = {
+    double matrix[MAX_NODES+1][MAX_NODES+2] = {
         {0, 0, 0, 0, 0},
         {0, 1, 0, 1, 1},
         {0, 0, 1, 1, 2},
@@ -46,7 +46,7 @@ TEST(MatrixSolveTest, SimpleCircuit) {
     // Needs row zero and column zero... ¯\_(ツ)_/¯
     // XXX this function expects a column and a row filled with zeros!
     // XXX result is totally different without it!
-    double matrix[MAX_NOS+1][MAX_NOS+2] = {
+    double matrix[MAX_NODES+1][MAX_NODES+2] = {
         {0, 0,  0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 2, -1, -1, 0, 0, 0, 0, 0, 0, 0},
         {0, -1, 2, 0, 0, -1, 0, 0, 0, 1, 0},
@@ -61,8 +61,8 @@ TEST(MatrixSolveTest, SimpleCircuit) {
     // Act
     solve(numVariables, matrix);
     // Assert
-    double solution[MAX_NOS+1] = {0, 0, 1, -1, -0.5, -0.5, -2.0, 1.5, 1.5, -2.5};
-    double result[MAX_NOS];
+    double solution[MAX_NODES+1] = {0, 0, 1, -1, -0.5, -0.5, -2.0, 1.5, 1.5, -2.5};
+    double result[MAX_NODES];
     for (int i=1; i<=numVariables; i++) {
         result[i] = matrix[i][numVariables+1];
         // Using EXPECT_NEAR because of floating point issues. See:

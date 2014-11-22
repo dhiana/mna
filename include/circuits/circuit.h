@@ -9,7 +9,7 @@
 
 using namespace std;
 
-void applyStamps(int numElements, int numVariables, vector<Element> netlist, double Yn[MAX_NOS+1][MAX_NOS+2]);
-void printSolution(int numVariables, int numNodes, double Yn[MAX_NOS+1][MAX_NOS+2], vector<string> lista);
+void applyStamps(int numElements, int numVariables, vector<Element> netlist, double Yn[MAX_NODES+1][MAX_NODES+2]);
+void printSolution(int numVariables, int numNodes, double Yn[MAX_NODES+1][MAX_NODES+2], vector<string> lista);
 
 #endif
