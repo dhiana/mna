@@ -58,6 +58,19 @@ Element::Element(string netlistLine, int &numElements,  int &nv, vector<string> 
     }
 }
 
+Element::Element(string name, double value, int a, int b, int c, int d, int x, int y)
+{
+    setType(name[0]);
+    this->name = name;
+    this->valor = value;
+    this->a = a;
+    this->b = b;
+    this->c = c;
+    this->d = d;
+    this->x = x;
+    this->y = y;
+}
+
 /** Rotina que conta os nos e atribui Element::numbers a eles */
 int Element::number(const char *name, int &nv, vector<string> &list)
 {
