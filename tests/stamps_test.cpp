@@ -14,11 +14,7 @@ TEST(CircuitStampsTest, SimpleResistor) {
     int numVariables = 2;
     double matrix[MAX_NOS+1][MAX_NOS+2];
     init(numVariables, matrix);
-    Element resistor;
-    resistor.name = "R1";
-    resistor.a = 1;
-    resistor.b = 2;
-    resistor.valor = 2;
+    Element resistor("R1", 2, 1, 2, 0, 0, 0, 0);
     vector<Element> netlist(2);
     netlist[1] = resistor;
     // Act
