@@ -60,7 +60,6 @@ void printIntro(){
 int main(int argc, char **argv){
     printIntro();
 
-	/* Creating a the variable "netlistFile" to use as input file to get the external data to the program */
     int numVariables=0,
         numElements=0,
         numNodes=0,
