@@ -12,6 +12,7 @@ script: scons -c && scons && ./bin/test && ./bin/mna ./data/simples.net
 branches:
   only:
     - master
+    - mnap
 notifications:
   recipients:
     - dhiana.deva@gmail.com
