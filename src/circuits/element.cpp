@@ -12,7 +12,10 @@ Element::Element()
 {
 }
 
-Element::Element(string netlistLine, int &numElements,  int &numVariables, vector<string> &list)
+Element::Element(string netlistLine,
+                 int &numElements,
+                 int &numVariables,
+                 vector<string> &list)
 {
     stringstream sstream(netlistLine);
     char na[MAX_NAME], nb[MAX_NAME], nc[MAX_NAME], nd[MAX_NAME];
@@ -56,7 +59,14 @@ Element::Element(string netlistLine, int &numElements,  int &numVariables, vecto
     }
 }
 
-Element::Element(string name, double value, int a, int b, int c, int d, int x, int y)
+Element::Element(string name,
+                 double value,
+                 int a,
+                 int b,
+                 int c,
+                 int d,
+                 int x,
+                 int y)
 {
     setType(name[0]);
     setName(name);
@@ -70,7 +80,9 @@ Element::Element(string name, double value, int a, int b, int c, int d, int x, i
 }
 
 /** Rotina que conta os nos e atribui Element::numbers a eles */
-int Element::number(const char *name, int &numVariables, vector<string> &list)
+int Element::number(const char *name,
+                    int &numVariables,
+                    vector<string> &list)
 {
     int i=0, achou=0;
 

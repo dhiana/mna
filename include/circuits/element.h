@@ -10,10 +10,25 @@ class Element
 {
 public:
     Element();
-    Element(string netlistLine, int &numElements, int &numVariables, vector<string> &list);
-    Element(string name, double value, int a, int b, int c = 0, int d = 0, int x = 0, int y = 0);
 
-    static int number(const char *name, int &numVariables, vector<string> &list);
+    Element(string netlistLine,
+            int &numElements,
+            int &numVariables,
+            vector<string> &list);
+
+    Element(string name,
+            double value,
+            int a,
+            int b,
+            int c = 0,
+            int d = 0,
+            int x = 0,
+            int y = 0);
+
+
+    static int number(const char *name,
+                      int &numVariables,
+                      vector<string> &list);
 
     double value;
     int a,b,c,d,x,y;
