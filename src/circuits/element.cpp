@@ -79,6 +79,75 @@ Element::Element(string name,
     this->y = y;
 }
 
+void Element::applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
+                         const int &numVariables){
+    double g;
+    char tipo;
+    tipo=getType();
+    if (tipo=='R') {
+        g=1/value;
+        Yn[a][a]+=g;
+        Yn[b][b]+=g;
+        Yn[a][b]-=g;
+        Yn[b][a]-=g;
+    }
+    else if (tipo=='G') {
+        g=value;
+        Yn[a][c]+=g;
+        Yn[b][d]+=g;
+        Yn[a][d]-=g;
+        Yn[b][c]-=g;
+    }
+    else if (tipo=='I') {
+        g=value;
+        Yn[a][numVariables+1]-=g;
+        Yn[b][numVariables+1]+=g;
+    }
+    else if (tipo=='V') {
+        Yn[a][x]+=1;
+        Yn[b][x]-=1;
+        Yn[x][a]-=1;
+        Yn[x][b]+=1;
+        Yn[x][numVariables+1]-=value;
+    }
+    else if (tipo=='E') {
+        g=value;
+        Yn[a][x]+=1;
+        Yn[b][x]-=1;
+        Yn[x][a]-=1;
+        Yn[x][b]+=1;
+        Yn[x][c]+=g;
+        Yn[x][d]-=g;
+    }
+    else if (tipo=='F') {
+        g=value;
+        Yn[a][x]+=g;
+        Yn[b][x]-=g;
+        Yn[c][x]+=1;
+        Yn[d][x]-=1;
+        Yn[x][c]-=1;
+        Yn[x][d]+=1;
+    }
+    else if (tipo=='H') {
+        g=value;
+        Yn[a][y]+=1;
+        Yn[b][y]-=1;
+        Yn[c][x]+=1;
+        Yn[d][x]-=1;
+        Yn[y][a]-=1;
+        Yn[y][b]+=1;
+        Yn[x][c]-=1;
+        Yn[x][d]+=1;
+        Yn[y][x]+=g;
+    }
+    else if (tipo=='O') {
+        Yn[a][x]+=1;
+        Yn[b][x]-=1;
+        Yn[x][c]+=1;
+        Yn[x][d]-=1;
+    }
+}
+
 /** Rotina que conta os nos e atribui Element::numbers a eles */
 int Element::number(const char *name,
                     int &numVariables,

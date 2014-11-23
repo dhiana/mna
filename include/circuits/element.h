@@ -1,6 +1,7 @@
 #ifndef ELEMENT_H
 #define ELEMENT_H
 
+#include "consts.h"
 #include <string>
 #include <vector>
 
@@ -25,6 +26,8 @@ public:
             int x = 0,
             int y = 0);
 
+    void applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
+                    const int &numVariables);
 
     static int number(const char *name,
                       int &numVariables,
