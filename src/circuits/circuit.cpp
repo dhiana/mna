@@ -73,9 +73,9 @@ int readElementsFromNetlist(int &numElements,
     return 0;
 }
 
-void printVariables(const int &numVariables, const vector<string> &lista){
+void printVariables(const int &numVariables, const vector<string> &variablesList){
     for (int i=0; i<=numVariables; i++)
-        cout << i << " -> " << lista[i] << endl;
+        cout << i << " -> " << variablesList[i] << endl;
     cout << endl;
 }
 
@@ -108,14 +108,14 @@ void applyStamps(int numElements,
 
 void printSolution(int numVariables,
                    double Yn[MAX_NODES+1][MAX_NODES+2],
-                   vector<string> lista){
+                   vector<string> variablesList){
     for (int i=1; i<=numVariables; i++) {
-        cout << lista[i] << ":\t" << Yn[i][numVariables+1] << endl;
+        cout << variablesList[i] << ":\t" << Yn[i][numVariables+1] << endl;
     }
 }
 
 /* Function to write the Solution into an Output File */
-bool WriteSolutionToFile(string filename, int numVariables, double Yn[MAX_NODES + 1][MAX_NODES + 2], vector<string> lista){
+bool WriteSolutionToFile(string filename, int numVariables, double Yn[MAX_NODES + 1][MAX_NODES + 2], vector<string> variablesList){
     // Opening the File for Writing
     ofstream file(filename.c_str(), ofstream::out);
 
@@ -125,7 +125,7 @@ bool WriteSolutionToFile(string filename, int numVariables, double Yn[MAX_NODES 
             file << "t ";
         // The Nodal Tensions and Currents
         else
-            file << lista[i] << " ";
+            file << variablesList[i] << " ";
     }
 
     file << endl;

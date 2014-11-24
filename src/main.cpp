@@ -23,13 +23,13 @@ int main(int argc, char **argv){
         numNodes=0,
         rc=0;
     ifstream netlistFile;
-    vector<string> lista(MAX_NODES+1);
+    vector<string> variablesList(MAX_NODES+1);
     vector<Element> netlist(MAX_ELEMS);
     double Yn[MAX_NODES+1][MAX_NODES+2];
 
     // XXX Magic! Really important!
     // If it goes after readElements everything mixes up!
-    lista[0] = "0";
+    variablesList[0] = "0";
 
 
     rc = readNetlistFile(argc, argv, netlistFile);
@@ -58,7 +58,7 @@ int main(int argc, char **argv){
 
     #ifdef DEBUG
     cout << "Internal variables:" << endl;
-    printVariables(numVariables, lista);
+    printVariables(numVariables, variablesList);
 
     cout << "Summary:" << endl;
     printSummary(numNodes, numVariables, numElements);
@@ -78,14 +78,14 @@ int main(int argc, char **argv){
     print(numVariables, Yn);
 
     cout << "Solution:" << endl;
-    printSolution(numVariables, Yn, lista);
+    printSolution(numVariables, Yn, variablesList);
     #endif
 
 
     /* Save solution to File */
     string OutputFile;
     OutputFile = "output.tab";
-    WriteSolutionToFile(OutputFile, numVariables, Yn, lista);
+    WriteSolutionToFile(OutputFile, numVariables, Yn, variablesList);
 
 
     exitPolitely(EXIT_SUCCESS);
