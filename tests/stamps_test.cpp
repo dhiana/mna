@@ -34,6 +34,39 @@ TEST(ElementStampsTest, Resistor) {
 }
 
 
+TEST(ElementStampsTest, VCCS) {
+    /*
+     * Voltage Controlled Current Source
+     * (a.k.a. Transconductance)
+     */
+
+    // Arrange
+                               // (val)(a)(b)(c)(d)
+    Element transconductance("G1", 0.5, 1, 2, 3, 4);
+    int numVariables = 4;
+
+    double matrix[MAX_NODES+1][MAX_NODES+2];
+    init(numVariables, matrix);
+
+    // Act
+    transconductance.applyStamp(matrix, numVariables);
+
+    // Assert
+    double expected[MAX_NODES+1][MAX_NODES+2] = {
+        {0, 0 , 0 ,    0 ,    0 , 0},
+        {0, 0 , 0 ,  0.5 , -0.5 , 0},
+        {0, 0 , 0 , -0.5 ,  0.5 , 0},
+        {0, 0 , 0 ,    0 ,    0 , 0},
+        {0, 0 , 0 ,    0 ,    0 , 0}
+    };
+    for (int i=1; i<=numVariables; i++) {
+        for (int j=1; j<=numVariables+1; j++) {
+            EXPECT_EQ(expected[i][j], matrix[i][j]);
+        }
+    }
+}
+
+
 TEST(CircuitStampsTest, SimpleCircuit) {
     // Arrange
     int numNodes = 6;
