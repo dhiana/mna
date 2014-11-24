@@ -23,7 +23,7 @@ int main(int argc, char **argv){
         numNodes=0,
         rc=0;
     ifstream netlistFile;
-    vector<string> lista(MAX_NAME+2); /*Tem que caber jx antes do nome */
+    vector<string> lista(MAX_NODES+1);
     vector<Element> netlist(MAX_ELEMS);
     double Yn[MAX_NODES+1][MAX_NODES+2];
 
