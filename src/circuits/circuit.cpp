@@ -80,7 +80,6 @@ void applyStamps(int numElements,
                  int numVariables,
                  vector<Element> netlist,
                  double Yn[MAX_NODES+1][MAX_NODES+2]){
-    char tipo;
     Element element;
     for (int i=1; i<=numElements; i++) {
         element = netlist[i];
