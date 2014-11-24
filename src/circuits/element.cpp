@@ -56,14 +56,14 @@ void Element::addCurrentVariables(int &numVariables, vector<string> &variablesLi
             exit(EXIT_FAILURE);
         }
         x=numVariables;
-        variablesList[numVariables] = "j" + getName();
+        variablesList[numVariables] = "j" + name;
     }
     else if (type=='H') {
         numVariables=numVariables+2;
         x=numVariables-1;
         y=numVariables;
-        variablesList[numVariables-1] = "jx" + getName();
-        variablesList[numVariables] = "jy" + getName();
+        variablesList[numVariables-1] = "jx" + name;
+        variablesList[numVariables] = "jy" + name;
     }
 }
 
