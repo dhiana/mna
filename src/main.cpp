@@ -85,7 +85,7 @@ int main(int argc, char **argv){
     /* Save solution to File */
     string OutputFile;
     OutputFile = "output.tab";
-    WriteSolutionToFile(OutputFile, numVariables, numNodes, Yn, lista);
+    WriteSolutionToFile(OutputFile, numVariables, Yn, lista);
 
 
     exitPolitely(EXIT_SUCCESS);

@@ -116,7 +116,7 @@ void printSolution(int numVariables,
 }
 
 /* Function to write the Solution into an Output File */
-bool WriteSolutionToFile(string filename, int numVariables, int numNodes, double Yn[MAX_NODES + 1][MAX_NODES + 2], vector<string> lista){
+bool WriteSolutionToFile(string filename, int numVariables, double Yn[MAX_NODES + 1][MAX_NODES + 2], vector<string> lista){
     // Opening the File for Writing
     ofstream file(filename.c_str(), ofstream::out);
 
