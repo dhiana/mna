@@ -9,12 +9,13 @@
 
 using namespace std;
 
-int addCurrentVariablesToNetlist(int &numElements,
-                                 int &numVariables,
-                                 int &numNodes,
-                                 vector<string> &variablesList,
-                                 vector<Element> &netlist);
-int readElementsFromNetlist(int &numElements, int &numVariables, ifstream &netlistFile, vector<string> &variablesList, vector<Element> &netlist);
+int readElementsFromNetlist(int &numElements,
+                            int &numNodes,
+                            int &numVariables,
+                            ifstream &netlistFile,
+                            vector<string> &variablesList,
+                            vector<Element> &netlist);
+
 void applyStamps(int numElements, int numVariables, vector<Element> netlist, double Yn[MAX_NODES+1][MAX_NODES+2]);
 void printSolution(int numVariables, double Yn[MAX_NODES+1][MAX_NODES+2], vector<string> variablesList);
 void printSummary(int numNodes, int numVariables, int numElements);

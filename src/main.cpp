@@ -36,22 +36,13 @@ int main(int argc, char **argv){
     if (rc) // if not return code 0 (success) 
         exitPolitely(EXIT_FAILURE);
 
-
     cout << "Reading netlist:" << endl;
     rc = readElementsFromNetlist(numElements,
-                                numVariables,
-                                netlistFile,
-                                lista,
-                                netlist);
-    if (rc) // if not return code 0 (success) 
-        exitPolitely(EXIT_FAILURE);
-
-
-    rc = addCurrentVariablesToNetlist(numElements,
-                                     numVariables,
-                                     numNodes,
-                                     lista,
-                                     netlist);
+                                 numNodes,
+                                 numVariables,
+                                 netlistFile,
+                                 variablesList,
+                                 netlist);
     if (rc) // if not return code 0 (success) 
         exitPolitely(EXIT_FAILURE);
 

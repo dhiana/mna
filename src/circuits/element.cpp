@@ -3,6 +3,7 @@
 #include "matrix/matrix.h"
 #include <sstream>
 #include <cstdlib>
+#include <set>
 
 //TODO: not to use cout inside Element class
 #include <iostream>
@@ -13,49 +14,56 @@ Element::Element()
 }
 
 Element::Element(string netlistLine,
-                 int &numElements,
-                 int &numVariables,
+                 int &numNodes,
                  vector<string> &variablesList)
 {
     stringstream sstream(netlistLine);
     char na[MAX_NAME], nb[MAX_NAME], nc[MAX_NAME], nd[MAX_NAME];
 
     sstream >> name;
-    setType(name[0]);
+    type = name[0];
     sstream.str( string(netlistLine, name.size(), string::npos) );
     if (type=='R' || type=='I' || type=='V') {
         sstream >> na >> nb >> value;
         cout << name << " " << na << " " << nb << " " << value << endl;
-        a = number(na, numVariables, variablesList);
-        b = number(nb, numVariables, variablesList);
+        a = getNodeNumber(na, numNodes, variablesList);
+        b = getNodeNumber(nb, numNodes, variablesList);
     }
     else if (type=='G' || type=='E' || type=='F' || type=='H') {
         sstream >> na >> nb >> nc >> nd >> value;
         cout << name << " " << na << " " << nb << " " << nc << " "
              << nd << " "<< value << endl;
-        a = number(na, numVariables, variablesList);
-        b = number(nb, numVariables, variablesList);
-        c = number(nc, numVariables, variablesList);
-        d = number(nd, numVariables, variablesList);
+        a = getNodeNumber(na, numNodes, variablesList);
+        b = getNodeNumber(nb, numNodes, variablesList);
+        c = getNodeNumber(nc, numNodes, variablesList);
+        d = getNodeNumber(nd, numNodes, variablesList);
     }
     else if (type=='O') {
         sstream >> na >> nb >> nc >> nd;
         cout << name << " " << na << " " << nb << " " << nc << " " << nd << " " << endl;
-        a = number(na, numVariables, variablesList);
-        b = number(nb, numVariables, variablesList);
-        c = number(nc, numVariables, variablesList);
-        d = number(nd, numVariables, variablesList);
+        a = getNodeNumber(na, numNodes, variablesList);
+        b = getNodeNumber(nb, numNodes, variablesList);
+        c = getNodeNumber(nc, numNodes, variablesList);
+        d = getNodeNumber(nd, numNodes, variablesList);
     }
-    else if (type=='*') { /* Comentario comeca com "*" */
-        cout << "Comentario: " << netlistLine;
-        numElements--;
+}
+
+void Element::addCurrentVariables(int &numVariables, vector<string> &variablesList){
+    if (type=='V' || type=='E' || type=='F' || type=='O') {
+        numVariables++;
+        if (numVariables>MAX_NODES) {
+            cout << "As correntes extra excederam o numero de variaveis permitido (" << MAX_NODES << ")" << endl;
+            exit(EXIT_FAILURE);
+        }
+        x=numVariables;
+        variablesList[numVariables] = "j" + getName();
     }
-    else {
-        cout << "Elemento desconhecido: " << netlistLine << endl;
-        #if defined (WIN32) || defined(_WIN32)
-        cin.get();
-        #endif
-        exit(EXIT_FAILURE);
+    else if (type=='H') {
+        numVariables=numVariables+2;
+        x=numVariables-1;
+        y=numVariables;
+        variablesList[numVariables-1] = "jx" + getName();
+        variablesList[numVariables] = "jy" + getName();
     }
 }
 
@@ -146,30 +154,48 @@ void Element::applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
     }
 }
 
-/** Rotina que conta os nos e atribui Element::numbers a eles */
-int Element::number(const char *name,
-                    int &numVariables,
-                    vector<string> &list)
+
+int Element::getNodeNumber(const char *name,
+                           int &numNodes,
+                           vector<string> &variablesList)
 {
     int i=0, achou=0;
 
-    while (!achou && i<=numVariables)
-        if (!(achou=!list[i].compare(name))) i++;
+    while (!achou && i<=numNodes)
+        if (!(achou=!variablesList[i].compare(name))) i++;
+
     if (!achou) {
-        if (numVariables==MAX_NODES) {
-            cout << "O programa so aceita ate " << numVariables <<  " nos" << endl;
+        if (numNodes==MAX_NODES) {
+            cout << "Maximum number of nodes reached: " << MAX_NODES << endl;
             #if defined (WIN32) || defined(_WIN32)
             cin.get();
             #endif
             exit(EXIT_FAILURE);
         }
-        numVariables++;
-        list[numVariables] = name;
-        return numVariables; /* novo no */
+        numNodes++;
+        variablesList[numNodes] = name;
+        return numNodes; /* new node */
     }
     else {
-        return i; /* no ja conhecido */
+        return i; /* known node */
     }
+}
+
+bool Element::isValidElement(const char &netlistLinePrefix){
+    // Initializing set with tmpElementPrefixes
+    char tmpElementPrefixes[] = {
+        'R', 'I', 'V', 'G', 'E', 'F', 'H', 'O'
+    };
+    set<char> elementPrefixes(
+        tmpElementPrefixes,
+        tmpElementPrefixes + 
+            sizeof(tmpElementPrefixes) / 
+            sizeof(tmpElementPrefixes[0])
+    );
+
+    // Returns whether or not line prefix corresponds to valid Element
+    // verifying if netlistLinePrefix is in elementPrefixes
+    return elementPrefixes.find(netlistLinePrefix) != elementPrefixes.end();
 }
 
 char Element::getType() const

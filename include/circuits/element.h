@@ -13,9 +13,8 @@ public:
     Element();
 
     Element(string netlistLine,
-            int &numElements,
-            int &numVariables,
-            vector<string> &list);
+            int &numNodes,
+            vector<string> &variablesList);
 
     Element(string name,
             double value,
@@ -29,12 +28,12 @@ public:
     void applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
                     const int &numVariables);
 
-    static int number(const char *name,
-                      int &numVariables,
-                      vector<string> &list);
+    static int getNodeNumber(const char *name,
+                             int &numNodes,
+                             vector<string> &variablesList);
 
-    double value;
-    int a,b,c,d,x,y;
+    void addCurrentVariables(int &numVariables,
+                             vector<string> &variablesList);
 
     char getType() const;
     void setType(char value);
@@ -42,10 +41,13 @@ public:
     string getName() const;
     void setName(const string &value);
 
+    static bool isValidElement(const char &netlistLinePrefix);
+
 private:
     char type;
     string name;
-
+    double value;
+    int a,b,c,d,x,y;
 };
 
 #endif // ELEMENT_H
