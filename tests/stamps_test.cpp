@@ -67,6 +67,36 @@ TEST(ElementStampsTest, VCCS) {
 }
 
 
+TEST(ElementStampsTest, CurrentSource) {
+    /*
+     * Current Source
+     */
+
+    // Arrange
+                               // (val)(a)(b)(c)(d)
+    Element currentSource("I1", 2, 1, 2);
+    int numVariables = 2;
+
+    double matrix[MAX_NODES+1][MAX_NODES+2];
+    init(numVariables, matrix);
+
+    // Act
+    currentSource.applyStamp(matrix, numVariables);
+
+    // Assert
+    double expected[MAX_NODES+1][MAX_NODES+2] = {
+        {0, 0 , 0 ,  0},
+        {0, 0 , 0 , -2},
+        {0, 0 , 0 ,  2}
+    };
+    for (int i=1; i<=numVariables; i++) {
+        for (int j=1; j<=numVariables+1; j++) {
+            EXPECT_EQ(expected[i][j], matrix[i][j]);
+        }
+    }
+}
+
+
 TEST(CircuitStampsTest, SimpleCircuit) {
     // Arrange
     int numNodes = 6;
