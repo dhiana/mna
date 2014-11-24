@@ -10,6 +10,7 @@ using namespace std;
 
 TEST(ElementStampsTest, Resistor) {
     // Arrange
+                     // (val)(a)(b)
     Element resistor("R1", 4, 1, 2);
     int numVariables = 2;
 
@@ -41,16 +42,16 @@ TEST(CircuitStampsTest, SimpleCircuit) {
     vector<Element> netlist(10);
     double matrix[MAX_NODES+1][MAX_NODES+2];
     init(numVariables, matrix);
-    // From netlist data/simples.net 
+    // From netlist data/simples.net
     // Changes order (not netlist parameters order)! Value first!
-    //                  ( name, val, a, b, ... )
+                     // ( name, val, a, b, ... )
     netlist[1] = Element("R0102", 1, 1, 2);
     netlist[2] = Element("R0301", 1, 3, 1);
     netlist[3] = Element("R0403", 1, 4, 3);
     netlist[4] = Element("R0004", 1, 0, 4);
     netlist[5] = Element("R0502", 1, 5, 2);
     netlist[6] = Element("R0605", 1, 6, 5);
-    netlist[7] = Element("O0300", 0, 3, 0, 1, 0); // OpAmps have value = 0!!!
+    netlist[7] = Element("O0300", 0, 3, 0, 1, 0); // OpAmps have no value!!!
     netlist[8] = Element("O0600", 0, 6, 0, 5, 4);
     netlist[9] = Element("V0200", 1, 2, 0);
     // Bad smell about the need of this member function...
@@ -60,8 +61,10 @@ TEST(CircuitStampsTest, SimpleCircuit) {
     netlist[7].addCurrentVariables(pivotNumVariables, dummyVariablesList);
     netlist[8].addCurrentVariables(pivotNumVariables, dummyVariablesList);
     netlist[9].addCurrentVariables(pivotNumVariables, dummyVariablesList);
+
     // Act
     applyStamps(numElements, numVariables, netlist, matrix);
+
     // Assert
     double expected[MAX_NODES+1][MAX_NODES+2] = {
         {  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 },
