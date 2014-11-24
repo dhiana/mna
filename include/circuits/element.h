@@ -35,19 +35,19 @@ public:
     void addCurrentVariables(int &numVariables,
                              vector<string> &variablesList);
 
-    char getType() const;
-    void setType(char value);
-
     string getName() const;
-    void setName(const string &value);
 
     static bool isValidElement(const char &netlistLinePrefix);
 
 private:
+
     char type;
     string name;
     double value;
     int a,b,c,d,x,y;
+
+    char getType() const;
+
 };
 
 #endif // ELEMENT_H

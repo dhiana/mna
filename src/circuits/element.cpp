@@ -21,7 +21,7 @@ Element::Element(string netlistLine,
     char na[MAX_NAME], nb[MAX_NAME], nc[MAX_NAME], nd[MAX_NAME];
 
     sstream >> name;
-    type = name[0];
+    type = getType();
     sstream.str( string(netlistLine, name.size(), string::npos) );
     if (type=='R' || type=='I' || type=='V') {
         sstream >> na >> nb >> value;
@@ -84,7 +84,7 @@ Element::Element(string name,
     x(x),
     y(y)
 {
-    type = name[0];
+    type = getType();
 }
 
 void Element::applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
@@ -198,25 +198,12 @@ bool Element::isValidElement(const char &netlistLinePrefix){
     return elementPrefixes.find(netlistLinePrefix) != elementPrefixes.end();
 }
 
-char Element::getType() const
-{
-    return type;
-}
-
-void Element::setType(char value)
-{
-    //TODO: comparar com tipos permitidos
-    type = toupper(value);
-}
-
 string Element::getName() const
 {
     return name;
 }
 
-void Element::setName(const string &value)
+char Element::getType() const
 {
-    name = value;
+    return name[0];
 }
-
-
