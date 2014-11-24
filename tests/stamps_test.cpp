@@ -93,6 +93,37 @@ TEST(ElementStampsTest, CurrentSource) {
 }
 
 
+TEST(ElementStampsTest, VoltageSource) {
+    // Arrange
+                           // (val)(a)(b)
+    Element voltageSource("V1", 10, 1, 2);
+    int numVariables = 2;
+
+    double matrix[MAX_NODES+1][MAX_NODES+2];
+    init(numVariables, matrix);
+    // Bad smell about the need of this member function...
+    // Without it, only first part of matrix would be populated!
+    vector<string> dummyVariablesList(10);
+    voltageSource.addCurrentVariables(numVariables, dummyVariablesList);
+
+    // Act
+    voltageSource.applyStamp(matrix, numVariables);
+
+    // Assert
+    double expected[MAX_NODES+1][MAX_NODES+2] = {
+        { 0,  0 , 0 ,  0 ,   0 },
+        { 0,  0 , 0 ,  1 ,   0 },
+        { 0,  0 , 0 , -1 ,   0 },
+        { 0, -1 , 1 ,  0 , -10 }
+    };
+    for (int i=1; i<=numVariables; i++) {
+        for (int j=1; j<=numVariables+1; j++) {
+            EXPECT_EQ(expected[i][j], matrix[i][j]);
+        }
+    }
+}
+
+
 TEST(CircuitStampsTest, SimpleCircuit) {
     // Arrange
     int numNodes = 6;
