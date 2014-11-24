@@ -107,7 +107,6 @@ void applyStamps(int numElements,
 }
 
 void printSolution(int numVariables,
-                   int numNodes,
                    double Yn[MAX_NODES+1][MAX_NODES+2],
                    vector<string> lista){
     for (int i=1; i<=numVariables; i++) {

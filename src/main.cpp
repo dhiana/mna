@@ -78,7 +78,7 @@ int main(int argc, char **argv){
     print(numVariables, Yn);
 
     cout << "Solution:" << endl;
-    printSolution(numVariables, numNodes, Yn, lista);
+    printSolution(numVariables, Yn, lista);
     #endif
 
 
