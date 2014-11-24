@@ -74,17 +74,17 @@ Element::Element(string name,
                  int c,
                  int d,
                  int x,
-                 int y)
+                 int y):
+    name(name),
+    value(value),
+    a(a),
+    b(b),
+    c(c),
+    d(d),
+    x(x),
+    y(y)
 {
-    setType(name[0]);
-    setName(name);
-    this->value = value;
-    this->a = a;
-    this->b = b;
-    this->c = c;
-    this->d = d;
-    this->x = x;
-    this->y = y;
+    type = name[0];
 }
 
 void Element::applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
