@@ -15,7 +15,7 @@ Element::Element()
 Element::Element(string netlistLine,
                  int &numElements,
                  int &numVariables,
-                 vector<string> &list)
+                 vector<string> &variablesList)
 {
     stringstream sstream(netlistLine);
     char na[MAX_NAME], nb[MAX_NAME], nc[MAX_NAME], nd[MAX_NAME];
@@ -26,25 +26,25 @@ Element::Element(string netlistLine,
     if (type=='R' || type=='I' || type=='V') {
         sstream >> na >> nb >> value;
         cout << name << " " << na << " " << nb << " " << value << endl;
-        a = number(na, numVariables, list);
-        b = number(nb, numVariables, list);
+        a = number(na, numVariables, variablesList);
+        b = number(nb, numVariables, variablesList);
     }
     else if (type=='G' || type=='E' || type=='F' || type=='H') {
         sstream >> na >> nb >> nc >> nd >> value;
         cout << name << " " << na << " " << nb << " " << nc << " "
              << nd << " "<< value << endl;
-        a = number(na, numVariables, list);
-        b = number(nb, numVariables, list);
-        c = number(nc, numVariables, list);
-        d = number(nd, numVariables, list);
+        a = number(na, numVariables, variablesList);
+        b = number(nb, numVariables, variablesList);
+        c = number(nc, numVariables, variablesList);
+        d = number(nd, numVariables, variablesList);
     }
     else if (type=='O') {
         sstream >> na >> nb >> nc >> nd;
         cout << name << " " << na << " " << nb << " " << nc << " " << nd << " " << endl;
-        a = number(na, numVariables, list);
-        b = number(nb, numVariables, list);
-        c = number(nc, numVariables, list);
-        d = number(nd, numVariables, list);
+        a = number(na, numVariables, variablesList);
+        b = number(nb, numVariables, variablesList);
+        c = number(nc, numVariables, variablesList);
+        d = number(nd, numVariables, variablesList);
     }
     else if (type=='*') { /* Comentario comeca com "*" */
         cout << "Comentario: " << netlistLine;
@@ -82,35 +82,33 @@ Element::Element(string name,
 void Element::applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
                          const int &numVariables){
     double g;
-    char tipo;
-    tipo=getType();
-    if (tipo=='R') {
+    if (type=='R') {
         g=1/value;
         Yn[a][a]+=g;
         Yn[b][b]+=g;
         Yn[a][b]-=g;
         Yn[b][a]-=g;
     }
-    else if (tipo=='G') {
+    else if (type=='G') {
         g=value;
         Yn[a][c]+=g;
         Yn[b][d]+=g;
         Yn[a][d]-=g;
         Yn[b][c]-=g;
     }
-    else if (tipo=='I') {
+    else if (type=='I') {
         g=value;
         Yn[a][numVariables+1]-=g;
         Yn[b][numVariables+1]+=g;
     }
-    else if (tipo=='V') {
+    else if (type=='V') {
         Yn[a][x]+=1;
         Yn[b][x]-=1;
         Yn[x][a]-=1;
         Yn[x][b]+=1;
         Yn[x][numVariables+1]-=value;
     }
-    else if (tipo=='E') {
+    else if (type=='E') {
         g=value;
         Yn[a][x]+=1;
         Yn[b][x]-=1;
@@ -119,7 +117,7 @@ void Element::applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
         Yn[x][c]+=g;
         Yn[x][d]-=g;
     }
-    else if (tipo=='F') {
+    else if (type=='F') {
         g=value;
         Yn[a][x]+=g;
         Yn[b][x]-=g;
@@ -128,7 +126,7 @@ void Element::applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
         Yn[x][c]-=1;
         Yn[x][d]+=1;
     }
-    else if (tipo=='H') {
+    else if (type=='H') {
         g=value;
         Yn[a][y]+=1;
         Yn[b][y]-=1;
@@ -140,7 +138,7 @@ void Element::applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
         Yn[x][d]+=1;
         Yn[y][x]+=g;
     }
-    else if (tipo=='O') {
+    else if (type=='O') {
         Yn[a][x]+=1;
         Yn[b][x]-=1;
         Yn[x][c]+=1;
