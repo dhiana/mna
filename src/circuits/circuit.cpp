@@ -116,37 +116,37 @@ void printSolution(int numVariables,
 }
 
 /* Function to write the Solution into an Output File */
-bool WriteSolutionToFile(string filename, int numVariables, int numNodes, double Yn[MAX_NODES+1][MAX_NODES+2], vector<string> lista){
+bool WriteSolutionToFile(string filename, int numVariables, int numNodes, double Yn[MAX_NODES + 1][MAX_NODES + 2], vector<string> lista){
     // Opening the File for Writing
     ofstream file(filename.c_str(), ofstream::out);
 
     /* Writing the Header */
-    for (int i = 0; i<=numVariables; i++){
+    for (int i = 0; i <= numVariables; i++){
         if (i == 0)
             file << "t ";
-        // The Nodal Tensions
-        else if (i <= numNodes)
+        // The Nodal Tensions and Currents
+        else
             file << lista[i] << " ";
-        // The currents
-        else if (i > numNodes){
-            file << lista[i] << " ";
-        }
     }
+
     file << endl;
     /* End of Header */
 
     /* Start of Values Writing */
-    for (int i = 0; i<=numVariables; i++){
+    for (int i = 0; i <= numVariables; i++){
         if (i == 0)
             file << "0 ";
         else if (i>0)
-            file << Yn[i][numVariables+1] << " ";
+            file << Yn[i][numVariables + 1] << " ";
     }
     file << std::endl;
-
     /* Finish of Values Writing */
 
-    //Closing The File
-    file.close();
+    // Printing the message about the file saved
+    cout << endl;
+    cout << "The output file was saved as " << filename << endl;
+
+        //Closing The File
+        file.close();
     return true;
 }
