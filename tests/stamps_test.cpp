@@ -10,8 +10,8 @@ using namespace std;
 
 TEST(ElementStampsTest, Resistor) {
     // Arrange
-                     // (val)(a)(b)
-    Element resistor("R1", 4, 1, 2);
+                      // (val)(a)(b)
+    Element resistor("R1", 10, 1, 2);
     int numVariables = 2;
 
     double matrix[MAX_NODES+1][MAX_NODES+2];
@@ -23,8 +23,8 @@ TEST(ElementStampsTest, Resistor) {
     // Assert
     double expected[MAX_NODES+1][MAX_NODES+2] = {
         {0,    0,    0, 0},
-        {0,  0.25, -0.25, 0},
-        {0, -0.25,  0.25, 0}
+        {0,  0.1, -0.1, 0},
+        {0, -0.1,  0.1, 0}
     };
     for (int i=1; i<=numVariables; i++) {
         for (int j=1; j<=numVariables+1; j++) {
@@ -41,8 +41,8 @@ TEST(ElementStampsTest, VCCS) {
      */
 
     // Arrange
-                               // (val)(a)(b)(c)(d)
-    Element transconductance("G1", 0.5, 1, 2, 3, 4);
+                              // (val)(a)(b)(c)(d)
+    Element transconductance("G1", 10, 1, 2, 3, 4);
     int numVariables = 4;
 
     double matrix[MAX_NODES+1][MAX_NODES+2];
@@ -53,11 +53,11 @@ TEST(ElementStampsTest, VCCS) {
 
     // Assert
     double expected[MAX_NODES+1][MAX_NODES+2] = {
-        {0, 0 , 0 ,    0 ,    0 , 0},
-        {0, 0 , 0 ,  0.5 , -0.5 , 0},
-        {0, 0 , 0 , -0.5 ,  0.5 , 0},
-        {0, 0 , 0 ,    0 ,    0 , 0},
-        {0, 0 , 0 ,    0 ,    0 , 0}
+        {0, 0 , 0 ,   0 ,   0 , 0},
+        {0, 0 , 0 ,  10 , -10 , 0},
+        {0, 0 , 0 , -10 ,  10 , 0},
+        {0, 0 , 0 ,   0 ,   0 , 0},
+        {0, 0 , 0 ,   0 ,   0 , 0}
     };
     for (int i=1; i<=numVariables; i++) {
         for (int j=1; j<=numVariables+1; j++) {
@@ -68,13 +68,9 @@ TEST(ElementStampsTest, VCCS) {
 
 
 TEST(ElementStampsTest, CurrentSource) {
-    /*
-     * Current Source
-     */
-
     // Arrange
-                               // (val)(a)(b)(c)(d)
-    Element currentSource("I1", 2, 1, 2);
+                           // (val)(a)(b)
+    Element currentSource("I1", 10, 1, 2);
     int numVariables = 2;
 
     double matrix[MAX_NODES+1][MAX_NODES+2];
@@ -86,8 +82,8 @@ TEST(ElementStampsTest, CurrentSource) {
     // Assert
     double expected[MAX_NODES+1][MAX_NODES+2] = {
         {0, 0 , 0 ,  0},
-        {0, 0 , 0 , -2},
-        {0, 0 , 0 ,  2}
+        {0, 0 , 0 , -10},
+        {0, 0 , 0 ,  10}
     };
     for (int i=1; i<=numVariables; i++) {
         for (int j=1; j<=numVariables+1; j++) {
