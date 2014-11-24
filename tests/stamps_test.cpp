@@ -124,6 +124,44 @@ TEST(ElementStampsTest, VoltageSource) {
 }
 
 
+TEST(ElementStampsTest, VCVS) {
+    /*
+     * Voltage Controlled Voltage Source
+     * (a.k.a. Voltage Amplifier)
+     */
+    // Arrange
+                              // (val)(a)(b)(c)(d)
+    Element voltageAmplifier("E1", 10, 1, 2, 3, 4);
+    int numVariables = 4;
+
+    double matrix[MAX_NODES+1][MAX_NODES+2];
+    init(numVariables, matrix);
+    // Bad smell about the need of this member function...
+    // Without it, only first part of matrix would be populated!
+    vector<string> dummyVariablesList(10);
+    voltageAmplifier.addCurrentVariables(numVariables, dummyVariablesList);
+
+    // Act
+    voltageAmplifier.applyStamp(matrix, numVariables);
+
+    // Assert
+    double expected[MAX_NODES+1][MAX_NODES+2] = {
+       // 0    1    2   3     4   jx   i
+        { 0 ,  0 ,  0 , 0 ,   0 ,  0 , 0 },
+        { 0 ,  0 ,  0 , 0 ,   0 ,  1 , 0 },
+        { 0 ,  0 ,  0 , 0 ,   0 , -1 , 0 },
+        { 0 ,  0 ,  0 , 0 ,   0 ,  0 , 0 },
+        { 0 ,  0 ,  0 , 0 ,   0 ,  0 , 0 },
+        { 0 , -1 , +1, 10 , -10 ,  0 , 0 }
+    };
+    for (int i=1; i<=numVariables; i++) {
+        for (int j=1; j<=numVariables+1; j++) {
+            EXPECT_EQ(expected[i][j], matrix[i][j]);
+        }
+    }
+}
+
+
 TEST(CircuitStampsTest, SimpleCircuit) {
     // Arrange
     int numNodes = 6;
