@@ -8,17 +8,17 @@
 using namespace std;
 
 
-TEST(CircuitStampsTest, SimpleResistor) {
+TEST(ElementStampsTest, Resistor) {
     // Arrange
-    int numElements = 1;
+    Element resistor("R1", 4, 1, 2);
     int numVariables = 2;
+
     double matrix[MAX_NODES+1][MAX_NODES+2];
     init(numVariables, matrix);
-    Element resistor("R1", 4, 1, 2);
-    vector<Element> netlist(2);
-    netlist[1] = resistor;
+
     // Act
-    applyStamps(numElements, numVariables, netlist, matrix);
+    resistor.applyStamp(matrix, numVariables);
+
     // Assert
     double expected[MAX_NODES+1][MAX_NODES+2] = {
         {0,    0,    0, 0},
