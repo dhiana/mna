@@ -209,6 +209,48 @@ TEST(ElementStampsTest, CCCS) {
 }
 
 
+TEST(ElementStampsTest, CCVS) {
+    /*
+     * Current Controlled Voltage Source
+     * (a.k.a. Transresistance)
+     */
+    // Arrange
+                             // (val)(a)(b)(c)(d)
+    Element transresistance("H1", 10, 1, 2, 3, 4);
+    int numVariables = 4;
+
+    double matrix[MAX_NODES+1][MAX_NODES+2];
+    // Bad smell about the need of this member function...
+    // Without it, only first part of matrix would be populated!
+    vector<string> dummyVariablesList(10);
+    transresistance.addCurrentVariables(numVariables, dummyVariablesList);
+
+    // Important!!! Should be initialized after updating numVariables
+    // with extra current variables!
+    init(numVariables, matrix);
+
+    // Act
+    transresistance.applyStamp(matrix, numVariables);
+
+    // Assert
+    double expected[MAX_NODES+1][MAX_NODES+2] = {
+       // 0    1    2    3    4   jx   jy   i
+        { 0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 , 0 },
+        { 0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  1 , 0 },
+        { 0 ,  0 ,  0 ,  0 ,  0 ,  0 , -1 , 0 },
+        { 0 ,  0 ,  0 ,  0 ,  0 ,  1 ,  0 , 0 },
+        { 0 ,  0 ,  0 ,  0 ,  0 , -1 ,  0 , 0 },
+        { 0 ,  0 ,  0 , -1 ,  1 ,  0 ,  0 , 0 },
+        { 0 , -1 ,  1 ,  0 ,  0 , 10 ,  0 , 0 },
+    };
+    for (int i=1; i<=numVariables; i++) {
+        for (int j=1; j<=numVariables+1; j++) {
+            EXPECT_EQ(expected[i][j], matrix[i][j]);
+        }
+    }
+}
+
+
 TEST(CircuitStampsTest, SimpleCircuit) {
     // Arrange
     int numNodes = 6;
