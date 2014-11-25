@@ -100,11 +100,14 @@ TEST(ElementStampsTest, VoltageSource) {
     int numVariables = 2;
 
     double matrix[MAX_NODES+1][MAX_NODES+2];
-    init(numVariables, matrix);
     // Bad smell about the need of this member function...
     // Without it, only first part of matrix would be populated!
     vector<string> dummyVariablesList(10);
     voltageSource.addCurrentVariables(numVariables, dummyVariablesList);
+
+    // Important!!! Should be initialized after updating numVariables
+    // with extra current variables!
+    init(numVariables, matrix);
 
     // Act
     voltageSource.applyStamp(matrix, numVariables);
@@ -135,11 +138,14 @@ TEST(ElementStampsTest, VCVS) {
     int numVariables = 4;
 
     double matrix[MAX_NODES+1][MAX_NODES+2];
-    init(numVariables, matrix);
     // Bad smell about the need of this member function...
     // Without it, only first part of matrix would be populated!
     vector<string> dummyVariablesList(10);
     voltageAmplifier.addCurrentVariables(numVariables, dummyVariablesList);
+
+    // Important!!! Should be initialized after updating numVariables
+    // with extra current variables!
+    init(numVariables, matrix);
 
     // Act
     voltageAmplifier.applyStamp(matrix, numVariables);
@@ -169,7 +175,6 @@ TEST(CircuitStampsTest, SimpleCircuit) {
     int numVariables = 9;
     vector<Element> netlist(10);
     double matrix[MAX_NODES+1][MAX_NODES+2];
-    init(numVariables, matrix);
     // From netlist data/simples.net
     // Changes order (not netlist parameters order)! Value first!
                      // ( name, val, a, b, ... )
@@ -189,6 +194,10 @@ TEST(CircuitStampsTest, SimpleCircuit) {
     netlist[7].addCurrentVariables(pivotNumVariables, dummyVariablesList);
     netlist[8].addCurrentVariables(pivotNumVariables, dummyVariablesList);
     netlist[9].addCurrentVariables(pivotNumVariables, dummyVariablesList);
+
+    // Important!!! Should be initialized after updating numVariables
+    // with extra current variables!
+    init(numVariables, matrix);
 
     // Act
     applyStamps(numElements, numVariables, netlist, matrix);
