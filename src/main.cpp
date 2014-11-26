@@ -18,65 +18,48 @@ using namespace std;
 int main(int argc, char **argv){
     printIntro();
 
-    int numVariables=0,
-        numElements=0,
-        numNodes=0,
-        rc=0;
+    int rc=0;
     ifstream netlistFile;
-    vector<string> variablesList(MAX_NODES+1);
-    vector<Element> netlist(MAX_ELEMS);
     double Yn[MAX_NODES+1][MAX_NODES+2];
-
-    // XXX Magic! Really important!
-    // If it goes after readElements everything mixes up!
-    variablesList[0] = "0";
+    Circuit circuit;
 
 
-    rc = readNetlistFile(argc, argv, netlistFile);
-    if (rc) // if not return code 0 (success) 
-        exitPolitely(EXIT_FAILURE);
+    readNetlistFile(argc, argv, netlistFile);
 
     cout << "Reading netlist:" << endl;
-    rc = readElementsFromNetlist(numElements,
-                                 numNodes,
-                                 numVariables,
-                                 netlistFile,
-                                 variablesList,
-                                 netlist);
-    if (rc) // if not return code 0 (success) 
-        exitPolitely(EXIT_FAILURE);
+    circuit = Circuit(netlistFile);
 
 
     #ifdef DEBUG
     cout << "Internal variables:" << endl;
-    printVariables(numVariables, variablesList);
+    circuit.printVariables();
 
     cout << "Summary:" << endl;
-    printSummary(numNodes, numVariables, numElements);
+    circuit.printSummary();
     #endif
 
 
     // Operations on the modified matrix...
-    init(numVariables, Yn);
-    applyStamps(numElements, numVariables, netlist, Yn);
-    rc = solve(numVariables, Yn);
-    if (rc) // if not return code 0 (success) 
+    init(circuit.getNumVariables(), Yn);
+    circuit.applyStamps(Yn);
+    rc = solve(circuit.getNumVariables(), Yn);
+    if (rc) // if not return code 0 (success)
         exitPolitely(EXIT_FAILURE);
 
 
     #ifdef DEBUG
     cout << "Final system:" << endl;
-    print(numVariables, Yn);
+    print(circuit.getNumVariables(), Yn);
 
     cout << "Solution:" << endl;
-    printSolution(numVariables, Yn, variablesList);
+    circuit.printSolution(Yn);
     #endif
 
 
     /* Save solution to File */
     string OutputFile;
     OutputFile = "output.tab";
-    WriteSolutionToFile(OutputFile, numVariables, Yn, variablesList);
+    circuit.WriteSolutionToFile(OutputFile, Yn);
 
 
     exitPolitely(EXIT_SUCCESS);

@@ -298,8 +298,8 @@ TEST(CircuitStampsTest, SimpleCircuit) {
     int numNodes = 6;
     int numElements = 9;
     int numVariables = 9;
-    vector<Element> netlist(10);
     double matrix[MAX_NODES+1][MAX_NODES+2];
+    vector<Element> netlist(MAX_ELEMS);
     // From netlist data/simples.net
     // Changes order (not netlist parameters order)! Value first!
                      // ( name, val, a, b, ... )
@@ -320,12 +320,16 @@ TEST(CircuitStampsTest, SimpleCircuit) {
     netlist[8].addCurrentVariables(pivotNumVariables, dummyVariablesList);
     netlist[9].addCurrentVariables(pivotNumVariables, dummyVariablesList);
 
-    // Important!!! Should be initialized after updating numVariables
-    // with extra current variables!
-    init(numVariables, matrix);
+    Circuit circuit(
+        numElements,
+        numNodes,
+        numVariables,
+        netlist
+    );
+    init(circuit.getNumVariables(), matrix);
 
     // Act
-    applyStamps(numElements, numVariables, netlist, matrix);
+    circuit.applyStamps(matrix);
 
     // Assert
     double expected[MAX_NODES+1][MAX_NODES+2] = {
@@ -340,8 +344,8 @@ TEST(CircuitStampsTest, SimpleCircuit) {
         {  0 ,  0 ,  0 ,  0 , -1 ,  1 ,  0 ,  0 ,  0 ,  0 ,  0 },
         {  0 ,  0 , -1 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 , -1 },
     };
-    for (int i=1; i<=numVariables; i++) {
-        for (int j=1; j<=numVariables+1; j++) {
+    for (int i=1; i<=circuit.getNumVariables(); i++) {
+        for (int j=1; j<=circuit.getNumVariables()+1; j++) {
             EXPECT_EQ(expected[i][j], matrix[i][j]);
         }
     }
