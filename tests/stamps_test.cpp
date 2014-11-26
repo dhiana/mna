@@ -31,6 +31,7 @@ TEST(ElementStampsTest, Resistor) {
             EXPECT_EQ(expected[i][j], matrix[i][j]);
         }
     }
+    print(numVariables, matrix);
 }
 
 
@@ -64,6 +65,7 @@ TEST(ElementStampsTest, VCCS) {
             EXPECT_EQ(expected[i][j], matrix[i][j]);
         }
     }
+    print(numVariables, matrix);
 }
 
 
@@ -90,6 +92,7 @@ TEST(ElementStampsTest, CurrentSource) {
             EXPECT_EQ(expected[i][j], matrix[i][j]);
         }
     }
+    print(numVariables, matrix);
 }
 
 
@@ -124,6 +127,7 @@ TEST(ElementStampsTest, VoltageSource) {
             EXPECT_EQ(expected[i][j], matrix[i][j]);
         }
     }
+    print(numVariables, matrix);
 }
 
 
@@ -165,6 +169,7 @@ TEST(ElementStampsTest, VCVS) {
             EXPECT_EQ(expected[i][j], matrix[i][j]);
         }
     }
+    print(numVariables, matrix);
 }
 
 
@@ -206,6 +211,7 @@ TEST(ElementStampsTest, CCCS) {
             EXPECT_EQ(expected[i][j], matrix[i][j]);
         }
     }
+    print(numVariables, matrix);
 }
 
 
@@ -248,6 +254,7 @@ TEST(ElementStampsTest, CCVS) {
             EXPECT_EQ(expected[i][j], matrix[i][j]);
         }
     }
+    print(numVariables, matrix);
 }
 
 
@@ -290,6 +297,7 @@ TEST(ElementStampsTest, OpAmp) {
             EXPECT_EQ(expected[i][j], matrix[i][j]);
         }
     }
+    print(numVariables, matrix);
 }
 
 
@@ -349,4 +357,5 @@ TEST(CircuitStampsTest, SimpleCircuit) {
             EXPECT_EQ(expected[i][j], matrix[i][j]);
         }
     }
+    print(numVariables, matrix);
 }
