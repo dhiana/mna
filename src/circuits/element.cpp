@@ -4,6 +4,7 @@
 #include <sstream>
 #include <cstdlib>
 #include <set>
+#include <math.h>
 
 //TODO: not to use cout inside Element class
 #include <iostream>
@@ -85,17 +86,57 @@ Element::Element(string name,
     y(y)
 {
     type = getType();
+    nonLinear = false;
 }
 
+
+Element::Element(string name,
+                 vector<double> &params,
+                 int a,
+                 int b,
+                 int c,
+                 int d):
+    name(name),
+    params(params),
+    a(a),
+    b(b),
+    c(c),
+    d(d)
+{
+    type = getType();
+    nonLinear = true;
+}
+
+
 void Element::applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
-                         const int &numVariables){
+                         const int &numVariables,
+                         double previousSolution[MAX_NODES+1])
+{
     double g;
     if (type=='R') {
-        g=1/value;
-        Yn[a][a]+=g;
-        Yn[b][b]+=g;
-        Yn[a][b]-=g;
-        Yn[b][a]-=g;
+        if (!nonLinear){
+            g=1/value;
+            Yn[a][a]+=g;
+            Yn[b][b]+=g;
+            Yn[a][b]-=g;
+            Yn[b][a]-=g;
+        } else {
+            // TODO: Optimize!
+            double G0=0;
+            double I0=0;
+            double Xn = previousSolution[a] - previousSolution[b];
+            for (int i = 0; i < MAX_PARAMS; i++){
+                G0 += params[i]*i*pow(Xn, i-1);
+                I0 += params[i]*pow(Xn, i);
+            }
+            I0 -= G0*(Xn);
+            Yn[a][a]+=G0;
+            Yn[b][b]+=G0;
+            Yn[a][b]-=G0;
+            Yn[b][a]-=G0;
+            Yn[a][numVariables+1]-=I0;
+            Yn[b][numVariables+1]+=I0;
+        }
     }
     else if (type=='G') {
         g=value;
@@ -206,4 +247,9 @@ string Element::getName() const
 char Element::getType() const
 {
     return name[0];
+}
+
+bool Element::isNonLinear() const
+{
+    return nonLinear;
 }

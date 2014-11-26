@@ -35,6 +35,44 @@ TEST(ElementStampsTest, Resistor) {
 }
 
 
+TEST(ElementStampsTest, TwoDegreesPolinomialResistor) {
+    // Arrange
+    double a0 = 10;
+    double a1 = 20;
+    vector<double> params(MAX_PARAMS);
+    params[0] = a0;
+    params[1] = a1;
+                         // (params) (a)(b)
+    Element resistor("RPol2", params, 1, 2);
+    // XXX Importante! Fazer teste para a1 = 0!!!
+    // Se a1 for zero é um resistor linear (não uma fonte)!
+    int numVariables = 2;
+
+    double matrix[MAX_NODES+1][MAX_NODES+2];
+    init(numVariables, matrix);
+
+    // Act
+    // Actually, for two degrees, the last solution doesn't matter!
+                                       // (gnd)(e1) (e2)
+    double previousSolution[MAX_NODES+1] = {0, 100, 1000}; 
+    resistor.applyStamp(matrix, numVariables, previousSolution);
+
+    // Assert
+    double G0 = a1;  // G0 = a1 + 2*a2*Vn + 3*a3*Vn^2 ...
+    double I0 = a0;  // I0 = a0 - a2*Vn^2 - 2*a3*Vn^3 ... 
+    double expected[MAX_NODES+1][MAX_NODES+2] = {
+        {0,    0,    0, 0},
+        {0,  G0, -G0, -I0},
+        {0, -G0,  G0, +I0}
+    };
+    for (int i=1; i<=numVariables; i++) {
+        for (int j=1; j<=numVariables+1; j++) {
+            EXPECT_EQ(expected[i][j], matrix[i][j]);
+        }
+    }
+    print(numVariables, matrix);
+}
+
 TEST(ElementStampsTest, VCCS) {
     /*
      * Voltage Controlled Current Source
