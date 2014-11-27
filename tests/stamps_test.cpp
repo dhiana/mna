@@ -544,6 +544,78 @@ TEST(ElementStampsTest, CCVS) {
 }
 
 
+TEST(ElementStampsTest, EightParametersPolinomialTransresistance) {
+    /*
+     * Current Controlled Voltage Source
+     * (a.k.a. Transresistance)
+     */
+    // Arrange
+    vector<double> params(MAX_PARAMS);
+    // 0 -0.7 0 0.4 0 -0.2 0 0.027
+    params[0] = 0;
+    params[1] = -0.7;
+    params[2] = 0;
+    params[3] = 0.4;
+    params[4] = 0;
+    params[5] = -0.2;
+    params[6] = 0;
+    params[7] = 0.027;
+                             //  (params)(a)(b)(c)(d)
+    Element transresistance("H1", params, 1, 2, 3, 4);
+    int numVariables = 4;
+
+    double matrix[MAX_NODES+1][MAX_NODES+2];
+    // Bad smell about the need of this member function...
+    // Without it, only first part of matrix would be populated!
+    vector<string> dummyVariablesList(10);
+    transresistance.addCurrentVariables(numVariables, dummyVariablesList);
+
+    // Important!!! Should be initialized after updating numVariables
+    // with extra current variables!
+    init(numVariables, matrix);
+
+    // Act
+                                                            // (jcd)
+    double previousSolution[MAX_NODES + 1] = { 0, 0, 0, 0, 0, 0, 2 }; // Vc-Vd = 2 
+    transresistance.applyStamp(matrix, numVariables, previousSolution);
+
+    // Assert
+    double Xn = previousSolution[6];
+    // Rm = a1 + 2*a2*Vn + 3*a3*Vn^2 ...
+    double Rm = params[1]
+              + 2 * params[2] * Xn
+              + 3 * params[3] * pow(Xn, 2)
+              + 4 * params[4] * pow(Xn, 3)
+              + 5 * params[5] * pow(Xn, 4)
+              + 6 * params[6] * pow(Xn, 5)
+              + 7 * params[7] * pow(Xn, 6);  
+    // V = a0 - a2*Vn^2 - 2*a3*Vn^3 ... 
+    double V  = params[0]
+              - params[2] * pow(Xn, 2)
+              - 2 * params[3] * pow(Xn, 3)
+              - 3 * params[4] * pow(Xn, 4)
+              - 4 * params[5] * pow(Xn, 5)
+              - 5 * params[6] * pow(Xn, 6)
+              - 6 * params[7] * pow(Xn, 7);
+    double expected[MAX_NODES+1][MAX_NODES+2] = {
+       // 0    1    2    3    4   jx   jy   i
+        { 0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 },
+        { 0 ,  0 ,  0 ,  0 ,  0 ,  1 ,  1 ,  0 },
+        { 0 ,  0 ,  0 ,  0 ,  0 , -1 , -1 ,  0 },
+        { 0 ,  0 ,  0 ,  0 ,  0 ,  1 ,  0 ,  0 },
+        { 0 ,  0 ,  0 ,  0 ,  0 , -1 ,  0 ,  0 },
+        { 0 , -1 ,  1 , -1 ,  1 ,  0 ,  0 , -V },
+        { 0 , -1 ,  1 ,  0 ,  0 , Rm ,  0 ,  0 },
+    };
+    for (int i=1; i<=numVariables; i++) {
+        for (int j=1; j<=numVariables+1; j++) {
+            EXPECT_EQ(expected[i][j], matrix[i][j]);
+        }
+    }
+    print(numVariables, matrix);
+}
+
+
 TEST(ElementStampsTest, OpAmp) {
     /*
      * Operational Amplifier

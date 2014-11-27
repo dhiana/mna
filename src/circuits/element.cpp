@@ -145,7 +145,6 @@ void Element::applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
                          const int &numVariables,
                          double previousSolution[MAX_NODES+1])
 {
-    double g;
     if (type=='R') {
         double G;
         if (!polynomial){
@@ -236,7 +235,21 @@ void Element::applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
         Yn[x][d]+=1;
     }
     else if (type=='H') {
-        g=value;
+        // CCVS: Transresistance
+        double Rm;
+        if (!polynomial){
+            Rm=value;
+        } else {
+            double Jcd = previousSolution[y];
+            calcNewtonRaphsonParameters(Jcd);
+            Yn[a][x]+=1;
+            Yn[b][x]-=1;
+            Yn[x][a]-=1;
+            Yn[x][b]+=1;
+            Rm=dFx;
+            double V0 = FxMinusdFxTimesXn;
+            Yn[x][numVariables+1]-=V0;
+        }
         Yn[a][y]+=1;
         Yn[b][y]-=1;
         Yn[c][x]+=1;
@@ -245,7 +258,7 @@ void Element::applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
         Yn[y][b]+=1;
         Yn[x][c]-=1;
         Yn[x][d]+=1;
-        Yn[y][x]+=g;
+        Yn[y][x]+=Rm;
     }
     else if (type=='O') {
         Yn[a][x]+=1;
