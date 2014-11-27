@@ -16,7 +16,8 @@ Element::Element()
 
 Element::Element(string netlistLine,
                  int &numNodes,
-                 vector<string> &variablesList)
+                 vector<string> &variablesList):
+    nonLinear(false)
 {
     stringstream sstream(netlistLine);
     char na[MAX_NAME], nb[MAX_NAME], nc[MAX_NAME], nd[MAX_NAME];
