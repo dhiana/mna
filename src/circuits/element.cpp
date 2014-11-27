@@ -216,9 +216,20 @@ void Element::applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
         Yn[x][d]-=A;
     }
     else if (type=='F') {
-        g=value;
-        Yn[a][x]+=g;
-        Yn[b][x]-=g;
+        // Current Amplifier
+        double B;
+        if (!polynomial){
+            B=value;
+        } else {
+            double Jcd = previousSolution[x];
+            calcNewtonRaphsonParameters(Jcd);
+            B=dFx;
+            double I0 = FxMinusdFxTimesXn;
+            Yn[a][numVariables+1]-=I0;
+            Yn[b][numVariables+1]+=I0;
+        }
+        Yn[a][x]+=B;
+        Yn[b][x]-=B;
         Yn[c][x]+=1;
         Yn[d][x]-=1;
         Yn[x][c]-=1;

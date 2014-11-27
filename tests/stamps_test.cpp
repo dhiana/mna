@@ -342,7 +342,6 @@ TEST(ElementStampsTest, EightParametersPolinomialVoltageAmplifier) {
     int numVariables = 4;
 
     double matrix[MAX_NODES + 1][MAX_NODES + 2];
-
     // Bad smell about the need of this member function...
     // Without it, only first part of matrix would be populated!
     vector<string> dummyVariablesList(10);
@@ -428,6 +427,73 @@ TEST(ElementStampsTest, CCCS) {
     };
     for (int i=1; i<=numVariables; i++) {
         for (int j=1; j<=numVariables+1; j++) {
+            EXPECT_EQ(expected[i][j], matrix[i][j]);
+        }
+    }
+    print(numVariables, matrix);
+}
+
+
+TEST(ElementStampsTest, EightParametersPolinomialCurrentAmplifier) {
+    // Arrange
+    vector<double> params(MAX_PARAMS);
+    // 0 -0.7 0 0.4 0 -0.2 0 0.027
+    params[0] = 0;
+    params[1] = -0.7;
+    params[2] = 0;
+    params[3] = 0.4;
+    params[4] = 0;
+    params[5] = -0.2;
+    params[6] = 0;
+    params[7] = 0.027;
+                         // (params)         (a)(b)(c)(d)
+    Element currentAmplifier("FPol8", params, 1, 2, 3, 4);
+    int numVariables = 4;
+
+    double matrix[MAX_NODES + 1][MAX_NODES + 2];
+    // Bad smell about the need of this member function...
+    // Without it, only first part of matrix would be populated!
+    vector<string> dummyVariablesList(10);
+    currentAmplifier.addCurrentVariables(numVariables, dummyVariablesList);
+
+    // Important!!! Should be initialized after updating numVariables
+    // with extra current variables!
+    init(numVariables, matrix);
+
+    // Act
+                                         // (gnd)           (jcd)
+    double previousSolution[MAX_NODES + 1] = { 0, 0, 0, 0, 0, 2 }; // Vc-Vd = 2 
+    currentAmplifier.applyStamp(matrix, numVariables, previousSolution);
+
+    // Assert
+    double Vn = previousSolution[5];
+    // B0 = a1 + 2*a2*Vn + 3*a3*Vn^2 ...
+    double B = params[1]
+              + 2 * params[2] * Vn
+              + 3 * params[3] * pow(Vn, 2)
+              + 4 * params[4] * pow(Vn, 3)
+              + 5 * params[5] * pow(Vn, 4)
+              + 6 * params[6] * pow(Vn, 5)
+              + 7 * params[7] * pow(Vn, 6);  
+    // I0 = a0 - a2*Vn^2 - 2*a3*Vn^3 ... 
+    double I  = params[0]
+              - params[2] * pow(Vn, 2)
+              - 2 * params[3] * pow(Vn, 3)
+              - 3 * params[4] * pow(Vn, 4)
+              - 4 * params[5] * pow(Vn, 5)
+              - 5 * params[6] * pow(Vn, 6)
+              - 6 * params[7] * pow(Vn, 7);
+    double expected[MAX_NODES + 1][MAX_NODES + 2] = {
+       // 0    1    2   3    4   jx   i
+        { 0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 },
+        { 0 ,  0 ,  0 ,  0 ,  0 ,  B , -I },
+        { 0 ,  0 ,  0 ,  0 ,  0 , -B ,  I },
+        { 0 ,  0 ,  0 ,  0 ,  0 ,  1 ,  0 },
+        { 0 ,  0 ,  0 ,  0 ,  0 , -1 ,  0 },
+        { 0 ,  0 ,  0 , -1 ,  1 ,  0 ,  0 }
+    };
+    for (int i = 1; i <= numVariables; i++) {
+        for (int j = 1; j <= numVariables + 1; j++) {
             EXPECT_EQ(expected[i][j], matrix[i][j]);
         }
     }
