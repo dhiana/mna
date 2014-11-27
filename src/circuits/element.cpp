@@ -186,11 +186,12 @@ void Element::applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
         Yn[b][numVariables+1]+=I;
     }
     else if (type=='V') {
+        double V=value;
         Yn[a][x]+=1;
         Yn[b][x]-=1;
         Yn[x][a]-=1;
         Yn[x][b]+=1;
-        Yn[x][numVariables+1]-=value;
+        Yn[x][numVariables+1]-=V;
     }
     else if (type=='E') {
         // Voltage Amplifier

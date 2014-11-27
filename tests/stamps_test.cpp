@@ -38,12 +38,10 @@ TEST(ElementStampsTest, Resistor) {
 
 TEST(ElementStampsTest, TwoParametersPolinomialResistor) {
     // Arrange
-    double a0 = 10;
-    double a1 = 20;
     vector<double> params(MAX_PARAMS);
-    params[0] = a0;
-    params[1] = a1;
-                         // (params) (a)(b)
+    params[0] = 10;
+    params[1] = 20;
+                          // (params)(a)(b)
     Element resistor("RPol2", params, 1, 2);
     int numVariables = 2;
 
@@ -52,13 +50,13 @@ TEST(ElementStampsTest, TwoParametersPolinomialResistor) {
 
     // Act
     // Actually, for two parameters, the last solution doesn't matter!
-                                       // (gnd)(e1) (e2)
-    double previousSolution[MAX_NODES+1] = {0, 100, 1000}; 
+                                       // (gnd)(e1)(e2)
+    double previousSolution[MAX_NODES+1] = {0, 100,100}; 
     resistor.applyStamp(matrix, numVariables, previousSolution);
 
     // Assert
-    double G0 = a1;  // G0 = a1 + 2*a2*Vn + 3*a3*Vn^2 ...
-    double I0 = a0;  // I0 = a0 - a2*Vn^2 - 2*a3*Vn^3 ... 
+    double G0 = params[1];  // G0 = a1 + 2*a2*Xn + 3*a3*Xn^2 ...
+    double I0 = params[0];  // I0 = a0 - a2*Xn^2 - 2*a3*Xn^3 ... 
     double expected[MAX_NODES+1][MAX_NODES+2] = {
         {0,    0,    0, 0},
         {0,  G0, -G0, -I0},
@@ -85,7 +83,7 @@ TEST(ElementStampsTest, EightParametersPolinomialResistor) {
     params[5] = -0.2;
     params[6] = 0;
     params[7] = 0.027;
-    // (params) (a)(b)
+                         // (params) (a)(b)
     Element resistor("RPol8", params, 1, 2);
     int numVariables = 2;
 
@@ -98,23 +96,23 @@ TEST(ElementStampsTest, EightParametersPolinomialResistor) {
     resistor.applyStamp(matrix, numVariables, previousSolution);
 
     // Assert
-    double Vn = previousSolution[1] - previousSolution[2];
-    // G0 = a1 + 2*a2*Vn + 3*a3*Vn^2 ...
+    double Xn = previousSolution[1] - previousSolution[2];
+    // G0 = a1 + 2*a2*Xn + 3*a3*Xn^2 ...
     double G0 = params[1]
-              + 2 * params[2] * Vn
-              + 3 * params[3] * pow(Vn, 2)
-              + 4 * params[4] * pow(Vn, 3)
-              + 5 * params[5] * pow(Vn, 4)
-              + 6 * params[6] * pow(Vn, 5)
-              + 7 * params[7] * pow(Vn, 6);  
-    // I0 = a0 - a2*Vn^2 - 2*a3*Vn^3 ... 
+              + 2 * params[2] * Xn
+              + 3 * params[3] * pow(Xn, 2)
+              + 4 * params[4] * pow(Xn, 3)
+              + 5 * params[5] * pow(Xn, 4)
+              + 6 * params[6] * pow(Xn, 5)
+              + 7 * params[7] * pow(Xn, 6);  
+    // I0 = a0 - a2*Xn^2 - 2*a3*Xn^3 ... 
     double I0 = params[0]
-              - params[2] * pow(Vn, 2)
-              - 2 * params[3] * pow(Vn, 3)
-              - 3 * params[4] * pow(Vn, 4)
-              - 4 * params[5] * pow(Vn, 5)
-              - 5 * params[6] * pow(Vn, 6)
-              - 6 * params[7] * pow(Vn, 7);
+              - params[2] * pow(Xn, 2)
+              - 2 * params[3] * pow(Xn, 3)
+              - 3 * params[4] * pow(Xn, 4)
+              - 4 * params[5] * pow(Xn, 5)
+              - 5 * params[6] * pow(Xn, 6)
+              - 6 * params[7] * pow(Xn, 7);
     double expected[MAX_NODES + 1][MAX_NODES + 2] = {
             { 0, 0, 0, 0 },
             { 0, G0, -G0, -I0 },
@@ -164,6 +162,11 @@ TEST(ElementStampsTest, VCCS) {
 
 
 TEST(ElementStampsTest, EightParametersPolinomialTranscondutance) {
+    /*
+     * Polynomial Voltage Controlled Current Source
+     * (a.k.a. Transconductance)
+     */
+
     // Arrange
     vector<double> params(MAX_PARAMS);
     // 0 -0.7 0 0.4 0 -0.2 0 0.027
@@ -188,23 +191,23 @@ TEST(ElementStampsTest, EightParametersPolinomialTranscondutance) {
     transconductance.applyStamp(matrix, numVariables, previousSolution);
 
     // Assert
-    double Vn = previousSolution[3] - previousSolution[4];
-    // G0 = a1 + 2*a2*Vn + 3*a3*Vn^2 ...
+    double Xn = previousSolution[3] - previousSolution[4];
+    // G0 = a1 + 2*a2*Xn + 3*a3*Xn^2 ...
     double G0 = params[1]
-              + 2 * params[2] * Vn
-              + 3 * params[3] * pow(Vn, 2)
-              + 4 * params[4] * pow(Vn, 3)
-              + 5 * params[5] * pow(Vn, 4)
-              + 6 * params[6] * pow(Vn, 5)
-              + 7 * params[7] * pow(Vn, 6);  
-    // I0 = a0 - a2*Vn^2 - 2*a3*Vn^3 ... 
+              + 2 * params[2] * Xn
+              + 3 * params[3] * pow(Xn, 2)
+              + 4 * params[4] * pow(Xn, 3)
+              + 5 * params[5] * pow(Xn, 4)
+              + 6 * params[6] * pow(Xn, 5)
+              + 7 * params[7] * pow(Xn, 6);  
+    // I0 = a0 - a2*Xn^2 - 2*a3*Xn^3 ... 
     double I0 = params[0]
-              - params[2] * pow(Vn, 2)
-              - 2 * params[3] * pow(Vn, 3)
-              - 3 * params[4] * pow(Vn, 4)
-              - 4 * params[5] * pow(Vn, 5)
-              - 5 * params[6] * pow(Vn, 6)
-              - 6 * params[7] * pow(Vn, 7);
+              - params[2] * pow(Xn, 2)
+              - 2 * params[3] * pow(Xn, 3)
+              - 3 * params[4] * pow(Xn, 4)
+              - 4 * params[5] * pow(Xn, 5)
+              - 5 * params[6] * pow(Xn, 6)
+              - 6 * params[7] * pow(Xn, 7);
     double expected[MAX_NODES + 1][MAX_NODES + 2] = {
             { 0, 0, 0,   0,   0,   0},
             { 0, 0, 0,  G0, -G0, -I0},
@@ -288,6 +291,7 @@ TEST(ElementStampsTest, VCVS) {
      * Voltage Controlled Voltage Source
      * (a.k.a. Voltage Amplifier)
      */
+
     // Arrange
                               // (val)(a)(b)(c)(d)
     Element voltageAmplifier("E1", 10, 1, 2, 3, 4);
@@ -326,6 +330,11 @@ TEST(ElementStampsTest, VCVS) {
 
 
 TEST(ElementStampsTest, EightParametersPolinomialVoltageAmplifier) {
+    /*
+     * Polynomial Voltage Controlled Voltage Source
+     * (a.k.a. Voltage Amplifier)
+     */
+
     // Arrange
     vector<double> params(MAX_PARAMS);
     // 0 -0.7 0 0.4 0 -0.2 0 0.027
@@ -357,23 +366,23 @@ TEST(ElementStampsTest, EightParametersPolinomialVoltageAmplifier) {
     voltageAmplifier.applyStamp(matrix, numVariables, previousSolution);
 
     // Assert
-    double Vn = previousSolution[3] - previousSolution[4];
-    // G0 = a1 + 2*a2*Vn + 3*a3*Vn^2 ...
+    double Xn = previousSolution[3] - previousSolution[4];
+    // G0 = a1 + 2*a2*Xn + 3*a3*Xn^2 ...
     double A = params[1]
-              + 2 * params[2] * Vn
-              + 3 * params[3] * pow(Vn, 2)
-              + 4 * params[4] * pow(Vn, 3)
-              + 5 * params[5] * pow(Vn, 4)
-              + 6 * params[6] * pow(Vn, 5)
-              + 7 * params[7] * pow(Vn, 6);  
-    // I0 = a0 - a2*Vn^2 - 2*a3*Vn^3 ... 
+              + 2 * params[2] * Xn
+              + 3 * params[3] * pow(Xn, 2)
+              + 4 * params[4] * pow(Xn, 3)
+              + 5 * params[5] * pow(Xn, 4)
+              + 6 * params[6] * pow(Xn, 5)
+              + 7 * params[7] * pow(Xn, 6);  
+    // I0 = a0 - a2*Xn^2 - 2*a3*Xn^3 ... 
     double V = params[0]
-              - params[2] * pow(Vn, 2)
-              - 2 * params[3] * pow(Vn, 3)
-              - 3 * params[4] * pow(Vn, 4)
-              - 4 * params[5] * pow(Vn, 5)
-              - 5 * params[6] * pow(Vn, 6)
-              - 6 * params[7] * pow(Vn, 7);
+              - params[2] * pow(Xn, 2)
+              - 2 * params[3] * pow(Xn, 3)
+              - 3 * params[4] * pow(Xn, 4)
+              - 4 * params[5] * pow(Xn, 5)
+              - 5 * params[6] * pow(Xn, 6)
+              - 6 * params[7] * pow(Xn, 7);
     double expected[MAX_NODES + 1][MAX_NODES + 2] = {
        // 0    1    2   3    4   jx   i
         { 0 ,  0 ,  0 , 0 ,  0 , 0 ,  0 },
@@ -397,6 +406,7 @@ TEST(ElementStampsTest, CCCS) {
      * Current Controlled Current Source
      * (a.k.a. Current Amplifier)
      */
+
     // Arrange
                               // (val)(a)(b)(c)(d)
     Element currentAmplifier("F1", 10, 1, 2, 3, 4);
@@ -435,6 +445,11 @@ TEST(ElementStampsTest, CCCS) {
 
 
 TEST(ElementStampsTest, EightParametersPolinomialCurrentAmplifier) {
+    /*
+     * Polynomial Current Controlled Current Source
+     * (a.k.a. Current Amplifier)
+     */
+
     // Arrange
     vector<double> params(MAX_PARAMS);
     // 0 -0.7 0 0.4 0 -0.2 0 0.027
@@ -446,7 +461,7 @@ TEST(ElementStampsTest, EightParametersPolinomialCurrentAmplifier) {
     params[5] = -0.2;
     params[6] = 0;
     params[7] = 0.027;
-                         // (params)         (a)(b)(c)(d)
+                                  // (params)(a)(b)(c)(d)
     Element currentAmplifier("FPol8", params, 1, 2, 3, 4);
     int numVariables = 4;
 
@@ -462,27 +477,27 @@ TEST(ElementStampsTest, EightParametersPolinomialCurrentAmplifier) {
 
     // Act
                                          // (gnd)           (jcd)
-    double previousSolution[MAX_NODES + 1] = { 0, 0, 0, 0, 0, 2 }; // Vc-Vd = 2 
+    double previousSolution[MAX_NODES + 1] = { 0, 0, 0, 0, 0, 2 }; // jcd = 2 
     currentAmplifier.applyStamp(matrix, numVariables, previousSolution);
 
     // Assert
-    double Vn = previousSolution[5];
-    // B0 = a1 + 2*a2*Vn + 3*a3*Vn^2 ...
+    double Xn = previousSolution[5];
+    // B0 = a1 + 2*a2*Xn + 3*a3*Xn^2 ...
     double B = params[1]
-              + 2 * params[2] * Vn
-              + 3 * params[3] * pow(Vn, 2)
-              + 4 * params[4] * pow(Vn, 3)
-              + 5 * params[5] * pow(Vn, 4)
-              + 6 * params[6] * pow(Vn, 5)
-              + 7 * params[7] * pow(Vn, 6);  
-    // I0 = a0 - a2*Vn^2 - 2*a3*Vn^3 ... 
+              + 2 * params[2] * Xn
+              + 3 * params[3] * pow(Xn, 2)
+              + 4 * params[4] * pow(Xn, 3)
+              + 5 * params[5] * pow(Xn, 4)
+              + 6 * params[6] * pow(Xn, 5)
+              + 7 * params[7] * pow(Xn, 6);  
+    // I0 = a0 - a2*Xn^2 - 2*a3*Xn^3 ... 
     double I  = params[0]
-              - params[2] * pow(Vn, 2)
-              - 2 * params[3] * pow(Vn, 3)
-              - 3 * params[4] * pow(Vn, 4)
-              - 4 * params[5] * pow(Vn, 5)
-              - 5 * params[6] * pow(Vn, 6)
-              - 6 * params[7] * pow(Vn, 7);
+              - params[2] * pow(Xn, 2)
+              - 2 * params[3] * pow(Xn, 3)
+              - 3 * params[4] * pow(Xn, 4)
+              - 4 * params[5] * pow(Xn, 5)
+              - 5 * params[6] * pow(Xn, 6)
+              - 6 * params[7] * pow(Xn, 7);
     double expected[MAX_NODES + 1][MAX_NODES + 2] = {
        // 0    1    2   3    4   jx   i
         { 0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 },
@@ -506,6 +521,7 @@ TEST(ElementStampsTest, CCVS) {
      * Current Controlled Voltage Source
      * (a.k.a. Transresistance)
      */
+
     // Arrange
                              // (val)(a)(b)(c)(d)
     Element transresistance("H1", 10, 1, 2, 3, 4);
@@ -546,9 +562,10 @@ TEST(ElementStampsTest, CCVS) {
 
 TEST(ElementStampsTest, EightParametersPolinomialTransresistance) {
     /*
-     * Current Controlled Voltage Source
+     * Polynomial Current Controlled Voltage Source
      * (a.k.a. Transresistance)
      */
+
     // Arrange
     vector<double> params(MAX_PARAMS);
     // 0 -0.7 0 0.4 0 -0.2 0 0.027
@@ -576,12 +593,12 @@ TEST(ElementStampsTest, EightParametersPolinomialTransresistance) {
 
     // Act
                                                             // (jcd)
-    double previousSolution[MAX_NODES + 1] = { 0, 0, 0, 0, 0, 0, 2 }; // Vc-Vd = 2 
+    double previousSolution[MAX_NODES + 1] = { 0, 0, 0, 0, 0, 0, 2 }; // jcd = 2 
     transresistance.applyStamp(matrix, numVariables, previousSolution);
 
     // Assert
     double Xn = previousSolution[6];
-    // Rm = a1 + 2*a2*Vn + 3*a3*Vn^2 ...
+    // Rm = a1 + 2*a2*Xn + 3*a3*Xn^2 ...
     double Rm = params[1]
               + 2 * params[2] * Xn
               + 3 * params[3] * pow(Xn, 2)
@@ -589,7 +606,7 @@ TEST(ElementStampsTest, EightParametersPolinomialTransresistance) {
               + 5 * params[5] * pow(Xn, 4)
               + 6 * params[6] * pow(Xn, 5)
               + 7 * params[7] * pow(Xn, 6);  
-    // V = a0 - a2*Vn^2 - 2*a3*Vn^3 ... 
+    // V = a0 - a2*Xn^2 - 2*a3*Xn^3 ... 
     double V  = params[0]
               - params[2] * pow(Xn, 2)
               - 2 * params[3] * pow(Xn, 3)
@@ -621,6 +638,7 @@ TEST(ElementStampsTest, OpAmp) {
      * Operational Amplifier
      * (a.k.a. Op Amp)
      */
+
     // Arrange
                     // (x)-> dont care!
                     // (x)(a)(b)(c)(d)
