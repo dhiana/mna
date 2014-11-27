@@ -66,13 +66,8 @@ Circuit::Circuit(ifstream &netlistFile):
             string name;
             ss >> name;
             if ( !name.compare(".TRAN") ){
-                string analysisType;//value not used, always equal to BE
-                //TODO: validate values
+                string analysisType; //value not used, always equal to BE
                 ss >> step >> finalTime >> analysisType >> internSteps;
-                //TODO: only debug
-                cout << name << " " << step << " " << finalTime << " " << analysisType << " " << internSteps << endl;
-                cin.get();
-                //
             }else{
                 cout << "Invalid line: " << netlistLine << endl;
                 exit(EXIT_FAILURE);
