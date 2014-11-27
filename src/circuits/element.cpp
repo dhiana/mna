@@ -143,7 +143,8 @@ void Element::calcNewtonRaphsonParameters(const double &Xn){
 
 void Element::applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
                          const int &numVariables,
-                         double previousSolution[MAX_NODES+1])
+                         double previousSolution[MAX_NODES+1],
+                         double lastStepSolution[MAX_NODES+1])
 {
     if (type=='R') {
         double G;
