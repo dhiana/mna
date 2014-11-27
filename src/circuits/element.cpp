@@ -131,10 +131,7 @@ Element::Element(string name,
 }
 
 
-void calcNewtonRaphsonParameters(const vector<double> &params,
-                                 const double &Xn,
-                                 double &dFx,
-                                 double &FxMinusdFxTimesXn){
+void Element::calcNewtonRaphsonParameters(const double &Xn){
     dFx = params[1];
     FxMinusdFxTimesXn = params[0];
     for (int i = 2; i < MAX_PARAMS; i++){
@@ -154,9 +151,11 @@ void Element::applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
         if (!polynomial){
             G=1/value;
         } else {
-            double I0;
             double Vab = previousSolution[a]-previousSolution[b];
-            calcNewtonRaphsonParameters(params, Vab, G, I0);
+            calcNewtonRaphsonParameters(Vab);
+            G = dFx;
+            double I0;
+            I0 = FxMinusdFxTimesXn;
             Yn[a][numVariables+1]-=I0;
             Yn[b][numVariables+1]+=I0;
         }
@@ -170,9 +169,11 @@ void Element::applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
         if (!polynomial){
             G=value;
         } else {
-            double I0;
             double Vcd = previousSolution[c]-previousSolution[d];
-            calcNewtonRaphsonParameters(params, Vcd, G, I0);
+            calcNewtonRaphsonParameters(Vcd);
+            G = dFx;
+            double I0;
+            I0 = FxMinusdFxTimesXn;
             Yn[a][numVariables+1]-=I0;
             Yn[b][numVariables+1]+=I0;
         }

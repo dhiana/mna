@@ -56,9 +56,12 @@ private:
     vector<double> params;
     int a,b,c,d,x,y;
     bool polynomial;
+    double dFx;
+    double FxMinusdFxTimesXn;
 
     char getType() const;
 
+    void calcNewtonRaphsonParameters(const double &Xn);
 };
 
 #endif // ELEMENT_H
