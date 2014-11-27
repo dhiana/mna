@@ -343,15 +343,16 @@ TEST(ElementStampsTest, EightParametersPolinomialVoltageAmplifier) {
 
     double matrix[MAX_NODES + 1][MAX_NODES + 2];
 
+    // Bad smell about the need of this member function...
+    // Without it, only first part of matrix would be populated!
+    vector<string> dummyVariablesList(10);
+    voltageAmplifier.addCurrentVariables(numVariables, dummyVariablesList);
+
     // Important!!! Should be initialized after updating numVariables
     // with extra current variables!
     init(numVariables, matrix);
 
     // Act
-    // Bad smell about the need of this member function...
-    // Without it, only first part of matrix would be populated!
-    vector<string> dummyVariablesList(10);
-    voltageAmplifier.addCurrentVariables(numVariables, dummyVariablesList);
                                          // (gnd)     (e3)(e4)
     double previousSolution[MAX_NODES + 1] = { 0, 0, 0, 3, 1 }; // Vc-Vd = 2 
     voltageAmplifier.applyStamp(matrix, numVariables, previousSolution);
