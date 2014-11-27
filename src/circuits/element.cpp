@@ -172,8 +172,7 @@ void Element::applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
             double Vcd = previousSolution[c]-previousSolution[d];
             calcNewtonRaphsonParameters(Vcd);
             G = dFx;
-            double I0;
-            I0 = FxMinusdFxTimesXn;
+            double I0 = FxMinusdFxTimesXn;
             Yn[a][numVariables+1]-=I0;
             Yn[b][numVariables+1]+=I0;
         }
@@ -183,9 +182,9 @@ void Element::applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
         Yn[b][c]-=G;
     }
     else if (type=='I') {
-        g=value;
-        Yn[a][numVariables+1]-=g;
-        Yn[b][numVariables+1]+=g;
+        double I=value;
+        Yn[a][numVariables+1]-=I;
+        Yn[b][numVariables+1]+=I;
     }
     else if (type=='V') {
         Yn[a][x]+=1;
@@ -205,8 +204,7 @@ void Element::applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
             double Vcd = previousSolution[c]-previousSolution[d];
             calcNewtonRaphsonParameters(Vcd);
             A = dFx;
-            double V0;
-            V0 = FxMinusdFxTimesXn;
+            double V0 = FxMinusdFxTimesXn;
             Yn[x][numVariables+1]-=V0;
             k=2;
         }
