@@ -22,41 +22,33 @@ Element::Element(string netlistLine,
     stringstream sstream(netlistLine);
     char na[MAX_NAME], nb[MAX_NAME], nc[MAX_NAME], nd[MAX_NAME];
 
-    vector<double> params(MAX_PARAMS);
+    vector<double> _params(MAX_PARAMS);
     for (int i=0; i<MAX_PARAMS; i++){
-        params[i] = 0;
+        _params[i] = 0;
     }
 
     sstream >> name;
+    cout << name << " ";
     type = getType();
     sstream.str( string(netlistLine, name.size(), string::npos) );
     if (type=='R' || type=='I' || type=='V') {
-        sstream >> na >> nb >> params[0] >>
-                               params[1] >>
-                               params[2] >>
-                               params[3] >>
-                               params[4] >>
-                               params[5] >>
-                               params[6] >>
-                               params[7];
-        for (int i = 1; i < MAX_PARAMS; i++){
-            if (params[i] != 0)
+        sstream >> na >> nb;
+        cout << na << " " << nb << " ";
+        for (int i = 0; i < MAX_PARAMS; i++){
+            sstream >> _params[i];
+            if (i>=1 && _params[i]!=0)
                 polynomial = true;
         }
         if (!polynomial){
-            value = params[0];
-            cout << name << " " << na << " " << nb << " " << value << endl;
+            value = _params[0];
+            cout << value << endl;
         }
         else {
-            cout << name << " " << na << " " << nb << " " << params[0]
-                                                   << " " << params[1]
-                                                   << " " << params[2]
-                                                   << " " << params[3]
-                                                   << " " << params[4]
-                                                   << " " << params[5]
-                                                   << " " << params[6]
-                                                   << " " << params[7]
-                                                          << endl;
+            params = _params;
+            for (int i = 0; i < MAX_PARAMS; i++){
+                cout << params[i] << " ";
+            }
+            cout << endl;
         }
         a = getNodeNumber(na, numNodes, variablesList);
         b = getNodeNumber(nb, numNodes, variablesList);
