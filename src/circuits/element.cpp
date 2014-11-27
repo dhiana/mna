@@ -166,11 +166,20 @@ void Element::applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
         Yn[b][a]-=G;
     }
     else if (type=='G') {
-        g=value;
-        Yn[a][c]+=g;
-        Yn[b][d]+=g;
-        Yn[a][d]-=g;
-        Yn[b][c]-=g;
+        double G;
+        if (!polynomial){
+            G=value;
+        } else {
+            double I0;
+            double Vcd = previousSolution[c]-previousSolution[d];
+            calcNewtonRaphsonParameters(params, Vcd, G, I0);
+            Yn[a][numVariables+1]-=I0;
+            Yn[b][numVariables+1]+=I0;
+        }
+        Yn[a][c]+=G;
+        Yn[b][d]+=G;
+        Yn[a][d]-=G;
+        Yn[b][c]-=G;
     }
     else if (type=='I') {
         g=value;

@@ -163,6 +163,64 @@ TEST(ElementStampsTest, VCCS) {
 }
 
 
+TEST(ElementStampsTest, EightParametersPolinomialTranscondutance) {
+    // Arrange
+    vector<double> params(MAX_PARAMS);
+    // 0 -0.7 0 0.4 0 -0.2 0 0.027
+    params[0] = 0;
+    params[1] = -0.7;
+    params[2] = 0;
+    params[3] = 0.4;
+    params[4] = 0;
+    params[5] = -0.2;
+    params[6] = 0;
+    params[7] = 0.027;
+                         // (params)         (a)(b)(c)(d)
+    Element transconductance("GPol8", params, 1, 2, 3, 4);
+    int numVariables = 4;
+
+    double matrix[MAX_NODES + 1][MAX_NODES + 2];
+    init(numVariables, matrix);
+
+    // Act
+                                         // (gnd)     (e3)(e4)
+    double previousSolution[MAX_NODES + 1] = { 0, 0, 0, 3, 1 }; // Vc-Vd = 2 
+    transconductance.applyStamp(matrix, numVariables, previousSolution);
+
+    // Assert
+    double Vn = previousSolution[3] - previousSolution[4];
+    // G0 = a1 + 2*a2*Vn + 3*a3*Vn^2 ...
+    double G0 = params[1]
+              + 2 * params[2] * Vn
+              + 3 * params[3] * pow(Vn, 2)
+              + 4 * params[4] * pow(Vn, 3)
+              + 5 * params[5] * pow(Vn, 4)
+              + 6 * params[6] * pow(Vn, 5)
+              + 7 * params[7] * pow(Vn, 6);  
+    // I0 = a0 - a2*Vn^2 - 2*a3*Vn^3 ... 
+    double I0 = params[0]
+              - params[2] * pow(Vn, 2)
+              - 2 * params[3] * pow(Vn, 3)
+              - 3 * params[4] * pow(Vn, 4)
+              - 4 * params[5] * pow(Vn, 5)
+              - 5 * params[6] * pow(Vn, 6)
+              - 6 * params[7] * pow(Vn, 7);
+    double expected[MAX_NODES + 1][MAX_NODES + 2] = {
+            { 0, 0, 0,   0,   0,   0},
+            { 0, 0, 0,  G0, -G0, -I0},
+            { 0, 0, 0, -G0,  G0, +I0},
+            { 0, 0, 0,   0,   0,   0},
+            { 0, 0, 0,   0,   0,   0}
+    };
+    for (int i = 1; i <= numVariables; i++) {
+        for (int j = 1; j <= numVariables + 1; j++) {
+            EXPECT_EQ(expected[i][j], matrix[i][j]);
+        }
+    }
+    print(numVariables, matrix);
+}
+
+
 TEST(ElementStampsTest, CurrentSource) {
     // Arrange
                            // (val)(a)(b)
