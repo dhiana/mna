@@ -35,7 +35,7 @@ TEST(ElementStampsTest, Resistor) {
 }
 
 
-TEST(ElementStampsTest, TwoDegreesPolinomialResistor) {
+TEST(ElementStampsTest, TwoParametersPolinomialResistor) {
     // Arrange
     double a0 = 10;
     double a1 = 20;
@@ -44,15 +44,13 @@ TEST(ElementStampsTest, TwoDegreesPolinomialResistor) {
     params[1] = a1;
                          // (params) (a)(b)
     Element resistor("RPol2", params, 1, 2);
-    // XXX Importante! Fazer teste para a1 = 0!!!
-    // Se a1 for zero é um resistor linear (não uma fonte)!
     int numVariables = 2;
 
     double matrix[MAX_NODES+1][MAX_NODES+2];
     init(numVariables, matrix);
 
     // Act
-    // Actually, for two degrees, the last solution doesn't matter!
+    // Actually, for two parameters, the last solution doesn't matter!
                                        // (gnd)(e1) (e2)
     double previousSolution[MAX_NODES+1] = {0, 100, 1000}; 
     resistor.applyStamp(matrix, numVariables, previousSolution);
@@ -72,6 +70,63 @@ TEST(ElementStampsTest, TwoDegreesPolinomialResistor) {
     }
     print(numVariables, matrix);
 }
+
+
+TEST(ElementStampsTest, EightParametersPolinomialResistor) {
+    // Arrange
+    vector<double> params(MAX_PARAMS);
+    // 0 -0.7 0 0.4 0 -0.2 0 0.027
+    params[0] = 0;
+    params[1] = -0.7;
+    params[2] = 0;
+    params[3] = 0.4;
+    params[4] = 0;
+    params[5] = -0.2;
+    params[6] = 0;
+    params[7] = 0.027;
+    // (params) (a)(b)
+    Element resistor("RPol8", params, 1, 2);
+    int numVariables = 2;
+
+    double matrix[MAX_NODES + 1][MAX_NODES + 2];
+    init(numVariables, matrix);
+
+    // Act
+                                         // (gnd)(e1)(e2)
+    double previousSolution[MAX_NODES + 1] = { 0, 3, 1 }; // Va-Vb = 2 
+    resistor.applyStamp(matrix, numVariables, previousSolution);
+
+    // Assert
+    double Vn = previousSolution[1] - previousSolution[2];
+    // G0 = a1 + 2*a2*Vn + 3*a3*Vn^2 ...
+    double G0 = params[1]
+              + 2 * params[2] * Vn
+              + 3 * params[3] * pow(Vn, 2)
+              + 4 * params[4] * pow(Vn, 3)
+              + 5 * params[5] * pow(Vn, 4)
+              + 6 * params[6] * pow(Vn, 5)
+              + 7 * params[7] * pow(Vn, 6);  
+    // I0 = a0 - a2*Vn^2 - 2*a3*Vn^3 ... 
+    double I0 = params[0]
+              - params[2] * pow(Vn, 2)
+              - 2 * params[3] * pow(Vn, 3)
+              - 3 * params[4] * pow(Vn, 4)
+              - 4 * params[5] * pow(Vn, 5)
+              - 5 * params[6] * pow(Vn, 6)
+              - 6 * params[7] * pow(Vn, 7);
+    double expected[MAX_NODES + 1][MAX_NODES + 2] = {
+            { 0, 0, 0, 0 },
+            { 0, G0, -G0, -I0 },
+            { 0, -G0, G0, +I0 }
+    };
+    for (int i = 1; i <= numVariables; i++) {
+        for (int j = 1; j <= numVariables + 1; j++) {
+            EXPECT_EQ(expected[i][j], matrix[i][j]);
+        }
+    }
+    print(numVariables, matrix);
+}
+
 
 TEST(ElementStampsTest, VCCS) {
     /*
