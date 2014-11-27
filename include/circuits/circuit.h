@@ -44,6 +44,11 @@ class Circuit {
         int numElements;
         int numNodes;
         int numVariables;
+        /* .TRAN */
+        double step;
+        double finalTime;
+        double internSteps;
+        //
         string title;
         vector<string> variablesList;
         vector<Element> netlist;
