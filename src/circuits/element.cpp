@@ -144,15 +144,13 @@ void Element::applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
             Yn[a][b]-=g;
             Yn[b][a]-=g;
         } else {
-            // TODO: Optimize!
-            double G0=0;
-            double I0=0;
+            double G0 = params[1];
+            double I0 = params[0];
             double Xn = previousSolution[a] - previousSolution[b];
-            for (int i = 0; i < MAX_PARAMS; i++){
-                G0 += params[i]*i*pow(Xn, i-1);
-                I0 += params[i]*pow(Xn, i);
+            for (int i = 2; i < MAX_PARAMS; i++){
+                G0 += params[i]*(i)*pow(Xn, i-1);
+                I0 -= params[i]*(i-1)*pow(Xn, i);
             }
-            I0 -= G0*(Xn);
             Yn[a][a]+=G0;
             Yn[b][b]+=G0;
             Yn[a][b]-=G0;
