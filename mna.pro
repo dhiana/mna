@@ -31,4 +31,6 @@ HEADERS += \
     include/circuits/element.h
 
 OTHER_FILES += \
-    data/simples.net
+    data/simples.net \
+    data/simples_tran.net \
+    data/simples_poly.net

@@ -6,6 +6,7 @@
 #include <fstream>
 #include <vector>
 #include <string>
+#include <sstream>
 #include <cstdlib>
 
 
@@ -60,13 +61,29 @@ Circuit::Circuit(ifstream &netlistFile):
             }
             netlist[numElements] = Element(netlistLine, numNodes, variablesList);
         }
+        else if (netlistLinePrefix == '.'){
+            stringstream ss(netlistLine);
+            string name;
+            ss >> name;
+            if ( !name.compare(".TRAN") ){
+                string analysisType;//value not used, always equal to BE
+                //TODO: validate values
+                ss >> step >> finalTime >> analysisType >> internSteps;
+                //TODO: only debug
+                cout << name << " " << step << " " << finalTime << " " << analysisType << " " << internSteps << endl;
+                cin.get();
+                //
+            }else{
+                cout << "Invalid line: " << netlistLine << endl;
+                exit(EXIT_FAILURE);
+            }
+        }
         else if (netlistLinePrefix != '*') {
             // Not a comment, not a valid element...
             // Invalid line!
             cout << "Invalid line: " << netlistLine << endl;
             exit(EXIT_FAILURE);
-        }
-        // Ignores comments!
+        }// Ignores comments!
     }
     netlistFile.close();
     cout << endl;
