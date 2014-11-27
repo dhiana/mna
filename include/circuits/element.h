@@ -45,7 +45,6 @@ public:
                              vector<string> &variablesList);
 
     string getName() const;
-    bool isNonLinear() const;
 
     static bool isValidElement(const char &netlistLinePrefix);
 
@@ -56,7 +55,7 @@ private:
     double value;
     vector<double> params;
     int a,b,c,d,x,y;
-    bool nonLinear;
+    bool polynomial;
 
     char getType() const;
 

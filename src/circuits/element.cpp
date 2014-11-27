@@ -17,7 +17,7 @@ Element::Element()
 Element::Element(string netlistLine,
                  int &numNodes,
                  vector<string> &variablesList):
-    nonLinear(false)
+    polynomial(false)
 {
     stringstream sstream(netlistLine);
     char na[MAX_NAME], nb[MAX_NAME], nc[MAX_NAME], nd[MAX_NAME];
@@ -84,10 +84,10 @@ Element::Element(string name,
     c(c),
     d(d),
     x(x),
-    y(y)
+    y(y),
+    polynomial(false)
 {
     type = getType();
-    nonLinear = false;
 }
 
 
@@ -102,10 +102,10 @@ Element::Element(string name,
     a(a),
     b(b),
     c(c),
-    d(d)
+    d(d),
+    polynomial(true)
 {
     type = getType();
-    nonLinear = true;
 }
 
 
@@ -115,7 +115,7 @@ void Element::applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
 {
     double g;
     if (type=='R') {
-        if (!nonLinear){
+        if (!polynomial){
             g=1/value;
             Yn[a][a]+=g;
             Yn[b][b]+=g;
@@ -248,9 +248,4 @@ string Element::getName() const
 char Element::getType() const
 {
     return name[0];
-}
-
-bool Element::isNonLinear() const
-{
-    return nonLinear;
 }
