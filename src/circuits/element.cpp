@@ -56,7 +56,7 @@ Element::Element(string netlistLine,
         a = getNodeNumber(na, numNodes, variablesList);
         b = getNodeNumber(nb, numNodes, variablesList);
     }
-    if (type == 'I' || type == 'V') {
+    else if (type == 'I' || type == 'V') {
         polynomial = true; // XXX Ugly (time is running out!)
         sstream >> na >> nb >> signalType;
         cout << na << " " << nb << " " << signalType << " ";
@@ -71,8 +71,23 @@ Element::Element(string netlistLine,
     }
     else if (type=='G' || type=='E' || type=='F' || type=='H') {
         sstream >> na >> nb >> nc >> nd >> value;
-        cout << name << " " << na << " " << nb << " " << nc << " "
-             << nd << " "<< value << endl;
+        cout << na << " " << nb << " " << nc << " " << nd << " ";
+        for (int i = 0; i < MAX_PARAMS; i++){
+            sstream >> _params[i];
+            if (i >= 1 && _params[i] != 0)
+                polynomial = true;
+        }
+        if (!polynomial){
+            value = _params[0];
+            cout << value << endl;
+        }
+        else {
+            params = _params;
+            for (int i = 0; i < MAX_PARAMS; i++){
+                cout << params[i] << " ";
+            }
+            cout << endl;
+        }
         a = getNodeNumber(na, numNodes, variablesList);
         b = getNodeNumber(nb, numNodes, variablesList);
         c = getNodeNumber(nc, numNodes, variablesList);
@@ -80,7 +95,7 @@ Element::Element(string netlistLine,
     }
     else if (type=='O') {
         sstream >> na >> nb >> nc >> nd;
-        cout << name << " " << na << " " << nb << " " << nc << " " << nd << " " << endl;
+        cout << na << " " << nb << " " << nc << " " << nd << " " << endl;
         a = getNodeNumber(na, numNodes, variablesList);
         b = getNodeNumber(nb, numNodes, variablesList);
         c = getNodeNumber(nc, numNodes, variablesList);
@@ -174,8 +189,7 @@ double Element::calcSourceValue(double t){
         double innerTime = t - delay;
         if (innerTime < delay || innerTime - delay > cycles / frequency)
             return offset + amplitude * sin(M_PI * angle / 180);
-        double tmp = offset + amplitude*exp(innerTime*attenuation)*sin(2 * M_PI*frequency*innerTime - M_PI*angle / 180);
-        return tmp;
+        return offset + amplitude*exp(innerTime*attenuation)*sin(2 * M_PI*frequency*innerTime - M_PI*angle / 180);
     }
     else if (signalType == "PULSE"){
         double amp1 = params[0];
