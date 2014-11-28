@@ -14,8 +14,8 @@ static const int MAX_LOOPS = 100;
 static const double TOLERANCE = 1e-9;
 
 
-void randomize(int numVariables, double solution[MAX_NODES+1]){
-    solution[0]; // gnd
+void randomize(int numVariables, double (&solution)[MAX_NODES+1]){
+    solution[0] = 0; // gnd
     for(int i=1; i<=numVariables; i++){
         solution[i] = (double) (rand()%10);
     }
