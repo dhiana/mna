@@ -42,7 +42,9 @@ void printSolution(int numVariables, double solution[MAX_NODES+1]){
 
 
 int runNewtonRaphson(Circuit circuit,
-                     double finalSolution[MAX_NODES+1]){
+                     double (&finalSolution)[MAX_NODES+1],
+                     double t,
+                     double (&lastSolution)[MAX_NODES+1]){
 
     int rc=0;
     int numAttempts=0;
@@ -62,7 +64,9 @@ int runNewtonRaphson(Circuit circuit,
 
             init(circuit.getNumVariables(), Yn);
             circuit.applyStamps(Yn,
-                                previousSolution);
+                                previousSolution,
+                                t,
+                                lastSolution);
 
             rc = solve(circuit.getNumVariables(), Yn);
             if (rc)

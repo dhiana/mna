@@ -8,7 +8,7 @@ before_install:
   - sudo apt-get update
   - sudo apt-get install libgtest-dev
   - "cd /usr/src/gtest && sudo cmake . && sudo cmake --build . && sudo mv libg* /usr/local/lib/ ; cd -"
-script: scons -c && scons && ./bin/test && ./bin/mna ./data/simples.net
+script: scons -c && scons && ./bin/test && ./bin/mna ./data/simples.net && ./bin/mna ./data/simple_tran.net
 branches:
   only:
     - master

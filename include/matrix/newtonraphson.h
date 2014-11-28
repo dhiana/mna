@@ -6,7 +6,9 @@
 
 
 int runNewtonRaphson(Circuit circuit,
-                     double finalSolution[MAX_NODES+1]);
+                     double (&finalSolution)[MAX_NODES+1]=ZERO_SOLUTION, // To return to main
+                     double t=0,
+                     double (&lastSolution)[MAX_NODES+1]=ZERO_SOLUTION); // for Backward Euler
 
 
 #endif

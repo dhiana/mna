@@ -51,12 +51,23 @@ int main(int argc, char **argv){
 
 
     // Bias Analysis
-    double initialSolution[MAX_NODES+1];
+    double t=0;
+    double solution[MAX_NODES+1];
+    runNewtonRaphson(circuit, solution, t);
+    circuit.appendSolutionToFile(solutionsFile, solution);
 
-    runNewtonRaphson(circuit, initialSolution);
-
-    circuit.appendSolutionToFile(solutionsFile, initialSolution);
-
+    // Transient Analysis
+    double step = circuit.getStep();
+    double finalTime = circuit.getFinalTime();
+    double lastSolution[MAX_NODES+1];
+    do {
+        copySolution(circuit.getNumVariables(),
+                     solution,
+                     lastSolution);
+        t += step;
+        runNewtonRaphson(circuit, solution, t, lastSolution);
+        circuit.appendSolutionToFile(solutionsFile, solution, t);
+    } while (t<finalTime);
 
     //Closing The File
     cout << endl << "Created: " << outputFileName << endl;
