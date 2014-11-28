@@ -3,6 +3,7 @@
 #include "circuits/circuit.h"
 #include "circuits/element.h"
 #include "matrix/matrix.h"
+#include "matrix/newtonraphson.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -24,10 +25,21 @@ int main(int argc, char **argv){
     Circuit circuit;
 
 
-    readNetlistFile(argc, argv, netlistFile);
+    // Reads netlist file
+    string netlistFileName;
+    readNetlistFile(argc, argv, netlistFileName, netlistFile);
+    // Prepares solutions file
+    string outputFileName;
+    outputFileName = netlistFileName.substr(0, netlistFileName.find(".")).append(".tab");
+    ofstream solutionsFile(outputFileName.c_str(), ofstream::out);
 
+
+    // Parses netlist file (constructs Circuit)
     cout << "Reading netlist:" << endl;
     circuit = Circuit(netlistFile);
+
+    // Write solutions file header
+    circuit.writeSolutionsHeader(solutionsFile);
 
 
     #ifdef DEBUG
@@ -39,27 +51,16 @@ int main(int argc, char **argv){
     #endif
 
 
-    // Operations on the modified matrix...
-    init(circuit.getNumVariables(), Yn);
-    circuit.applyStamps(Yn);
-    rc = solve(circuit.getNumVariables(), Yn);
-    if (rc) // if not return code 0 (success)
-        exitPolitely(EXIT_FAILURE);
+    // Bias Analysis
+    double initialSolution[MAX_NODES+1];
+    runNewtonRaphson(circuit, initialSolution);
+    
+    circuit.appendSolutionToFile(solutionsFile, initialSolution);
 
 
-    #ifdef DEBUG
-    cout << "Final system:" << endl;
-    print(circuit.getNumVariables(), Yn);
-
-    cout << "Solution:" << endl;
-    circuit.printSolution(Yn);
-    #endif
-
-
-    /* Save solution to File */
-    string OutputFile;
-    OutputFile = "output.tab";
-    circuit.WriteSolutionToFile(OutputFile, Yn);
+    //Closing The File
+    cout << endl << "Created: " << outputFileName << endl;
+    solutionsFile.close();
 
 
     exitPolitely(EXIT_SUCCESS);

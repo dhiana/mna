@@ -33,10 +33,10 @@ class Circuit {
         void printSummary();
         void printSolution(double Yn[MAX_NODES+1][MAX_NODES+2]);
 
-        bool WriteSolutionToFile(
-            string filename,
-            double Yn[MAX_NODES+1][MAX_NODES+2]
-        );
+        void writeSolutionsHeader(ofstream &file);
+        void appendSolutionToFile(ofstream &file,
+                                  double solution[MAX_NODES+1],
+                                  double t=0);
 
         int getNumElements();
         int getNumNodes();
