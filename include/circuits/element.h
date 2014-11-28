@@ -36,6 +36,7 @@ public:
     void applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
                     const int &numVariables,
                     double previousSolution[MAX_NODES+1]=ZERO_SOLUTION, // for Newton Raphson
+                    double t=0,
                     double lastStepSolution[MAX_NODES+1]=ZERO_SOLUTION); // for Backward Euler
 
     static int getNodeNumber(const char *name,
