@@ -31,7 +31,7 @@ Element::Element(string netlistLine,
     cout << name << " ";
     type = getType();
     sstream.str( string(netlistLine, name.size(), string::npos) );
-    if (type=='R' || type=='I' || type=='V') {
+    if (type=='R') {
         sstream >> na >> nb;
         cout << na << " " << nb << " ";
         for (int i = 0; i < MAX_PARAMS; i++){
@@ -50,6 +50,18 @@ Element::Element(string netlistLine,
             }
             cout << endl;
         }
+        a = getNodeNumber(na, numNodes, variablesList);
+        b = getNodeNumber(nb, numNodes, variablesList);
+    }
+    if (type == 'I' || type == 'V') {
+        sstream >> na >> nb >> signalType;
+        cout << na << " " << nb << " " << signalType << " ";
+        for (int i = 0; i < MAX_PARAMS; i++){
+            sstream >> _params[i];
+            cout << _params[i] << " ";
+        }
+        params = _params;
+        cout << endl;
         a = getNodeNumber(na, numNodes, variablesList);
         b = getNodeNumber(nb, numNodes, variablesList);
     }

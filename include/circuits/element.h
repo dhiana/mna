@@ -58,6 +58,7 @@ private:
     vector<double> params;
     int a,b,c,d,x,y;
     bool polynomial;
+    string signalType="DC";
     double dFx;
     double FxMinusdFxTimesXn;
 
