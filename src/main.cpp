@@ -41,7 +41,6 @@ int main(int argc, char **argv){
     // Write solutions file header
     circuit.writeSolutionsHeader(solutionsFile);
 
-
     #ifdef DEBUG
     cout << "Internal variables:" << endl;
     circuit.printVariables();
@@ -53,8 +52,9 @@ int main(int argc, char **argv){
 
     // Bias Analysis
     double initialSolution[MAX_NODES+1];
+
     runNewtonRaphson(circuit, initialSolution);
-    
+
     circuit.appendSolutionToFile(solutionsFile, initialSolution);
 
 
