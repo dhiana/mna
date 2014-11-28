@@ -70,7 +70,7 @@ Element::Element(string netlistLine,
         b = getNodeNumber(nb, numNodes, variablesList);
     }
     else if (type=='G' || type=='E' || type=='F' || type=='H') {
-        sstream >> na >> nb >> nc >> nd >> value;
+        sstream >> na >> nb >> nc >> nd;
         cout << na << " " << nb << " " << nc << " " << nd << " ";
         for (int i = 0; i < MAX_PARAMS; i++){
             sstream >> _params[i];
@@ -101,13 +101,12 @@ Element::Element(string netlistLine,
         c = getNodeNumber(nc, numNodes, variablesList);
         d = getNodeNumber(nd, numNodes, variablesList);
     }
-	//else if (type == 'C' || type == 'L')
-	//{
-	//	sstream >> na >> nb;
-	//	cout << na << " " << nb << " ";
-	//	a = getNodeNumber(na, numNodes, variablesList);
-	//	b = getNodeNumber(nb, numNodes, variablesList);
-	//}
+	else if (type == 'C' || type == 'L') {
+		sstream >> na >> nb >> value;
+		cout << na << " " << nb << " " << value << " ";
+		a = getNodeNumber(na, numNodes, variablesList);
+		b = getNodeNumber(nb, numNodes, variablesList);
+	}
 }
 
 void Element::addCurrentVariables(int &numVariables, vector<string> &variablesList){
@@ -126,6 +125,15 @@ void Element::addCurrentVariables(int &numVariables, vector<string> &variablesLi
         y=numVariables;
         variablesList[numVariables-1] = "jx" + name;
         variablesList[numVariables] = "jy" + name;
+    }
+    else if (type=='L'){
+        numVariables++;
+        if (numVariables>MAX_NODES) {
+            cout << "As correntes extra excederam o numero de variaveis permitido (" << MAX_NODES << ")" << endl;
+            exit(EXIT_FAILURE);
+        }
+        x = numVariables;
+        variablesList[numVariables] = "j" + name;
     }
 }
 
@@ -227,6 +235,7 @@ void Element::applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
                          const int &numVariables,
                          double (&previousSolution)[MAX_NODES+1],
                          double t,
+                         double step,
                          double (&lastStepSolution)[MAX_NODES+1])
 {
     if (type=='R') {
@@ -351,40 +360,45 @@ void Element::applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
         Yn[x][c]+=1;
         Yn[x][d]-=1;
     }
-	//else if (type == 'C') {
-	//	double G;
+	else if (type == 'C') {
+        double Vc = previousSolution[a] - previousSolution[b];
+		double G;
+        double I0 = (value / (t - step)) * Vc;
 
-	//	if (!t){
-	//		G = 1 / TOLG;
-	//	}
-	//	else {
-	//		G = value / (t - step);
-	//	}
+		if (!t){
+			G = 1 / TOLG;
+		}
+		else {
+			G = value / (t - step);
+            Yn[a][numVariables + 1] += I0;
+            Yn[b][numVariables + 1] -= I0;
+		}
+		Yn[a][a] += G;
+		Yn[b][b] += G;
+		Yn[a][b] -= G;
+		Yn[b][a] -= G;
+	}
+	else if (type == 'L') {
+        // XXX
+        double Jl = previousSolution[x];
+		double G;
+        double I0 = (value / (t - step))*Jl;
 
-	//	Yn[a][a] += G;
-	//	Yn[b][b] += G;
-	//	Yn[a][b] -= G;
-	//	Yn[b][a] -= G;
-	//}
-	//else if (type == 'L') {
-	//	double G;
-
- //       if (!t){
- //           G = TOLG;
-	//		Yn[a][a] += G;
-	//		Yn[b][b] += G;
-	//		Yn[a][b] -= G;
-	//		Yn[b][a] -= G;
- //       } else {
-	//		G = value / (t - step);
-	//		Yn[a][x] += 1;
-	//		Yn[b][x] += 1;
-	//		Yn[x][a] += 1;
-	//		Yn[x][b] += 1;
-	//		Yn[x][x] += G;
- //       }
-
-	//}
+        if (!t){
+            G = TOLG;
+			Yn[a][a] += G;
+			Yn[b][b] += G;
+			Yn[a][b] -= G;
+			Yn[b][a] -= G;
+        } else {
+			G = value / (t - step);
+			Yn[a][x] += 1;
+			Yn[b][x] -= 1;
+			Yn[x][a] -= 1;
+			Yn[x][b] += 1;
+			Yn[x][x] += G;
+        }
+    }
 }
 
 
@@ -417,7 +431,7 @@ int Element::getNodeNumber(const char *name,
 bool Element::isValidElement(const char &netlistLinePrefix){
     // Initializing set with tmpElementPrefixes
     char tmpElementPrefixes[] = {
-        'R', 'I', 'V', 'G', 'E', 'F', 'H', 'O'
+        'R', 'I', 'V', 'G', 'E', 'F', 'H', 'O', 'L', 'C'
     };
     set<char> elementPrefixes(
         tmpElementPrefixes,

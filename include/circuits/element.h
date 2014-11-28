@@ -37,6 +37,7 @@ public:
                     const int &numVariables,
                     double (&previousSolution)[MAX_NODES+1]=ZERO_SOLUTION, // for Newton Raphson
                     double t=0,
+                    double step=1e-3,
                     double (&lastStepSolution)[MAX_NODES+1]=ZERO_SOLUTION); // for Backward Euler
 
     static int getNodeNumber(const char *name,
