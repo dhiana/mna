@@ -9,9 +9,9 @@
 
 using namespace std;
 
-static const int MAX_ATTEMPTS = 2;
-static const int MAX_LOOPS = 3;
-static const int TOLERANCE = 1e-2;
+static const int MAX_ATTEMPTS = 10;
+static const int MAX_LOOPS = 100;
+static const double TOLERANCE = 1e-9;
 
 
 void randomize(int numVariables, double solution[MAX_NODES+1]){
@@ -27,8 +27,8 @@ double calcDistance(int numVariables, double x[MAX_NODES+1], double y[MAX_NODES+
     double distance=0;
     for(int i=1; i<=numVariables ;i++) {
         sum += pow((x[i]-y[i]),2);
-        distance = sqrt(sum);
     }
+    distance = sqrt(sum);
     return distance;
 }
 
@@ -57,20 +57,14 @@ int runNewtonRaphson(Circuit circuit,
         numAttempts++;
         numLoops=0;
 
-        randomize(circuit.getNumVariables(), previousSolution);
-        cout << "Previous" << endl;
-        printSolution(circuit.getNumVariables(), previousSolution);
-
         while(!converged && numLoops <= MAX_LOOPS){
             numLoops++;
+
             init(circuit.getNumVariables(), Yn);
             circuit.applyStamps(Yn,
                                 previousSolution);
-            cout << "Matrix" << endl;
-            print(circuit.getNumVariables(), Yn);
 
             rc = solve(circuit.getNumVariables(), Yn);
-            cout << "rc" << rc << endl;
             if (rc)
                 // Let's try a new randomized initial solution! 
                 break;
@@ -79,40 +73,26 @@ int runNewtonRaphson(Circuit circuit,
                         Yn,
                         solution);
 
-            cout << "Solution" << endl;
-            printSolution(circuit.getNumVariables(), solution);
-            cout << endl;
-
             distance = calcDistance(circuit.getNumVariables(),
                                     solution,
                                     previousSolution);
-            cout << "distance: " << distance << endl;
             if (distance < TOLERANCE){
                 converged = true;
                 solution[0] = 0; // Ground!
                 copySolution(circuit.getNumVariables(),
                              solution,
                              finalSolution);
-            } else { 
-                cout << "Solution before" << endl;
-                printSolution(circuit.getNumVariables(), previousSolution);
-                cout << endl;
-
+            } else {
                 copySolution(circuit.getNumVariables(),
                              solution,
                              previousSolution);
-
-                cout << "Solution after" << endl;
-                printSolution(circuit.getNumVariables(), solution);
-                cout << endl;
-
             }
         }
 
-        if (converged)
-            finalSolution = solution;
-        else
+        if (!converged){
+            cout << "Newton Raphson did not converge.";
             return (EXIT_FAILURE);
+        }
     }
     return 0;
 }

@@ -10,13 +10,12 @@
 using namespace std;
 
 
-TEST(DISABLED_NewtonRaphsonTest, SimpleCircuit) {
+TEST(NewtonRaphsonTest, SimpleCircuit) {
     // Arrange
     int numNodes = 6;
     int numElements = 9;
     int numVariables = 9;
-    double matrix[MAX_NODES+1][MAX_NODES+2];
-    vector<Element> netlist(MAX_ELEMS);
+   
     vector<double> params(MAX_PARAMS);
     // 0 -0.7 0 0.4 0 -0.2 0 0.027
     params[0] = 0;
@@ -27,6 +26,8 @@ TEST(DISABLED_NewtonRaphsonTest, SimpleCircuit) {
     params[5] = -0.2;
     params[6] = 0;
     params[7] = 0.027;
+
+    vector<Element> netlist(MAX_ELEMS);
                      // ( name,   params, a, b, ... )
     netlist[1] = Element("RPol8", params, 1, 2);
     netlist[2] = Element("R0301", 1, 3, 1);
@@ -59,10 +60,9 @@ TEST(DISABLED_NewtonRaphsonTest, SimpleCircuit) {
     // Assert
     // Result from mnae program
     double expected[MAX_NODES+1] = {
-        0, 1, 0.473, 0.2365, 0.2365, -0.527, -0.7095, 0.7635, -0.2905
+        0, 0, 1, 0.473, 0.2365, 0.2365, -0.527, -0.7095, 0.7635, -0.2905
     };
     for (int i=1; i<=circuit.getNumVariables(); i++) {
         EXPECT_NEAR(expected[i], solution[i], TOLG);
     }
-    print(numVariables, matrix);
 }
