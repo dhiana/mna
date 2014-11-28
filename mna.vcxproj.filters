@@ -33,6 +33,9 @@
     <ClCompile Include="src\circuits\element.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\matrix\newtonraphson.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\matrix\matrix.h">

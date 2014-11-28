@@ -14,7 +14,7 @@ static const int MAX_LOOPS = 3;
 static const int TOLERANCE = 1e-2;
 
 
-double randomize(int numVariables, double solution[MAX_NODES+1]){
+void randomize(int numVariables, double solution[MAX_NODES+1]){
     solution[0]; // gnd
     for(int i=1; i<=numVariables; i++){
         solution[i] = (double) (rand()%10);
@@ -33,7 +33,7 @@ double calcDistance(int numVariables, double x[MAX_NODES+1], double y[MAX_NODES+
 }
 
 
-double printSolution(int numVariables, double solution[MAX_NODES+1]){
+void printSolution(int numVariables, double solution[MAX_NODES+1]){
     for(int i=1; i<=numVariables; i++){
         cout << solution[i] << endl;
     }

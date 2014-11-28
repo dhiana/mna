@@ -76,6 +76,7 @@
     <ClCompile Include="src\circuits\element.cpp" />
     <ClCompile Include="src\matrix\matrix.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\matrix\newtonraphson.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\circuits\circuit.h" />
