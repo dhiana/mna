@@ -52,6 +52,7 @@ int main(int argc, char **argv){
     // Bias Analysis
     double t=0;
     double solution[MAX_NODES+1];
+    copySolution(circuit.getNumVariables(), ZERO_SOLUTION, solution);
     runNewtonRaphson(circuit, solution, t);
     circuit.appendSolutionToFile(solutionsFile, solution);
 
