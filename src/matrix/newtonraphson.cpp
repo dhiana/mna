@@ -59,6 +59,8 @@ int runNewtonRaphson(Circuit circuit,
         numAttempts++;
         numLoops=0;
 
+        randomize(circuit.getNumVariables(), previousSolution);
+
         while(!converged && numLoops <= MAX_LOOPS){
             numLoops++;
 
