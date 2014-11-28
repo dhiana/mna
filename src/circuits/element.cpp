@@ -1,3 +1,5 @@
+#define _USE_MATH_DEFINES
+#include <cmath>
 #include "consts.h"
 #include "circuits/element.h"
 #include "matrix/matrix.h"
@@ -5,6 +7,7 @@
 #include <cstdlib>
 #include <set>
 #include <math.h>
+
 
 //TODO: not to use cout inside Element class
 #include <iostream>
@@ -54,6 +57,7 @@ Element::Element(string netlistLine,
         b = getNodeNumber(nb, numNodes, variablesList);
     }
     if (type == 'I' || type == 'V') {
+        polynomial = true; // XXX Ugly (time is running out!)
         sstream >> na >> nb >> signalType;
         cout << na << " " << nb << " " << signalType << " ";
         for (int i = 0; i < MAX_PARAMS; i++){
@@ -119,6 +123,7 @@ Element::Element(string name,
     d(d),
     x(x),
     y(y),
+    signalType("DC"),
     polynomial(false)
 {
     type = getType();
@@ -152,6 +157,27 @@ void Element::calcNewtonRaphsonParameters(const double &Xn){
     }
 }
 
+
+double Element::calcSourceValue(double t){
+    if (signalType == "DC"){
+        if (polynomial)
+            value = params[0];
+        return value;
+    } else if (signalType == "SIN"){
+        double offset = params[0];
+        double amplitude = params[1];
+        double frequency = params[2];
+        double delay = params[3];
+        double attenuation = params[4];
+        double angle = params[5];
+        double cycles = params[6];
+        double innerTime = t - delay;
+        if (innerTime < delay || innerTime - delay > cycles / frequency)
+            return offset + amplitude * sin(M_PI * angle / 180);
+        double tmp = offset + amplitude*exp(innerTime*attenuation)*sin(2 * M_PI*frequency*innerTime - M_PI*angle / 180);
+        return tmp;
+    }
+}
 
 void Element::applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
                          const int &numVariables,
@@ -195,12 +221,12 @@ void Element::applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
         Yn[b][c]-=G;
     }
     else if (type=='I') {
-        double I=value;
+        double I=calcSourceValue(t);
         Yn[a][numVariables+1]-=I;
         Yn[b][numVariables+1]+=I;
     }
     else if (type=='V') {
-        double V=value;
+        double V=calcSourceValue(t);
         Yn[a][x]+=1;
         Yn[b][x]-=1;
         Yn[x][a]-=1;
