@@ -42,6 +42,9 @@ class Circuit {
         int getNumNodes();
         int getNumVariables();
 
+        double getStep();
+        double getFinalTime();
+
     private:
 
         int numElements;

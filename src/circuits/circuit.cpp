@@ -165,3 +165,11 @@ int Circuit::getNumVariables(){
     return numVariables;
 };
 
+double Circuit::getStep(){
+    return step;
+};
+
+double Circuit::getFinalTime(){
+    return finalTime;
+};
+
