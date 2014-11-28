@@ -101,6 +101,13 @@ Element::Element(string netlistLine,
         c = getNodeNumber(nc, numNodes, variablesList);
         d = getNodeNumber(nd, numNodes, variablesList);
     }
+	//else if (type == 'C' || type == 'L')
+	//{
+	//	sstream >> na >> nb;
+	//	cout << na << " " << nb << " ";
+	//	a = getNodeNumber(na, numNodes, variablesList);
+	//	b = getNodeNumber(nb, numNodes, variablesList);
+	//}
 }
 
 void Element::addCurrentVariables(int &numVariables, vector<string> &variablesList){
@@ -344,6 +351,40 @@ void Element::applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
         Yn[x][c]+=1;
         Yn[x][d]-=1;
     }
+	//else if (type == 'C') {
+	//	double G;
+
+	//	if (!t){
+	//		G = 1 / TOLG;
+	//	}
+	//	else {
+	//		G = value / (t - step);
+	//	}
+
+	//	Yn[a][a] += G;
+	//	Yn[b][b] += G;
+	//	Yn[a][b] -= G;
+	//	Yn[b][a] -= G;
+	//}
+	//else if (type == 'L') {
+	//	double G;
+
+ //       if (!t){
+ //           G = TOLG;
+	//		Yn[a][a] += G;
+	//		Yn[b][b] += G;
+	//		Yn[a][b] -= G;
+	//		Yn[b][a] -= G;
+ //       } else {
+	//		G = value / (t - step);
+	//		Yn[a][x] += 1;
+	//		Yn[b][x] += 1;
+	//		Yn[x][a] += 1;
+	//		Yn[x][b] += 1;
+	//		Yn[x][x] += G;
+ //       }
+
+	//}
 }
 
 
