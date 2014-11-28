@@ -177,6 +177,29 @@ double Element::calcSourceValue(double t){
         double tmp = offset + amplitude*exp(innerTime*attenuation)*sin(2 * M_PI*frequency*innerTime - M_PI*angle / 180);
         return tmp;
     }
+    else if (signalType == "PULSE"){
+        double amp1 = params[0];
+        double amp2 = params[1];
+        double delay = params[2];
+        double riseTime = params[3];
+        double fallTime = params[4];
+        double onTime = params[5];
+        double period = params[6];
+        double cycles = params[7];
+        int num_cycles = (int)floor(t/period);
+        double cycleTime = (t - cycles*period);
+        if (num_cycles > cycles)
+            return amp1;
+        if (cycleTime < delay)
+            return amp1;
+        if (cycleTime < delay + riseTime)
+            return amp1 + ((cycleTime - delay) / riseTime) * (amp2-amp1);
+        if (cycleTime < delay + riseTime + onTime)
+            return amp2;
+        if (cycleTime < delay + riseTime + onTime + fallTime)
+            return amp2 - ((cycleTime - delay - riseTime - onTime) / fallTime)*(amp1 - amp2);
+        return amp1;
+    }
 }
 
 void Element::applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
