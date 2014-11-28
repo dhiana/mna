@@ -25,9 +25,9 @@ class Circuit {
         // Will accept previousSolution in the near future...
         // And ppossibly the PoO/Time...
         void applyStamps(double Yn[MAX_NODES+1][MAX_NODES+2],
-                         double previousSolution[MAX_NODES+1]=ZERO_SOLUTION, // for Newton Raphson
+                         double (&previousSolution)[MAX_NODES+1]=ZERO_SOLUTION, // for Newton Raphson
                          double t=0,
-                         double lastStepSolution[MAX_NODES+1]=ZERO_SOLUTION); // for Backward Euler
+                         double (&lastStepSolution)[MAX_NODES+1]=ZERO_SOLUTION); // for Backward Euler
 
         void printVariables();
         void printSummary();

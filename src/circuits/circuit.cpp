@@ -113,14 +113,14 @@ void Circuit::printSummary(){
 
 
 void Circuit::applyStamps(double Yn[MAX_NODES+1][MAX_NODES+2],
-                          double previousSolution[MAX_NODES+1],
+                          double (&previousSolution)[MAX_NODES+1],
                           double t,
-                          double lastStepSolution[MAX_NODES+1]){
+                          double (&lastStepSolution)[MAX_NODES+1]){
     Element element;
     for (int i=1; i<=numElements; i++) {
         element = netlist[i];
         // Will pass previousSolution in the near future...
-        element.applyStamp(Yn, numVariables);
+        element.applyStamp(Yn, numVariables, previousSolution);
         #ifdef DEBUG
         cout << "System after stamp of " << element.getName() << endl;
         print(numVariables, Yn);
