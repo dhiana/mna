@@ -21,7 +21,6 @@ int main(int argc, char **argv){
 
     int rc=0;
     ifstream netlistFile;
-    double Yn[MAX_NODES+1][MAX_NODES+2];
     Circuit circuit;
 
 
