@@ -9,7 +9,7 @@
 
 using namespace std;
 
-static const int MAX_ATTEMPTS = 10;
+static const int MAX_ATTEMPTS = 50;
 static const int MAX_LOOPS = 100;
 static const double TOLERANCE = 1e-9;
 
