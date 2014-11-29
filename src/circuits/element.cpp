@@ -197,7 +197,6 @@ double Element::calcSourceValue(double t){
         double offset = params[0];
         double amplitude = params[1];
         double frequency = params[2];
-
         double delay = params[3];
         double attenuation = params[4];
         double angle = params[5];
@@ -217,18 +216,25 @@ double Element::calcSourceValue(double t){
         double period = params[6];
         double cycles = params[7];
         int num_cycles = (int)floor(t/period);
-        double cycleTime = (delay + riseTime + fallTime + onTime);
-        if (num_cycles > cycles)
+        double CycleTime = (delay + riseTime + onTime + fallTime); // The value of ONE cycle
+        int CountCycles = floor(t/cycles); // Which Cycle is the analysis
+        int CountPeriod = floor(t/period); // Which period is the analysis
+        double PeriodTime = (t - (period*CountPeriod)); // Contador dentro do período atual
+        //1
+        if (PeriodTime <= delay)
             return amp1;
-        if (cycleTime < delay)
-            return amp1;
-        if (cycleTime < delay + riseTime)
-            return amp1 + ((cycleTime - delay) / riseTime) * (amp2-amp1);
-        if (cycleTime < delay + riseTime + onTime)
+        //2
+        else if (delay < PeriodTime <= (delay + riseTime))
+            return amp1 + ((PeriodTime - delay) / riseTime) * (amp2 - amp1);
+        //3
+        else if ((delay + riseTime) < PeriodTime <= (delay + riseTime + onTime))
             return amp2;
-        if (cycleTime < delay + riseTime + onTime + fallTime)
-            return amp2 - ((cycleTime - delay - riseTime - onTime) / fallTime)*(amp1 - amp2);
-        return amp1;
+        //4
+        else if ((delay + riseTime + onTime) < PeriodTime <= (delay + riseTime + onTime + fallTime))
+            return amp2 - ((PeriodTime - delay - riseTime - onTime) / fallTime)*(amp1 - amp2);
+        //5
+        else if ((delay + riseTime + onTime + fallTime) < PeriodTime <= period)
+            return amp1;
     }
 }
 
