@@ -17,7 +17,7 @@ void exitPolitely(int exitCode) {
 }
 
 
-int readNetlistFile(int argc, char** argv, string &filepath, ifstream& netlistFile){
+int openNetlistFile(int argc, char** argv, string &filepath, ifstream& netlistFile){
 
     switch(argc) {
         case 1: {

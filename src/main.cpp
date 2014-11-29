@@ -26,7 +26,7 @@ int main(int argc, char **argv){
 
     // Reads netlist file
     string netlistFileName;
-    readNetlistFile(argc, argv, netlistFileName, netlistFile);
+    openNetlistFile(argc, argv, netlistFileName, netlistFile);
     // Prepares solutions file
     string outputFileName;
     outputFileName = netlistFileName.substr(0, netlistFileName.find(".")).append(".tab");
