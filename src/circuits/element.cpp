@@ -197,6 +197,7 @@ double Element::calcSourceValue(double t){
         double offset = params[0];
         double amplitude = params[1];
         double frequency = params[2];
+
         double delay = params[3];
         double attenuation = params[4];
         double angle = params[5];
@@ -216,7 +217,7 @@ double Element::calcSourceValue(double t){
         double period = params[6];
         double cycles = params[7];
         int num_cycles = (int)floor(t/period);
-        double cycleTime = (t - cycles*period);
+        double cycleTime = (delay + riseTime + fallTime + onTime);
         if (num_cycles > cycles)
             return amp1;
         if (cycleTime < delay)
