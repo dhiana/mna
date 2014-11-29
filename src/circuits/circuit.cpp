@@ -80,7 +80,6 @@ Circuit::Circuit(ifstream &netlistFile):
             exit(EXIT_FAILURE);
         }// Ignores comments!
     }
-    netlistFile.close();
     cout << endl;
     // Figured out elements and all nodes
 

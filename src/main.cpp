@@ -36,6 +36,7 @@ int main(int argc, char **argv){
     // Parses netlist file (constructs Circuit)
     cout << "Reading netlist:" << endl;
     circuit = Circuit(netlistFile);
+	netlistFile.close();
 
     // Write solutions file header
     circuit.writeSolutionsHeader(solutionsFile);
