@@ -216,24 +216,29 @@ double Element::calcSourceValue(double t){
         double period = params[6];
         double cycles = params[7];
         int num_cycles = (int)floor(t/period);
+        // Testing
         double CycleTime = (delay + riseTime + onTime + fallTime); // The value of ONE cycle
         int CountCycles = floor(t/cycles); // Which Cycle is the analysis
         int CountPeriod = floor(t/period); // Which period is the analysis
         double PeriodTime = (t - (period*CountPeriod)); // Contador dentro do período atual
+        //Testing 2
+        double time2 = (delay + riseTime);
+        double time3 = (delay + riseTime + onTime);
+        double time4 = (delay + riseTime + onTime + fallTime);
         //1
         if (PeriodTime <= delay)
             return amp1;
         //2
-        else if (delay < PeriodTime <= (delay + riseTime))
+        else if ((delay < PeriodTime) && (PeriodTime <= time2))
             return amp1 + ((PeriodTime - delay) / riseTime) * (amp2 - amp1);
         //3
-        else if ((delay + riseTime) < PeriodTime <= (delay + riseTime + onTime))
+        else if ((time2 < PeriodTime) && (PeriodTime <= time3))
             return amp2;
         //4
-        else if ((delay + riseTime + onTime) < PeriodTime <= (delay + riseTime + onTime + fallTime))
-            return amp2 - ((PeriodTime - delay - riseTime - onTime) / fallTime)*(amp1 - amp2);
+        else if ((time3 < PeriodTime) && (PeriodTime <= time4))
+            return amp2 - ((PeriodTime - time3) / fallTime)*(amp2 - amp1);
         //5
-        else if ((delay + riseTime + onTime + fallTime) < PeriodTime <= period)
+        else if (( time4 < PeriodTime) && (PeriodTime <= period))
             return amp1;
     }
 }
