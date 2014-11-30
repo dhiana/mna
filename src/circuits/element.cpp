@@ -207,6 +207,7 @@ double Element::calcSourceValue(double t){
         return offset + amplitude*exp(innerTime*attenuation)*sin(2 * M_PI*frequency*innerTime - M_PI*angle / 180);
     }
     else if (signalType == "PULSE"){
+       //Parameters
         double amp1 = params[0];
         double amp2 = params[1];
         double delay = params[2];
@@ -215,34 +216,31 @@ double Element::calcSourceValue(double t){
         double onTime = params[5];
         double period = params[6];
         double cycles = params[7];
-        int num_cycles = (int)floor(t/period);
-        // Testing
-        double CycleTime = (delay + riseTime + onTime + fallTime); // The value of ONE cycle
-        double CountCycles = floor(t/cycles); // Which Cycle is the analysis
-        double CountPeriod = floor(t/period); // Which period is the analysis
-        double PeriodTime = (t - (period*CountPeriod)); // Contador dentro do período atual
-        //Testing 2
+        // Local variables for Operations
+        double CountPeriod = floor(t/period); // Which period is currently analyzing
+        double PeriodTime = (t - (period*CountPeriod)); // Time from the beggining of each period
         double time2 = (delay + riseTime);
         double time3 = (delay + riseTime + onTime);
         double time4 = (delay + riseTime + onTime + fallTime);
         // Limiting Cycle Numbers by the End of Period
         while (CountPeriod < cycles) {
-            //1
+            // Phase 1 of Pulse Source
             if (PeriodTime <= delay)
                 return amp1;
-            //2
+            // Phase 2 of Pulse Source
             else if ((delay < PeriodTime) && (PeriodTime <= time2))
                 return amp1 + ((PeriodTime - delay) / riseTime) * (amp2 - amp1);
-            //3
+            // Phase 3 of Pulse Source
             else if ((time2 < PeriodTime) && (PeriodTime <= time3))
                 return amp2;
-            //4
+            // Phase 4 of Pulse Source
             else if ((time3 < PeriodTime) && (PeriodTime <= time4))
                 return amp2 - ((PeriodTime - time3) / fallTime)*(amp2 - amp1);
-            //5
+            //Phase 5 of Pulse Source
             else if ((time4 < PeriodTime) && (PeriodTime <= period))
                 return amp1;
         }
+        // Finishing the last cycle => The amplitude is always == amp1
         return amp1;
     }
 }
