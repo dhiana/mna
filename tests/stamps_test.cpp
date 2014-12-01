@@ -38,6 +38,46 @@ TEST(ElementStampsTest, CapacitorBias) {
 }
 
 
+TEST(ElementStampsTest, CapacitorTransient) {
+    // Arrange
+                       // (val)(a)(b)
+    Element capacitor("C1", 10, 1, 2);
+    int numVariables = 2;
+
+    double matrix[MAX_NODES+1][MAX_NODES+2];
+    init(numVariables, matrix);
+
+    // Act
+    double t = 1e-1; // doest matter
+    double step = 1e-3;
+    double lastSolution[MAX_NODES+1] = {0, 5, 1}; // Vc(to)=4
+    capacitor.applyStamp(matrix,
+                         numVariables,
+                         ZERO_SOLUTION,
+                         t,
+                         step,
+                         lastSolution);
+    // Assert
+    // For Backward Euler, the capacitor is:
+    // dt/C resistor in parallel with C/dt*v(t0) current source!
+    // R = step/C -> G = C/step
+    double G = 10/1e-3;
+    // I = - C/step * Vc(to) ->
+    double I = (10/1e-3)*4;
+    double expected[MAX_NODES+1][MAX_NODES+2] = {
+        {0,  0,  0,  0},
+        {0,  G, -G,  I},
+        {0, -G,  G, -I}
+    };
+    for (int i=1; i<=numVariables; i++) {
+        for (int j=1; j<=numVariables+1; j++) {
+            EXPECT_NEAR(expected[i][j], matrix[i][j], TOLG);
+        }
+    }
+    print(numVariables, matrix);
+}
+
+
 TEST(ElementStampsTest, Resistor) {
     // Arrange
                       // (val)(a)(b)
