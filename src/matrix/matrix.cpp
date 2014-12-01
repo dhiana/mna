@@ -80,7 +80,7 @@ void getSolution(int numVariables,
 void copySolution(int numVariables,
                   double originalSolution[MAX_NODES+1],
                   double targetSolution[MAX_NODES+1]){
-    for (int i=1; i<=numVariables; i++) {
+    for (int i=0; i<=numVariables; i++) {
         targetSolution[i] = originalSolution[i];
     }
 }
