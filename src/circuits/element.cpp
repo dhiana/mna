@@ -399,6 +399,8 @@ void Element::applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
 			Yn[b][b] += G;
 			Yn[a][b] -= G;
 			Yn[b][a] -= G;
+            Yn[x][x] += 1;
+            Yn[x][numVariables + 1] += 1;
         } else {
 			double R = value / step;
             double jL = lastStepSolution[x];

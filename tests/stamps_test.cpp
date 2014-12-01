@@ -82,9 +82,14 @@ TEST(ElementStampsTest, InductorBias) {
     // Arrange
                       // (val)(a)(b)
     Element inductor("L1", 10, 1, 2);
-    int numVariables = 3;
+    int numVariables = 2;
 
-    double matrix[MAX_NODES+1][MAX_NODES+2];
+    double matrix[MAX_NODES + 1][MAX_NODES + 2];
+    // Bad smell about the need of this member function...
+    // Without it, only first part of matrix would be populated!
+    vector<string> dummyVariablesList(10);
+    inductor.addCurrentVariables(numVariables, dummyVariablesList);
+
     init(numVariables, matrix);
 
     // Act
@@ -96,7 +101,8 @@ TEST(ElementStampsTest, InductorBias) {
     double expected[MAX_NODES+1][MAX_NODES+2] = {
         {0,    0,    0, 0, 0},
         {0,  1e9, -1e9, 0, 0},
-        {0, -1e9,  1e9, 0, 0}
+        {0, -1e9,  1e9, 0, 0},
+        {0,    0,    0, 1, 1}
     };
     // XXX Warning!!! Raised tolerance!
     // An error of 1.1920928955078125e-7 was appearing...
