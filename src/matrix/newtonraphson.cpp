@@ -94,11 +94,10 @@ int runNewtonRaphson(Circuit circuit,
                              previousSolution);
             }
         }
-
-        if (!converged){
-            cout << "Newton Raphson did not converge.";
-            return (EXIT_FAILURE);
-        }
+    }
+    if (!converged){
+        cout << "Newton Raphson did not converge.";
+        exit(EXIT_FAILURE);
     }
     return 0;
 }
