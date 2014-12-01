@@ -78,6 +78,83 @@ TEST(ElementStampsTest, CapacitorTransient) {
 }
 
 
+TEST(ElementStampsTest, InductorBias) {
+    // Arrange
+                      // (val)(a)(b)
+    Element inductor("L1", 10, 1, 2);
+    int numVariables = 3;
+
+    double matrix[MAX_NODES+1][MAX_NODES+2];
+    init(numVariables, matrix);
+
+    // Act
+    inductor.applyStamp(matrix, numVariables, ZERO_SOLUTION, 0);
+
+    // Assert
+    // At bias analysis, the inductor is considered a small impedance
+    // And this means a big condunctance!
+    double expected[MAX_NODES+1][MAX_NODES+2] = {
+        {0,    0,    0, 0, 0},
+        {0,  1e9, -1e9, 0, 0},
+        {0, -1e9,  1e9, 0, 0}
+    };
+    // XXX Warning!!! Raised tolerance!
+    // An error of 1.1920928955078125e-7 was appearing...
+    for (int i=1; i<=numVariables; i++) {
+        for (int j=1; j<=numVariables+1; j++) {
+            EXPECT_NEAR(expected[i][j], matrix[i][j], 1e-6);
+        }
+    }
+    print(numVariables, matrix);
+}
+
+
+TEST(ElementStampsTest, InductorTransient) {
+    // Arrange
+                      // (val)(a)(b)
+    Element inductor("L1", 10, 1, 2);
+    int numVariables = 2;
+
+    double matrix[MAX_NODES+1][MAX_NODES+2];
+    // Bad smell about the need of this member function...
+    // Without it, only first part of matrix would be populated!
+    vector<string> dummyVariablesList(10);
+    inductor.addCurrentVariables(numVariables, dummyVariablesList);
+
+    init(numVariables, matrix);
+
+    // Act
+    double t = 1e-1; // doesn't matter
+    double step = 1e-3;
+    double lastSolution[MAX_NODES+1] = {0, 0, 0, 4}; // jL(to)=4
+    inductor.applyStamp(matrix,
+                         numVariables,
+                         ZERO_SOLUTION,
+                         t,
+                         step,
+                         lastSolution);
+    // Assert
+    // For Backward Euler, the inductor is:
+    // L/dt resistor in series with a -L/dt*jL(t0) voltage source!
+    // R = L/step
+    double R = 10/1e-3;
+    // V = - L/step * jL(to)
+    double V = -(10/1e-3)*4;
+    double expected[MAX_NODES+1][MAX_NODES+2] = {
+        {0,  0, 0,  0,  0},
+        {0,  0, 0,  1,  0},
+        {0,  0, 0, -1,  0},
+        {0, -1, 1,  R, -V}
+    };
+    for (int i=1; i<=numVariables; i++) {
+        for (int j=1; j<=numVariables+1; j++) {
+            EXPECT_NEAR(expected[i][j], matrix[i][j], TOLG);
+        }
+    }
+    print(numVariables, matrix);
+}
+
+
 TEST(ElementStampsTest, Resistor) {
     // Arrange
                       // (val)(a)(b)
