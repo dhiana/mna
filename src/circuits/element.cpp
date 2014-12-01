@@ -375,14 +375,14 @@ void Element::applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
         Yn[x][d]-=1;
     }
 	else if (type == 'C') {
-        double Vc = lastStepSolution[a] - lastStepSolution[b];
 		double G;
-        double I0 = (value / step) * Vc;
 		if (!t){
 			G = TOLG;
 		}
 		else {
 			G = value / step;
+            double Vc = lastStepSolution[a] - lastStepSolution[b];
+            double I0 = (value / step) * Vc;
             Yn[a][numVariables + 1] += I0;
             Yn[b][numVariables + 1] -= I0;
 		}
