@@ -63,7 +63,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="math_test.cpp" />
     <ClCompile Include="matrix_test.cpp" />
     <ClCompile Include="newtonraphson_test.cpp" />
     <ClCompile Include="stamps_test.cpp" />
