@@ -3,6 +3,7 @@
 #include <cmath>
 #include <cstdio>
 #include "consts.h"
+#include "utils.h"
 #include "circuits/circuit.h"
 #include "matrix/newtonraphson.h"
 
@@ -97,7 +98,7 @@ int runNewtonRaphson(Circuit circuit,
     }
     if (!converged){
         cout << "Newton Raphson did not converge.";
-        exit(EXIT_FAILURE);
+        exitPolitely(EXIT_FAILURE);
     }
     return 0;
 }
