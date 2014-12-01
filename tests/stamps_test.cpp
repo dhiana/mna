@@ -9,6 +9,35 @@
 using namespace std;
 
 
+TEST(ElementStampsTest, CapacitorBias) {
+    // Arrange
+                       // (val)(a)(b)
+    Element capacitor("C1", 10, 1, 2);
+    int numVariables = 2;
+
+    double matrix[MAX_NODES+1][MAX_NODES+2];
+    init(numVariables, matrix);
+
+    // Act
+    capacitor.applyStamp(matrix, numVariables, ZERO_SOLUTION, 0);
+
+    // Assert
+    // At bias analysis, the capacitor is considered a big impedance
+    // And this means a small condunctance!
+    double expected[MAX_NODES+1][MAX_NODES+2] = {
+        {0,    0,    0, 0},
+        {0,  1e-9, -1e-9, 0},
+        {0, -1e-9,  1e-9, 0}
+    };
+    for (int i=1; i<=numVariables; i++) {
+        for (int j=1; j<=numVariables+1; j++) {
+            EXPECT_NEAR(expected[i][j], matrix[i][j], TOLG);
+        }
+    }
+    print(numVariables, matrix);
+}
+
+
 TEST(ElementStampsTest, Resistor) {
     // Arrange
                       // (val)(a)(b)

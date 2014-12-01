@@ -380,7 +380,7 @@ void Element::applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
         double I0 = (value / (t - step)) * Vc;
 
 		if (!t){
-			G = 1 / TOLG;
+			G = TOLG;
 		}
 		else {
 			G = value / (t - step);
