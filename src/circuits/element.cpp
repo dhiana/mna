@@ -361,7 +361,7 @@ void Element::applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
         if (!polynomial){
             Rm=value;
         } else {
-            double Jcd = previousSolution[y];
+            double Jcd = previousSolution[x];
             calcNewtonRaphsonParameters(Jcd);
             Rm=dFx;
             double V0 = FxMinusdFxTimesXn;
