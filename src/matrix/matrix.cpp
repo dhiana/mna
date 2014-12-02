@@ -71,8 +71,7 @@ int solve( int nv, double Yn[MAX_NODES+1][MAX_NODES+2] ){
 void getSolution(int numVariables,
                  double Yn[MAX_NODES+1][MAX_NODES+2],
                  double solution[MAX_NODES+1]){
-    solution[0] = 0; // gnd
-    for (int i=1; i<=numVariables; i++) {
+    for (int i=0; i<=numVariables; i++) {
         solution[i] = Yn[i][numVariables+1];
     }
 }
