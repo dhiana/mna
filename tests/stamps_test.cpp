@@ -746,11 +746,11 @@ TEST(ElementStampsTest, EightParametersPolinomialTransresistance) {
     // Act
                                                          // (jcd)
                                                          // XXX
-    double previousSolution[MAX_NODES + 1] = { 0, 0, 0, 0, 0, 2, 2 }; // jcd = 2 
+    double previousSolution[MAX_NODES + 1] = { 0, 0, 0, 0, 0, 2, 0 }; // jcd = 2 
     transresistance.applyStamp(matrix, numVariables, previousSolution);
 
     // Assert
-    double Xn = previousSolution[6];
+    double Xn = previousSolution[5];
     // Rm = a1 + 2*a2*Xn + 3*a3*Xn^2 ...
     double Rm = params[1]
               + 2 * params[2] * Xn
