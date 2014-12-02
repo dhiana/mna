@@ -84,7 +84,6 @@ int runNewtonRaphson(Circuit circuit,
                                     previousSolution);
             if (distance < TOLERANCE){
                 converged = true;
-                solution[0] = 0; // Ground!
                 copySolution(circuit.getNumVariables(),
                              solution,
                              finalSolution);
