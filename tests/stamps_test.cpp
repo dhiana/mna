@@ -538,11 +538,11 @@ TEST(ElementStampsTest, EightParametersPolinomialVoltageAmplifier) {
     double expected[MAX_NODES + 1][MAX_NODES + 2] = {
        // 0    1    2   3    4   jx   i
         { 0 ,  0 ,  0 , 0 ,  0 , 0 ,  0 },
-        { 0 ,  0 ,  0 , 0 ,  0 , 2 ,  0 },
-        { 0 ,  0 ,  0 , 0 ,  0 ,-2 ,  0 },
+        { 0 ,  0 ,  0 , 0 ,  0 , 1 ,  0 },
+        { 0 ,  0 ,  0 , 0 ,  0 ,-1 ,  0 },
         { 0 ,  0 ,  0 , 0 ,  0 , 0 ,  0 },
         { 0 ,  0 ,  0 , 0 ,  0 , 0 ,  0 },
-        { 0 , -2 ,  2,  A , -A , 0 , -V }
+        { 0 , -1 ,  1,  A , -A , 0 , -V }
     };
     for (int i = 1; i <= numVariables; i++) {
         for (int j = 1; j <= numVariables + 1; j++) {

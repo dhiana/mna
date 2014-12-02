@@ -319,22 +319,19 @@ void Element::applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
     else if (type=='E') {
         // Voltage Amplifier
         double A;
-        double k;
         if (!polynomial){
             A=value;
-            k=1;
         } else {
             double Vcd = previousSolution[c]-previousSolution[d];
             calcNewtonRaphsonParameters(Vcd);
             A = dFx;
             double V0 = FxMinusdFxTimesXn;
             Yn[x][numVariables+1]-=V0;
-            k=2;
         }
-        Yn[a][x]+=k*1;
-        Yn[b][x]-=k*1;
-        Yn[x][a]-=k*1;
-        Yn[x][b]+=k*1;
+        Yn[a][x]+=1;
+        Yn[b][x]-=1;
+        Yn[x][a]-=1;
+        Yn[x][b]+=1;
         Yn[x][c]+=A;
         Yn[x][d]-=A;
     }
