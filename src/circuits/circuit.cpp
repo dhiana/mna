@@ -61,10 +61,10 @@ Circuit::Circuit(ifstream &netlistFile):
             }
             netlist[numElements] = Element(netlistLine, numNodes, variablesList);
             /* ADICIONAR VECTOR COM MATRIZ DE INDUTORES [ESSA É DO CIRCUITO] => SALVAR SÓ OS NOMES DELES MESMO */
-           /* if (netlistLinePrefix == 'L'){
+            if (netlistLinePrefix == 'L'){
                 numInductor++;
-                InductorList[] =  
-            }*/
+                inductorList.push_back( netlist[numElements].getName() );
+            }
         }       
         else if (netlistLinePrefix == '.'){
             stringstream ss(netlistLine);

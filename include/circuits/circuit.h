@@ -1,5 +1,6 @@
 #ifndef MNA_CIRCUIT_CIRCUIT_H_
 #define MNA_CIRCUIT_CIRCUIT_H_
+#include <list>
 #include <vector>
 #include <string>
 #include "circuits/element.h"
@@ -58,6 +59,9 @@ class Circuit {
         string title;
         vector<string> variablesList;
         vector<Element> netlist;
+
+        list<string> inductorList;
+        unsigned numInductor;
 
 };
 
