@@ -61,6 +61,15 @@ Circuit::Circuit(ifstream &netlistFile):
             }
             netlist[numElements] = Element(netlistLine, numNodes, variablesList);
         }
+        else if (netlistLinePrefix == 'K'){
+            //numElements++ => Precisa ? / Não precisa ?
+            stringstream sstream(netlistLine);
+            string L1, L2, name;
+            double value;
+            sstream >> name >> L1 >> L2 >> value;
+            cout << name << " " << L1 << " " << L2 << " " << value << endl;            
+            // addCoupling();
+        }
         else if (netlistLinePrefix == '.'){
             stringstream ss(netlistLine);
             string name;
@@ -110,6 +119,9 @@ void Circuit::printSummary(){
     cout << endl;
 }
 
+void addCoupling(){
+
+}
 
 void Circuit::applyStamps(double Yn[MAX_NODES+1][MAX_NODES+2],
                           double (&previousSolution)[MAX_NODES+1],
