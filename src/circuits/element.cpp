@@ -478,7 +478,7 @@ int Element::getNodeNumber(const char *name,
 bool Element::isValidElement(const char &netlistLinePrefix){
     // Initializing set with tmpElementPrefixes
     char tmpElementPrefixes[] = {
-        'R', 'I', 'V', 'G', 'E', 'F', 'H', 'O', 'L', 'C', 'K'
+        'R', 'I', 'V', 'G', 'E', 'F', 'H', 'O', 'L', 'C'
     };
     set<char> elementPrefixes(
         tmpElementPrefixes,
