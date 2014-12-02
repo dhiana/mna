@@ -60,16 +60,12 @@ Circuit::Circuit(ifstream &netlistFile):
                 exit(EXIT_FAILURE);
             }
             netlist[numElements] = Element(netlistLine, numNodes, variablesList);
-        }
-        else if (netlistLinePrefix == 'K'){
-            //numElements++ => Precisa ? / Não precisa ?
-            stringstream sstream(netlistLine);
-            string L1, L2, name;
-            double value;
-            sstream >> name >> L1 >> L2 >> value;
-            cout << name << " " << L1 << " " << L2 << " " << value << endl;            
-            // addCoupling();
-        }
+            /* ADICIONAR VECTOR COM MATRIZ DE INDUTORES [ESSA É DO CIRCUITO] => SALVAR SÓ OS NOMES DELES MESMO */
+           /* if (netlistLinePrefix == 'L'){
+                numInductor++;
+                InductorList[] =  
+            }*/
+        }       
         else if (netlistLinePrefix == '.'){
             stringstream ss(netlistLine);
             string name;
@@ -117,10 +113,6 @@ void Circuit::printSummary(){
     cout << "# variables:\t" << numVariables << endl;
     cout << "# elements:\t" << numElements << endl;
     cout << endl;
-}
-
-void addCoupling(){
-
 }
 
 void Circuit::applyStamps(double Yn[MAX_NODES+1][MAX_NODES+2],
