@@ -99,10 +99,10 @@ TEST(ElementStampsTest, InductorBias) {
     // At bias analysis, the inductor is considered a small impedance
     // And this means a big condunctance!
     double expected[MAX_NODES+1][MAX_NODES+2] = {
-        {0,    0,    0,  0, 0},
-        {0,  1e9, -1e9,  1, 0},
-        {0, -1e9,  1e9, -1, 0},
-        {0,   -1,    1,  0, 0} // short circuit!!!
+        {0,  0, 0,    0, 0},
+        {0,  0, 0,    1, 0},
+        {0,  0, 0,   -1, 0},
+        {0, -1, 1, 1e-9, 0} // short circuit!!!
     };
     // XXX Warning!!! Raised tolerance!
     // An error of 1.1920928955078125e-7 was appearing...
