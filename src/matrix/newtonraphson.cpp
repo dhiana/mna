@@ -33,6 +33,19 @@ double calcDistance(int numVariables, double x[MAX_NODES+1], double y[MAX_NODES+
 }
 
 
+bool checkConvergence(int numVariables, double x[MAX_NODES+1], double y[MAX_NODES+1]){
+    double diff;
+    bool converged = true;
+    for(int i=1; i<=numVariables; i++){
+        diff = abs(x[i]-y[i])/abs(x[i]);
+        if (diff>TOLERANCE){
+            converged = false;
+            break;
+        }
+    }
+    return converged;
+}
+
 void printSolution(int numVariables, double solution[MAX_NODES+1]){
     for(int i=1; i<=numVariables; i++){
         cout << solution[i] << endl;
@@ -79,11 +92,10 @@ int runNewtonRaphson(Circuit circuit,
                         Yn,
                         solution);
 
-            distance = calcDistance(circuit.getNumVariables(),
-                                    solution,
-                                    previousSolution);
-            if (distance < TOLERANCE){
-                converged = true;
+            converged = checkConvergence(circuit.getNumVariables(),
+                                         solution,
+                                         previousSolution);
+            if (converged){
                 solution[0] = 0; // Ground!
                 copySolution(circuit.getNumVariables(),
                              solution,
