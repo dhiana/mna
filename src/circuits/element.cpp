@@ -103,7 +103,7 @@ Element::Element(string netlistLine,
     }
     else if (type == 'C' || type == 'L') {
         sstream >> na >> nb >> value;
-        cout << na << " " << nb << " " << value << " ";
+        cout << na << " " << nb << " " << value << " " << endl;
         a = getNodeNumber(na, numNodes, variablesList);
         b = getNodeNumber(nb, numNodes, variablesList);
     }
