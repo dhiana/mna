@@ -8,12 +8,12 @@ using namespace std;
 
 
 void exitPolitely(int exitCode) {
-	#if defined (WIN32) || defined(_WIN32)
-	cout << endl << "Press any key to exit...";
-	cin.get();
-	cin.get();
-	#endif
-	exit(exitCode);
+    #if defined (WIN32) || defined(_WIN32)
+    cout << endl << "Press any key to exit...";
+    cin.get();
+    cin.get();
+    #endif
+    exit(exitCode);
 }
 
 
@@ -35,10 +35,10 @@ int openNetlistFile(int argc, char** argv, string &filepath, ifstream& netlistFi
     }
 
     netlistFile.open(filepath.c_str(), ifstream::in);
-	bool debugBool = netlistFile.is_open();
+    bool debugBool = netlistFile.is_open();
     if(!netlistFile.is_open()){
         cerr << "\nFAILURE: Cannot open file " << filepath << endl;
-		return EXIT_FAILURE;
+        return EXIT_FAILURE;
     }
     return 0;
 }

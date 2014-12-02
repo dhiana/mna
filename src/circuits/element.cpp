@@ -409,12 +409,12 @@ void Element::applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
     }
     else if (type == 'L') {
         if (!t){
-			double R = TOLG;
-			Yn[a][x] += 1;
-			Yn[b][x] -= 1;
-			Yn[x][a] -= 1;
-			Yn[x][b] += 1;
-			Yn[x][x] += R;
+            double R = TOLG;
+            Yn[a][x] += 1;
+            Yn[b][x] -= 1;
+            Yn[x][a] -= 1;
+            Yn[x][b] += 1;
+            Yn[x][x] += R;
         } else {
             double R = value / step;
             double jL = lastStepSolution[x];
