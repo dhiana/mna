@@ -31,7 +31,7 @@ int main(int argc, char **argv){
         exitPolitely(EXIT_FAILURE);
     // Prepares solutions file
     string outputFileName;
-    outputFileName = netlistFileName.substr(0, netlistFileName.find(".")).append(".tab");
+    outputFileName = netlistFileName.substr(0, netlistFileName.find(".")).append("_mnnapoly.tab");
     ofstream solutionsFile(outputFileName.c_str(), ofstream::out);
 
 
