@@ -366,13 +366,9 @@ void Element::applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
         } else {
             double Jcd = previousSolution[y];
             calcNewtonRaphsonParameters(Jcd);
-            Yn[a][x]+=1;
-            Yn[b][x]-=1;
-            Yn[x][a]-=1;
-            Yn[x][b]+=1;
             Rm=dFx;
             double V0 = FxMinusdFxTimesXn;
-            Yn[x][numVariables+1]-=V0;
+            Yn[y][numVariables+1]-=V0;
         }
         Yn[a][y]+=1;
         Yn[b][y]-=1;

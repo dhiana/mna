@@ -769,12 +769,12 @@ TEST(ElementStampsTest, EightParametersPolinomialTransresistance) {
     double expected[MAX_NODES+1][MAX_NODES+2] = {
        // 0    1    2    3    4   jx   jy   i
         { 0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 },
-        { 0 ,  0 ,  0 ,  0 ,  0 ,  1 ,  1 ,  0 },
-        { 0 ,  0 ,  0 ,  0 ,  0 , -1 , -1 ,  0 },
+        { 0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  1 ,  0 },
+        { 0 ,  0 ,  0 ,  0 ,  0 ,  0 , -1 ,  0 },
         { 0 ,  0 ,  0 ,  0 ,  0 ,  1 ,  0 ,  0 },
         { 0 ,  0 ,  0 ,  0 ,  0 , -1 ,  0 ,  0 },
-        { 0 , -1 ,  1 , -1 ,  1 ,  0 ,  0 , -V },
-        { 0 , -1 ,  1 ,  0 ,  0 , Rm ,  0 ,  0 },
+        { 0 ,  0 ,  0 , -1 ,  1 ,  0 ,  0 ,  0 },
+        { 0 , -1 ,  1 ,  0 ,  0 , Rm ,  0 , -V },
     };
     for (int i=1; i<=numVariables; i++) {
         for (int j=1; j<=numVariables+1; j++) {
