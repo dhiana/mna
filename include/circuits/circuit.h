@@ -30,6 +30,7 @@ class Circuit {
                          double t=0,
                          double (&lastStepSolution)[MAX_NODES+1]=ZERO_SOLUTION); // for Backward Euler
 
+        void AddCoupling();
         void printVariables();
         void printSummary();
         void printSolution(double Yn[MAX_NODES+1][MAX_NODES+2]);
