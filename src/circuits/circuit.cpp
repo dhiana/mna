@@ -57,7 +57,13 @@ Circuit::Circuit(ifstream &netlistFile):
             numElements++; /* XXX Starts from netlist[1] */
             if (numElements>MAX_ELEMS) {
                 cout << "Invalid number of elements. Maximum number of elements is " << MAX_ELEMS << endl;
+                #if defined (WIN32) || defined(_WIN32)
+                cout << endl << "Press any key to exit...";
+                cin.get();
+                cin.get();
+                #endif
                 exit(EXIT_FAILURE);
+
             }
             netlist[numElements] = Element(netlistLine, numNodes, variablesList);
         }
@@ -70,6 +76,11 @@ Circuit::Circuit(ifstream &netlistFile):
                 ss >> finalTime >> step >> analysisType >> internSteps;
             }else{
                 cout << "Invalid line: " << netlistLine << endl;
+                #if defined (WIN32) || defined(_WIN32)
+                cout << endl << "Press any key to exit...";
+                cin.get();
+                cin.get();
+                #endif
                 exit(EXIT_FAILURE);
             }
         }
@@ -77,6 +88,11 @@ Circuit::Circuit(ifstream &netlistFile):
             // Not a comment, not a valid element...
             // Invalid line!
             cout << "Invalid line: " << netlistLine << endl;
+            #if defined (WIN32) || defined(_WIN32)
+            cout << endl << "Press any key to exit...";
+            cin.get();
+            cin.get();
+            #endif
             exit(EXIT_FAILURE);
         }// Ignores comments!
     }
@@ -90,6 +106,11 @@ Circuit::Circuit(ifstream &netlistFile):
     }
     if (numVariables > MAX_NODES) {
         cout << "Extra current variables exceeded maximum number of variables: " << MAX_NODES << endl;
+        #if defined (WIN32) || defined(_WIN32)
+        cout << endl << "Press any key to exit...";
+        cin.get();
+        cin.get();
+        #endif
         exit(EXIT_FAILURE);
     }
 }

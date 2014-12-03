@@ -107,21 +107,18 @@ Element::Element(string netlistLine,
         a = getNodeNumber(na, numNodes, variablesList);
         b = getNodeNumber(nb, numNodes, variablesList);
     }
-    /* ADAPTAR DEFINIÇÃO PARA K = PENDENTE
-    else if (type == 'K') {
-        sstream >> na >> nb >> value;
-        cout << na << " " << nb << " " << value << " " << endl;
-
-        x = getNodeNumber(na, numNodes, variablesList); //get Outra coisa aqui pra descobrir qual o L1 e qual o L2
-        y = getNodeNumber(nb, numNodes, variablesList);
-    } */
 }
 
 void Element::addCurrentVariables(int &numVariables, vector<string> &variablesList){
     if (type=='V' || type=='E' || type=='F' || type=='O') {
         numVariables++;
         if (numVariables>MAX_NODES) {
-            cout << "As correntes extra excederam o numero de variaveis permitido (" << MAX_NODES << ")" << endl;
+            cout << "The extra currents exceeds maximum number of variables allowed (" << MAX_NODES << ")" << endl;
+            #if defined (WIN32) || defined(_WIN32)
+            cout << endl << "Press any key to exit...";
+            cin.get();
+            cin.get();
+            #endif
             exit(EXIT_FAILURE);
         }
         x=numVariables;
@@ -137,20 +134,17 @@ void Element::addCurrentVariables(int &numVariables, vector<string> &variablesLi
     else if (type=='L'){
         numVariables++;
         if (numVariables>MAX_NODES) {
-            cout << "As correntes extra excederam o numero de variaveis permitido (" << MAX_NODES << ")" << endl;
+            cout << "The extra currents exceeds maximum number of variables allowed (" << MAX_NODES << ")" << endl;
+            #if defined (WIN32) || defined(_WIN32)
+            cout << endl << "Press any key to exit...";
+            cin.get();
+            cin.get();
+            #endif
             exit(EXIT_FAILURE);
         }
         x = numVariables;
         variablesList[numVariables] = "j" + name;
     }
-    /* ADAPTAR DEFINIÇÃO PARA K = PENDENTE
-    else if (type == 'K') {
-        numVariables = numVariables + 2;
-        x = numVariables - 1;
-        y = numVariables;
-        variablesList[numVariables - 1] = "jx" + name;
-        variablesList[numVariables] = "jy" + name;
-    } */
 }
 
 Element::Element(string name,
@@ -420,25 +414,6 @@ void Element::applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
             Yn[x][numVariables+1] += V0;
         }
     }
-    else if (type == 'K'){        
-        if (!t){
-            double R = TOLG;        
-            Yn[x][y] += R;
-            Yn[y][x] += R;
-        }
-        else{
-            double M = (value / step);
-            double jx = lastStepSolution[x];
-            double jy = lastStepSolution[y];
-            double Vx = M*jy;
-            double Vy = M*jx;
-
-            Yn[x][y] += M;
-            Yn[y][x] += M;
-            Yn[x][numVariables + 1] += Vx;
-            Yn[y][numVariables + 1] += Vy;
-        }
-    }
 }
 
 
@@ -455,6 +430,8 @@ int Element::getNodeNumber(const char *name,
         if (numNodes==MAX_NODES) {
             cout << "Maximum number of nodes reached: " << MAX_NODES << endl;
             #if defined (WIN32) || defined(_WIN32)
+            cout << endl << "Press any key to exit...";
+            cin.get();
             cin.get();
             #endif
             exit(EXIT_FAILURE);
@@ -471,7 +448,7 @@ int Element::getNodeNumber(const char *name,
 bool Element::isValidElement(const char &netlistLinePrefix){
     // Initializing set with tmpElementPrefixes
     char tmpElementPrefixes[] = {
-        'R', 'I', 'V', 'G', 'E', 'F', 'H', 'O', 'L', 'C', 'K'
+        'R', 'I', 'V', 'G', 'E', 'F', 'H', 'O', 'L', 'C'
     };
     set<char> elementPrefixes(
         tmpElementPrefixes,
