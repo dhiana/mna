@@ -131,8 +131,8 @@ void Element::addCurrentVariables(int &numVariables, vector<string> &variablesLi
         numVariables=numVariables+2;
         x=numVariables-1;
         y=numVariables;
-        variablesList[numVariables-1] = "jx" + name;
-        variablesList[numVariables] = "jy" + name;
+        variablesList[numVariables-1] = "jy" + name; // XXX It's reversed!
+        variablesList[numVariables] = "jx" + name;   // XXX Magic!!!
     }
     else if (type=='L'){
         numVariables++;
