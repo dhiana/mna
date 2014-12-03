@@ -42,6 +42,7 @@ for i=1:15
             title(circuit);
             xlabel('Time');
             ylabel('Difference w.r.t MNAE');
+            saveas(f, strcat(circuit,'.png'), 'png');
         else
             fprintf('There wasnt a full output...\n');
         end
