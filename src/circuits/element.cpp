@@ -131,8 +131,8 @@ void Element::addCurrentVariables(int &numVariables, vector<string> &variablesLi
         numVariables=numVariables+2;
         x=numVariables-1;
         y=numVariables;
-        variablesList[numVariables-1] = "jx" + name;
-        variablesList[numVariables] = "jy" + name;
+        variablesList[numVariables-1] = "jy" + name; // XXX It's reversed!
+        variablesList[numVariables] = "jx" + name;   // XXX Magic!!!
     }
     else if (type=='L'){
         numVariables++;
@@ -319,22 +319,19 @@ void Element::applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
     else if (type=='E') {
         // Voltage Amplifier
         double A;
-        double k;
         if (!polynomial){
             A=value;
-            k=1;
         } else {
             double Vcd = previousSolution[c]-previousSolution[d];
             calcNewtonRaphsonParameters(Vcd);
             A = dFx;
             double V0 = FxMinusdFxTimesXn;
             Yn[x][numVariables+1]-=V0;
-            k=2;
         }
-        Yn[a][x]+=k*1;
-        Yn[b][x]-=k*1;
-        Yn[x][a]-=k*1;
-        Yn[x][b]+=k*1;
+        Yn[a][x]+=1;
+        Yn[b][x]-=1;
+        Yn[x][a]-=1;
+        Yn[x][b]+=1;
         Yn[x][c]+=A;
         Yn[x][d]-=A;
     }
@@ -364,15 +361,11 @@ void Element::applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
         if (!polynomial){
             Rm=value;
         } else {
-            double Jcd = previousSolution[y];
+            double Jcd = previousSolution[x];
             calcNewtonRaphsonParameters(Jcd);
-            Yn[a][x]+=1;
-            Yn[b][x]-=1;
-            Yn[x][a]-=1;
-            Yn[x][b]+=1;
             Rm=dFx;
             double V0 = FxMinusdFxTimesXn;
-            Yn[x][numVariables+1]-=V0;
+            Yn[y][numVariables+1]-=V0;
         }
         Yn[a][y]+=1;
         Yn[b][y]-=1;
