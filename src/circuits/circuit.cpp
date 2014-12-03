@@ -92,11 +92,23 @@ Circuit::Circuit(ifstream &netlistFile):
     for(int i=1; i<=numElements; i++){
         netlist[i].addCurrentVariables(numVariables, variablesList);
     }
+ //   AddCoupling();
     if (numVariables > MAX_NODES) {
         cout << "Extra current variables exceeded maximum number of variables: " << MAX_NODES << endl;
         exit(EXIT_FAILURE);
     }
 }
+
+//void AddCoupling(){
+//    // Procurar SE existe algum K
+//    // Se existir, descobrir quantos e como referenciar cada um pra executar o Coupling
+//    // Couple(); // Para cada K
+//         //Pegar a InductorList do K e comparar com a do Circuit
+//         // Todos os Ls estão no circuito ? Caso não => Erros !
+//         // usar a função achou! para procurar pelo name (na InductorList) do indutor, no netlist[i]
+//              // Caso ache ele => buscar o parametro .x dele e passar para o X de K
+//         // Repetir a mesma coisa para o L2
+//}
 
 
 void Circuit::printVariables(){
