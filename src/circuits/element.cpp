@@ -106,15 +106,14 @@ Element::Element(string netlistLine,
         cout << na << " " << nb << " " << value << " " << endl;
         a = getNodeNumber(na, numNodes, variablesList);
         b = getNodeNumber(nb, numNodes, variablesList);
-    }
-    /* ADAPTAR DEFINIÇÃO PARA K = PENDENTE
+    }    
     else if (type == 'K') {
         sstream >> na >> nb >> value;
         cout << na << " " << nb << " " << value << " " << endl;
 
-        x = getNodeNumber(na, numNodes, variablesList); //get Outra coisa aqui pra descobrir qual o L1 e qual o L2
-        y = getNodeNumber(nb, numNodes, variablesList);
-    } */
+        InductorList[0] = na;
+        InductorList[1] = nb;
+        }
 }
 
 void Element::addCurrentVariables(int &numVariables, vector<string> &variablesList){

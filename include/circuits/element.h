@@ -4,6 +4,7 @@
 #include "consts.h"
 #include <string>
 #include <vector>
+#include <list>
 
 using namespace std;
 
@@ -56,6 +57,7 @@ private:
     char type;
     string name;
     double value;
+    list<string> InductorList;
     vector<double> params;
     int a,b,c,d,x,y;
     bool polynomial;
