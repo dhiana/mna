@@ -142,14 +142,6 @@ void Element::addCurrentVariables(int &numVariables, vector<string> &variablesLi
         x = numVariables;
         variablesList[numVariables] = "j" + name;
     }
-    /* ADAPTAR DEFINIÇÃO PARA K = PENDENTE
-    else if (type == 'K') {
-        numVariables = numVariables + 2;
-        x = numVariables - 1;
-        y = numVariables;
-        variablesList[numVariables - 1] = "jx" + name;
-        variablesList[numVariables] = "jy" + name;
-    } */
 }
 
 Element::Element(string name,
