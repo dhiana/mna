@@ -113,7 +113,12 @@ void Element::addCurrentVariables(int &numVariables, vector<string> &variablesLi
     if (type=='V' || type=='E' || type=='F' || type=='O') {
         numVariables++;
         if (numVariables>MAX_NODES) {
-            cout << "As correntes extra excederam o numero de variaveis permitido (" << MAX_NODES << ")" << endl;
+            cout << "The extra currents exceeds maximum number of variables allowed (" << MAX_NODES << ")" << endl;
+            #if defined (WIN32) || defined(_WIN32)
+            cout << endl << "Press any key to exit...";
+            cin.get();
+            cin.get();
+            #endif
             exit(EXIT_FAILURE);
         }
         x=numVariables;
@@ -129,7 +134,12 @@ void Element::addCurrentVariables(int &numVariables, vector<string> &variablesLi
     else if (type=='L'){
         numVariables++;
         if (numVariables>MAX_NODES) {
-            cout << "As correntes extra excederam o numero de variaveis permitido (" << MAX_NODES << ")" << endl;
+            cout << "The extra currents exceeds maximum number of variables allowed (" << MAX_NODES << ")" << endl;
+            #if defined (WIN32) || defined(_WIN32)
+            cout << endl << "Press any key to exit...";
+            cin.get();
+            cin.get();
+            #endif
             exit(EXIT_FAILURE);
         }
         x = numVariables;
@@ -420,6 +430,8 @@ int Element::getNodeNumber(const char *name,
         if (numNodes==MAX_NODES) {
             cout << "Maximum number of nodes reached: " << MAX_NODES << endl;
             #if defined (WIN32) || defined(_WIN32)
+            cout << endl << "Press any key to exit...";
+            cin.get();
             cin.get();
             #endif
             exit(EXIT_FAILURE);
