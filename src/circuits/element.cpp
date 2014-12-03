@@ -110,9 +110,9 @@ Element::Element(string netlistLine,
     else if (type == 'K') {
         sstream >> na >> nb >> value;
         cout << na << " " << nb << " " << value << " " << endl;
-
-        InductorList[0] = na;
-        InductorList[1] = nb;
+        
+        InductorList.push_back(na);
+        InductorList.push_back(nb);
         }
 }
 
