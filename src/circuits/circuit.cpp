@@ -39,6 +39,7 @@ Circuit::Circuit(ifstream &netlistFile):
     numElements=0;
     numNodes=0;
     numVariables=0;
+    CountCoupling = 0;
     // XXX Magic! Really important!
     // Ground node!
     variablesList[0] = "0";
@@ -64,6 +65,8 @@ Circuit::Circuit(ifstream &netlistFile):
                 numInductor++;
                 inductorList.push_back( netlist[numElements].getName() );
             }
+            if (netlistLinePrefix == 'K')
+                CountCoupling++;          
         }       
         else if (netlistLinePrefix == '.'){
             stringstream ss(netlistLine);
@@ -92,23 +95,30 @@ Circuit::Circuit(ifstream &netlistFile):
     for(int i=1; i<=numElements; i++){
         netlist[i].addCurrentVariables(numVariables, variablesList);
     }
- //   AddCoupling();
+    AddCoupling();
     if (numVariables > MAX_NODES) {
         cout << "Extra current variables exceeded maximum number of variables: " << MAX_NODES << endl;
         exit(EXIT_FAILURE);
     }
 }
 
-//void AddCoupling(){
-//    // Procurar SE existe algum K
-//    // Se existir, descobrir quantos e como referenciar cada um pra executar o Coupling
-//    // Couple(); // Para cada K
-//         //Pegar a InductorList do K e comparar com a do Circuit
-//         // Todos os Ls estão no circuito ? Caso não => Erros !
-//         // usar a função achou! para procurar pelo name (na InductorList) do indutor, no netlist[i]
-//              // Caso ache ele => buscar o parametro .x dele e passar para o X de K
-//         // Repetir a mesma coisa para o L2
-//}
+//void Circuit::AddCoupling(){
+//    while ( CountCoupling != 0){
+//        int i, j = 0;
+//        CountCoupling--;
+//        //Se existir, descobrir quantos e como referenciar cada um pra executar o Coupling
+//        return netlist[i].name; // Pegar ELEMENT de K e de L1
+//        netlist[i].x = netlist[j].x;
+//        netlist[i].y = netlist[j].x;
+//        }
+
+     //Couple(); // Para cada K
+     //    Pegar a InductorList do K e comparar com a do Circuit
+     //     Todos os Ls estão no circuito ? Caso não => Erros !
+     //     usar a função achou! para procurar pelo name (na InductorList) do indutor, no netlist[i]
+     //          Caso ache ele => buscar o parametro .x dele e passar para o X de K
+     //     Repetir a mesma coisa para o L2
+}
 
 
 void Circuit::printVariables(){

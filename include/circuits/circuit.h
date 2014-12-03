@@ -52,6 +52,7 @@ class Circuit {
         int numElements;
         int numNodes;
         int numVariables;
+        int CountCoupling;
         /* .TRAN */
         double step;
         double finalTime;
