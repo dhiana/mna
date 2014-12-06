@@ -11,7 +11,7 @@ using namespace std;
 
 static const int MAX_ATTEMPTS = 50;
 static const int MAX_LOOPS = 100;
-static const double TOLERANCE = TOLG;
+static const double TOLERANCE = 1e-4;
 
 
 void randomize(int numVariables, double (&solution)[MAX_NODES+1]){
@@ -97,6 +97,11 @@ int runNewtonRaphson(Circuit circuit,
     }
     if (!converged){
         cout << "Newton Raphson did not converge.";
+        #if defined (WIN32) || defined(_WIN32)
+        cout << endl << "Press any key to exit...";
+        cin.get();
+        cin.get();
+        #endif
         exit(EXIT_FAILURE);
     }
     return 0;
