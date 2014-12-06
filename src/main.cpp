@@ -68,12 +68,12 @@ int main(int argc, char **argv){
     double finalTime = circuit.getFinalTime();
     double lastSolution[MAX_NODES+1];
     do {
-        t += realStep;
+        t = t + realStep;
         copySolution(circuit.getNumVariables(),
                      solution,
                      lastSolution);
         runNewtonRaphson(circuit, solution, t, lastSolution);
-        if (fmod(t, realStep) < TOLG)
+        if (fmod(t, realStep) < realStep)
             circuit.appendSolutionToFile(solutionsFile, solution, t);
     } while (t<finalTime);
 
