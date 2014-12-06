@@ -66,7 +66,7 @@ private:
     char getType() const;
 
     void calcNewtonRaphsonParameters(const double &Xn);
-    double calcSourceValue(double t);
+    double calcSourceValue(double t, double step);
 };
 
 #endif // ELEMENT_H

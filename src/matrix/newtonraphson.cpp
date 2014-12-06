@@ -96,6 +96,11 @@ int runNewtonRaphson(Circuit circuit,
     }
     if (!converged){
         cout << "Newton Raphson did not converge.";
+        #if defined (WIN32) || defined(_WIN32)
+        cout << endl << "Press any key to exit...";
+        cin.get();
+        cin.get();
+        #endif
         exit(EXIT_FAILURE);
     }
     return 0;
