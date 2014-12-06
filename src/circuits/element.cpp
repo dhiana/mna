@@ -198,7 +198,7 @@ void Element::calcNewtonRaphsonParameters(const double &Xn){
 }
 
 
-double Element::calcSourceValue(double t){
+double Element::calcSourceValue(double t, double step){
     if (signalType == "DC"){
         if (polynomial)
             value = params[0];
@@ -298,12 +298,12 @@ void Element::applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
         Yn[b][c]-=G;
     }
     else if (type=='I') {
-        double I=calcSourceValue(t);
+        double I=calcSourceValue(t, step);
         Yn[a][numVariables+1]-=I;
         Yn[b][numVariables+1]+=I;
     }
     else if (type=='V') {
-        double V=calcSourceValue(t);
+        double V=calcSourceValue(t, step);
         Yn[a][x]+=1;
         Yn[b][x]-=1;
         Yn[x][a]-=1;
