@@ -231,6 +231,8 @@ double Element::calcSourceValue(double t, double step){
         if (!onTime)
             onTime = step;
         double period = params[6];
+        if (delay == period)
+            delay -= (riseTime + onTime + fallTime);
         double cycles = params[7];
         // Local variables for Operations
         double CountPeriod = floor(t/period); // Which period is currently analyzing
