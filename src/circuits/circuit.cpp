@@ -186,14 +186,20 @@ int Circuit::getNumVariables(){
 };
 
 double Circuit::getStep(){
+    if (step<0)
+        step = 0;
     return step;
 };
 
 int Circuit::getNumInternalSteps(){
+    if (numInternalSteps<0)
+        numInternalSteps = 1;
     return numInternalSteps;
 };
 
 double Circuit::getFinalTime(){
+    if (finalTime<0)
+        finalTime = 0;
     return finalTime;
 };
 
