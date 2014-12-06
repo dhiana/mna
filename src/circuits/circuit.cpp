@@ -27,14 +27,20 @@ Circuit::Circuit(int numElements,
      netlist(netlist),
      numElements(numElements),
      numNodes(numNodes),
-     numVariables(numVariables)
+     numVariables(numVariables),
+     step(0),
+     finalTime(0),
+     numInternalSteps(0)
 {
 }
 
 
-Circuit::Circuit(ifstream &netlistFile):
-     variablesList(MAX_NODES+1),
-     netlist(MAX_ELEMS)
+Circuit::Circuit(ifstream &netlistFile) :
+    variablesList(MAX_NODES + 1),
+    netlist(MAX_ELEMS),
+    step(0),
+    finalTime(0),
+    numInternalSteps(0)
 {
     numElements=0;
     numNodes=0;
@@ -186,20 +192,14 @@ int Circuit::getNumVariables(){
 };
 
 double Circuit::getStep(){
-    if (step<0)
-        step = 0;
     return step;
 };
 
 int Circuit::getNumInternalSteps(){
-    if (numInternalSteps<0)
-        numInternalSteps = 1;
     return numInternalSteps;
 };
 
 double Circuit::getFinalTime(){
-    if (finalTime<0)
-        finalTime = 0;
     return finalTime;
 };
 
