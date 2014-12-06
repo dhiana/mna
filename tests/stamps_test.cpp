@@ -538,11 +538,11 @@ TEST(ElementStampsTest, EightParametersPolinomialVoltageAmplifier) {
     double expected[MAX_NODES + 1][MAX_NODES + 2] = {
        // 0    1    2   3    4   jx   i
         { 0 ,  0 ,  0 , 0 ,  0 , 0 ,  0 },
-        { 0 ,  0 ,  0 , 0 ,  0 , 2 ,  0 },
-        { 0 ,  0 ,  0 , 0 ,  0 ,-2 ,  0 },
+        { 0 ,  0 ,  0 , 0 ,  0 , 1 ,  0 },
+        { 0 ,  0 ,  0 , 0 ,  0 ,-1 ,  0 },
         { 0 ,  0 ,  0 , 0 ,  0 , 0 ,  0 },
         { 0 ,  0 ,  0 , 0 ,  0 , 0 ,  0 },
-        { 0 , -2 ,  2,  A , -A , 0 , -V }
+        { 0 , -1 ,  1,  A , -A , 0 , -V }
     };
     for (int i = 1; i <= numVariables; i++) {
         for (int j = 1; j <= numVariables + 1; j++) {
@@ -744,12 +744,13 @@ TEST(ElementStampsTest, EightParametersPolinomialTransresistance) {
     init(numVariables, matrix);
 
     // Act
-                                                            // (jcd)
-    double previousSolution[MAX_NODES + 1] = { 0, 0, 0, 0, 0, 0, 2 }; // jcd = 2 
+                                                         // (jcd)
+                                                         // XXX
+    double previousSolution[MAX_NODES + 1] = { 0, 0, 0, 0, 0, 2, 0 }; // jcd = 2 
     transresistance.applyStamp(matrix, numVariables, previousSolution);
 
     // Assert
-    double Xn = previousSolution[6];
+    double Xn = previousSolution[5];
     // Rm = a1 + 2*a2*Xn + 3*a3*Xn^2 ...
     double Rm = params[1]
               + 2 * params[2] * Xn
@@ -769,12 +770,12 @@ TEST(ElementStampsTest, EightParametersPolinomialTransresistance) {
     double expected[MAX_NODES+1][MAX_NODES+2] = {
        // 0    1    2    3    4   jx   jy   i
         { 0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 },
-        { 0 ,  0 ,  0 ,  0 ,  0 ,  1 ,  1 ,  0 },
-        { 0 ,  0 ,  0 ,  0 ,  0 , -1 , -1 ,  0 },
+        { 0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  1 ,  0 },
+        { 0 ,  0 ,  0 ,  0 ,  0 ,  0 , -1 ,  0 },
         { 0 ,  0 ,  0 ,  0 ,  0 ,  1 ,  0 ,  0 },
         { 0 ,  0 ,  0 ,  0 ,  0 , -1 ,  0 ,  0 },
-        { 0 , -1 ,  1 , -1 ,  1 ,  0 ,  0 , -V },
-        { 0 , -1 ,  1 ,  0 ,  0 , Rm ,  0 ,  0 },
+        { 0 ,  0 ,  0 , -1 ,  1 ,  0 ,  0 ,  0 },
+        { 0 , -1 ,  1 ,  0 ,  0 , Rm ,  0 , -V },
     };
     for (int i=1; i<=numVariables; i++) {
         for (int j=1; j<=numVariables+1; j++) {
