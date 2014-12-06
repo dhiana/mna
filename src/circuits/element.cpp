@@ -222,8 +222,14 @@ double Element::calcSourceValue(double t, double step){
         double amp2 = params[1];
         double delay = params[2];
         double riseTime = params[3];
+        if (!riseTime)
+            riseTime = step;
         double fallTime = params[4];
+        if (!fallTime)
+            fallTime = step;
         double onTime = params[5];
+        if (!onTime)
+            onTime = step;
         double period = params[6];
         double cycles = params[7];
         // Local variables for Operations
