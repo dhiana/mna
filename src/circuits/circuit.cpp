@@ -73,7 +73,7 @@ Circuit::Circuit(ifstream &netlistFile):
             ss >> name;
             if ( !name.compare(".TRAN") ){
                 string analysisType; //value not used, always equal to BE
-                ss >> finalTime >> step >> analysisType >> internSteps;
+                ss >> finalTime >> step >> analysisType >> numInternalSteps;
             }else{
                 cout << "Invalid line: " << netlistLine << endl;
                 #if defined (WIN32) || defined(_WIN32)
@@ -187,6 +187,10 @@ int Circuit::getNumVariables(){
 
 double Circuit::getStep(){
     return step;
+};
+
+int Circuit::getNumInternalSteps(){
+    return numInternalSteps;
 };
 
 double Circuit::getFinalTime(){
