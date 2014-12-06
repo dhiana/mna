@@ -11,6 +11,8 @@
 #include <string>
 #include <vector>
 #include <cstdlib>
+#include <math.h>
+
 
 using namespace std;
 
@@ -31,7 +33,7 @@ int main(int argc, char **argv){
         exitPolitely(EXIT_FAILURE);
     // Prepares solutions file
     string outputFileName;
-    outputFileName = netlistFileName.substr(0, netlistFileName.find(".")).append("_mnnapoly.tab");
+    outputFileName = netlistFileName.substr(0, netlistFileName.find(".")).append("_mnapoly.tab");
     ofstream solutionsFile(outputFileName.c_str(), ofstream::out);
 
 
@@ -61,15 +63,19 @@ int main(int argc, char **argv){
 
     // Transient Analysis
     double step = circuit.getStep();
+    int numInternalSteps = circuit.getNumInternalSteps();
+    double realStep = step/(double)numInternalSteps;
     double finalTime = circuit.getFinalTime();
     double lastSolution[MAX_NODES+1];
     do {
+        t += step;
         copySolution(circuit.getNumVariables(),
                      solution,
                      lastSolution);
-        t += step;
+        t += realStep;
         runNewtonRaphson(circuit, solution, t, lastSolution);
-        circuit.appendSolutionToFile(solutionsFile, solution, t);
+        if (fmod(t, realStep) < TOLG)
+            circuit.appendSolutionToFile(solutionsFile, solution, t);
     } while (t<finalTime);
 
     //Closing The File

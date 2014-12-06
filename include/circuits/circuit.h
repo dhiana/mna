@@ -45,6 +45,7 @@ class Circuit {
         int getNumVariables();
 
         double getStep();
+        int getNumInternalSteps();
         double getFinalTime();
 
     private:
@@ -56,7 +57,7 @@ class Circuit {
         /* .TRAN */
         double step;
         double finalTime;
-        double internSteps;
+        int numInternalSteps;
         //
         string title;
         vector<string> variablesList;
