@@ -234,12 +234,14 @@ double Element::calcSourceValue(double t, double step){
         if (delay == period)
             delay -= (riseTime + onTime + fallTime);
         double cycles = params[7];
+
         // Local variables for Operations
-        double CountPeriod = floor(t/period); // Which period is currently analyzing
+        double CountPeriod = floor(t/period); // Which period is being analyzed
         double PeriodTime = (t - (period*CountPeriod)); // Time from the beggining of each period
         double time2 = (delay + riseTime);
         double time3 = (delay + riseTime + onTime);
         double time4 = (delay + riseTime + onTime + fallTime);
+
         // Limiting Cycle Numbers by the End of Period
         while (CountPeriod < cycles) {
             // Phase 1 of Pulse Source
