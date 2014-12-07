@@ -55,6 +55,8 @@ int runNewtonRaphson(Circuit circuit,
     double previousSolution[MAX_NODES+1];
     double Yn[MAX_NODES+1][MAX_NODES+2];
 
+    copySolution(circuit.getNumVariables(), ZERO_SOLUTION, previousSolution);
+
     while(!converged && numAttempts <= MAX_ATTEMPTS ){
         numAttempts++;
         numLoops=0;
