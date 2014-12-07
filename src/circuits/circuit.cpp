@@ -138,7 +138,7 @@ void Circuit::printSummary(){
 }
 
 
-void Circuit::applyStamps(double Yn[MAX_NODES+1][MAX_NODES+2],
+void Circuit::applyStamps(double (&Yn)[MAX_NODES+1][MAX_NODES+2],
                           double (&previousSolution)[MAX_NODES+1],
                           double t,
                           double (&lastStepSolution)[MAX_NODES+1]){
