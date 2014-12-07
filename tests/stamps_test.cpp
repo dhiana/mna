@@ -204,7 +204,7 @@ TEST(ElementStampsTest, TwoParametersPolinomialResistor) {
     // Actually, for two parameters, the last solution doesn't matter!
                                        // (gnd)(e1)(e2)
     double previousSolution[MAX_NODES+1] = {0, 100,100}; 
-    resistor.applyStamp(matrix, numVariables, previousSolution);
+    resistor.applyStamp(matrix, numVariables, previousSolution,1);
 
     // Assert
     double G0 = params[1];  // G0 = a1 + 2*a2*Xn + 3*a3*Xn^2 ...
@@ -245,7 +245,7 @@ TEST(ElementStampsTest, EightParametersPolinomialResistor) {
     // Act
                                          // (gnd)(e1)(e2)
     double previousSolution[MAX_NODES + 1] = { 0, 3, 1 }; // Va-Vb = 2 
-    resistor.applyStamp(matrix, numVariables, previousSolution);
+    resistor.applyStamp(matrix, numVariables, previousSolution,1);
 
     // Assert
     double Xn = previousSolution[1] - previousSolution[2];
@@ -340,7 +340,7 @@ TEST(ElementStampsTest, EightParametersPolinomialTranscondutance) {
     // Act
                                          // (gnd)     (e3)(e4)
     double previousSolution[MAX_NODES + 1] = { 0, 0, 0, 3, 1 }; // Vc-Vd = 2 
-    transconductance.applyStamp(matrix, numVariables, previousSolution);
+    transconductance.applyStamp(matrix, numVariables, previousSolution,1);
 
     // Assert
     double Xn = previousSolution[3] - previousSolution[4];
@@ -515,7 +515,7 @@ TEST(ElementStampsTest, EightParametersPolinomialVoltageAmplifier) {
     // Act
                                          // (gnd)     (e3)(e4)
     double previousSolution[MAX_NODES + 1] = { 0, 0, 0, 3, 1 }; // Vc-Vd = 2 
-    voltageAmplifier.applyStamp(matrix, numVariables, previousSolution);
+    voltageAmplifier.applyStamp(matrix, numVariables, previousSolution,1);
 
     // Assert
     double Xn = previousSolution[3] - previousSolution[4];
@@ -630,7 +630,7 @@ TEST(ElementStampsTest, EightParametersPolinomialCurrentAmplifier) {
     // Act
                                          // (gnd)           (jcd)
     double previousSolution[MAX_NODES + 1] = { 0, 0, 0, 0, 0, 2 }; // jcd = 2 
-    currentAmplifier.applyStamp(matrix, numVariables, previousSolution);
+    currentAmplifier.applyStamp(matrix, numVariables, previousSolution,1);
 
     // Assert
     double Xn = previousSolution[5];
@@ -747,7 +747,7 @@ TEST(ElementStampsTest, EightParametersPolinomialTransresistance) {
                                                          // (jcd)
                                                          // XXX
     double previousSolution[MAX_NODES + 1] = { 0, 0, 0, 0, 0, 2, 0 }; // jcd = 2 
-    transresistance.applyStamp(matrix, numVariables, previousSolution);
+    transresistance.applyStamp(matrix, numVariables, previousSolution,1);
 
     // Assert
     double Xn = previousSolution[5];
