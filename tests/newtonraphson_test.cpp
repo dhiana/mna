@@ -55,7 +55,7 @@ TEST(NewtonRaphsonTest, SimpleCircuit) {
 
     // Act
     double solution[MAX_NODES+1];
-    runNewtonRaphson(circuit, solution);
+    runNewtonRaphson(circuit, solution,1);
 
     // Assert
     // Result from mnae program
