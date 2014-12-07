@@ -59,8 +59,6 @@ int runNewtonRaphson(Circuit circuit,
         numAttempts++;
         numLoops=0;
 
-        randomize(circuit.getNumVariables(), previousSolution);
-
         while(!converged && numLoops <= MAX_LOOPS){
             numLoops++;
 
@@ -94,6 +92,7 @@ int runNewtonRaphson(Circuit circuit,
                              previousSolution);
             }
         }
+        randomize(circuit.getNumVariables(), previousSolution);
     }
     if (!converged){
         cout << "Newton Raphson did not converge.";
