@@ -240,7 +240,7 @@ double Element::calcSourceValue(double t, double step){
 
         // Limiting Cycle Numbers by the End of Period
 
-        if (CountPeriod > cycles)
+        if (CountPeriod >= cycles)
             return amp1;
         // Phase 1 of Pulse Source
         if (t < delay)
