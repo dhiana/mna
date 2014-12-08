@@ -29,6 +29,7 @@ Circuit::Circuit(int numElements,
      numNodes(numNodes),
      numVariables(numVariables),
      step(0),
+     internalStep(0),
      finalTime(0),
      numInternalSteps(0)
 {
@@ -39,6 +40,7 @@ Circuit::Circuit(ifstream &netlistFile) :
     variablesList(MAX_NODES + 1),
     netlist(MAX_ELEMS),
     step(0),
+    internalStep(0),
     finalTime(0),
     numInternalSteps(0)
 {
@@ -80,6 +82,7 @@ Circuit::Circuit(ifstream &netlistFile) :
             if ( !name.compare(".TRAN") ){
                 string analysisType; //value not used, always equal to BE
                 ss >> finalTime >> step >> analysisType >> numInternalSteps;
+                internalStep = step/(double)numInternalSteps;
             }else{
                 cout << "Invalid line: " << netlistLine << endl;
                 #if defined (WIN32) || defined(_WIN32)
@@ -146,7 +149,7 @@ void Circuit::applyStamps(double (&Yn)[MAX_NODES+1][MAX_NODES+2],
     for (int i=1; i<=numElements; i++) {
         element = netlist[i];
         // Will pass previousSolution in the near future...
-        element.applyStamp(Yn, numVariables, previousSolution, t, step, lastStepSolution);
+        element.applyStamp(Yn, numVariables, previousSolution, t, internalStep, lastStepSolution);
         #ifdef DEBUG
         cout << "System after stamp of " << element.getName() << endl;
         print(numVariables, Yn);
@@ -191,12 +194,8 @@ int Circuit::getNumVariables(){
     return numVariables;
 };
 
-double Circuit::getStep(){
-    return step;
-};
-
-int Circuit::getNumInternalSteps(){
-    return numInternalSteps;
+double Circuit::getInternalStep(){
+    return internalStep;
 };
 
 double Circuit::getFinalTime(){
