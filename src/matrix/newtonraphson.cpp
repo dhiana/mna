@@ -11,7 +11,7 @@ using namespace std;
 
 static const int MAX_ATTEMPTS = 500;
 static const int MAX_LOOPS = 1000;
-static const double TOLERANCE = TOLG;
+static const double TOLERANCE = 1e-4;
 
 
 void randomize(int numVariables, double (&solution)[MAX_NODES+1]){
