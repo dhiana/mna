@@ -17,7 +17,7 @@ static const double TOLERANCE = 1e-4;
 void randomize(int numVariables, double (&solution)[MAX_NODES+1]){
     solution[0] = 0; // gnd
     for(int i=1; i<=numVariables; i++){
-        solution[i] = ((double(rand()) / double(RAND_MAX)) - 0.5)*100;
+        solution[i] = (double(rand()) / double(RAND_MAX)) - 0.5;
     }
 }
 
