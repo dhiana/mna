@@ -10,8 +10,6 @@ function checkCircuit(circuit)
             mnae_index(i) = i;
             mnapoly_index(i) = find(strcmp(mnapoly.colheaders, mnae.colheaders{i}));
         end
-        mnae_index
-        mnapoly_index
         endRows = min(size(mnapoly.data,1),size(mnae.data,1));
         if endRows
             diff = mnae.data(1:endRows,mnae_index) - mnapoly.data(1:endRows,mnapoly_index);
