@@ -48,6 +48,8 @@ public:
                              vector<string> &variablesList);
 
     string getName() const;
+    double getValue() const;
+    int getX() const;
 
     static bool isValidElement(const char &netlistLinePrefix);
 

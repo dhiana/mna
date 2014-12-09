@@ -405,7 +405,8 @@ void Element::applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
             Yn[x][a] -= 1;
             Yn[x][b] += 1;
             Yn[x][x] += R;
-        } else {
+        }
+        else {
             double R = value / step;
             double jL = lastStepSolution[x];
             double V0 = (value / step)*jL;
@@ -414,7 +415,7 @@ void Element::applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
             Yn[x][a] -= 1;
             Yn[x][b] += 1;
             Yn[x][x] += R;
-            Yn[x][numVariables+1] += V0;
+            Yn[x][numVariables + 1] += V0;
         }
     }
 }
@@ -469,6 +470,17 @@ string Element::getName() const
 {
     return name;
 }
+
+double Element::getValue() const
+{
+    return value;
+}
+
+int Element::getX() const
+{
+    return x;
+}
+
 
 char Element::getType() const
 {
