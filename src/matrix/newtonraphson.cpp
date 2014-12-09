@@ -24,9 +24,11 @@ void randomize(int numVariables, double (&solution)[MAX_NODES+1]){
 
 double calcDistance(int numVariables, double x[MAX_NODES+1], double y[MAX_NODES+1]){
     double sum=0;
+    double diff=0;
     double distance=0;
     for(int i=1; i<=numVariables ;i++) {
-        sum += pow((x[i]-y[i]),2);
+        diff = pow((x[i]-y[i]),2)/(abs(x[i]*y[i])+TOLG);
+        sum += diff;
     }
     distance = sqrt(sum);
     return distance;
