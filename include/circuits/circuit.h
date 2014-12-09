@@ -47,6 +47,7 @@ class Circuit {
         int getNumVariables();
 
         double getInternalStep();
+        double getNumInternalSteps();
         double getFinalTime();
 
     private:
