@@ -185,11 +185,11 @@ void Circuit::applyStamps(double (&Yn)[MAX_NODES+1][MAX_NODES+2],
                  Yn[y][x] += R;
         }
         else{
-                 double M = ((v*(sqrt(vl1*vl2)))/ step);
+                 double M = (v*sqrt(vl1*vl2)/ step);
                  double jx = lastStepSolution[x];
                  double jy = lastStepSolution[y];
-                 double Vx = (M*jy / step);
-                 double Vy = (M*jx / step);
+                 double Vx = M*jy;
+                 double Vy = M*jx;
 
                  Yn[x][y] += M;
                  Yn[y][x] += M;
