@@ -418,27 +418,7 @@ void Element::applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
             Yn[x][numVariables + 1] += V0;
         }
     }
-   else if (type == 'K'){
-            if (!t){
-                double R = TOLG;
-                Yn[x][y] += R;
-                Yn[y][x] += R;
-            }
-            else{
-                double M = (value / step);
-                double jx = lastStepSolution[x];
-                double jy = lastStepSolution[y];
-                double Vx = M*jy;
-                double Vy = M*jx;
-
-                Yn[x][y] += M;
-                Yn[y][x] += M;
-                Yn[x][numVariables + 1] += Vx;
-                Yn[y][numVariables + 1] += Vy;
-            }
-
-        }
-    }
+}
 
 
 int Element::getNodeNumber(const char *name,
