@@ -63,15 +63,18 @@ int main(int argc, char **argv){
 
     // Transient Analysis
     double internalStep = circuit.getInternalStep();
+    int numInternalSteps = circuit.getNumInternalSteps();
     double finalTime = circuit.getFinalTime();
     double lastSolution[MAX_NODES+1];
+    int numIterations = 0;
     do {
+        numIterations++;
         t = t + internalStep;
         copySolution(circuit.getNumVariables(),
                      solution,
                      lastSolution);
         runNewtonRaphson(circuit, solution, t, lastSolution);
-        if (fmod(t, internalStep) < internalStep)
+        if (!(numIterations % numInternalSteps))
             circuit.appendSolutionToFile(solutionsFile, solution, t);
     } while (t<finalTime);
 
