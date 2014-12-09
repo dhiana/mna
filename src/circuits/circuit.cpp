@@ -171,7 +171,6 @@ void Circuit::applyStamps(double (&Yn)[MAX_NODES+1][MAX_NODES+2],
     }
     multimap< double, pair< Element *, Element *> >::const_iterator it;
     for (it = coupling.begin(); it != coupling.end(); it++){
-        element.applyStamp(Yn, numVariables, previousSolution, t, internalStep, lastStepSolution);
         double v = it->first;
         Element * l1 = it->second.first;
         Element * l2 = it->second.second;

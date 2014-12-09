@@ -491,6 +491,17 @@ string Element::getName() const
     return name;
 }
 
+double Element::getValue() const
+{
+    return value;
+}
+
+int Element::getX() const
+{
+    return x;
+}
+
+
 char Element::getType() const
 {
     return name[0];
