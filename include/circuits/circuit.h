@@ -43,6 +43,7 @@ class Circuit {
         int getNumVariables();
 
         double getInternalStep();
+        double getNumInternalSteps();
         double getFinalTime();
 
     private:
@@ -59,7 +60,6 @@ class Circuit {
         string title;
         vector<string> variablesList;
         vector<Element> netlist;
-
 };
 
 #endif

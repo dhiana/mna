@@ -194,6 +194,10 @@ int Circuit::getNumVariables(){
     return numVariables;
 };
 
+double Circuit::getNumInternalSteps(){
+    return numInternalSteps;
+};
+
 double Circuit::getInternalStep(){
     return internalStep;
 };
@@ -201,4 +205,3 @@ double Circuit::getInternalStep(){
 double Circuit::getFinalTime(){
     return finalTime;
 };
-
