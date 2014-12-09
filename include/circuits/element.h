@@ -38,7 +38,8 @@ public:
                     double (&previousSolution)[MAX_NODES+1]=ZERO_SOLUTION, // for Newton Raphson
                     double t=0,
                     double step=1e-3,
-                    double (&lastStepSolution)[MAX_NODES+1]=ZERO_SOLUTION); // for Backward Euler
+                    double (&lastStepSolution)[MAX_NODES+1]=ZERO_SOLUTION, // for Backward Euler
+                    vector<Element> netlist = {});
 
     static int getNodeNumber(const char *name,
                              int &numNodes,
@@ -48,6 +49,8 @@ public:
                              vector<string> &variablesList);
 
     string getName() const;
+    int getX() const;
+    double getValue() const;
 
     static bool isValidElement(const char &netlistLinePrefix);
 
@@ -62,6 +65,8 @@ private:
     string signalType;
     double dFx;
     double FxMinusdFxTimesXn;
+
+    string inductorA, inductorB;
 
     char getType() const;
 

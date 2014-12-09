@@ -31,7 +31,7 @@ Circuit::Circuit(int numElements,
      step(0),
      internalStep(0),
      finalTime(0),
-     numInternalSteps(0)
+     numInternalSteps(1)
 {
 }
 
@@ -42,7 +42,7 @@ Circuit::Circuit(ifstream &netlistFile) :
     step(0),
     internalStep(0),
     finalTime(0),
-    numInternalSteps(0)
+    numInternalSteps(1)
 {
     numElements=0;
     numNodes=0;
@@ -149,7 +149,7 @@ void Circuit::applyStamps(double (&Yn)[MAX_NODES+1][MAX_NODES+2],
     for (int i=1; i<=numElements; i++) {
         element = netlist[i];
         // Will pass previousSolution in the near future...
-        element.applyStamp(Yn, numVariables, previousSolution, t, internalStep, lastStepSolution);
+        element.applyStamp(Yn, numVariables, previousSolution, t, internalStep, lastStepSolution, netlist);
         #ifdef DEBUG
         cout << "System after stamp of " << element.getName() << endl;
         print(numVariables, Yn);

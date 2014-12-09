@@ -107,6 +107,10 @@ Element::Element(string netlistLine,
         a = getNodeNumber(na, numNodes, variablesList);
         b = getNodeNumber(nb, numNodes, variablesList);
     }
+    else if (type == 'K'){
+        sstream >> inductorA >> inductorB >> value;
+        cout << inductorA << " " << inductorB << " " << value << " " << endl;
+    }
 }
 
 void Element::addCurrentVariables(int &numVariables, vector<string> &variablesList){
@@ -263,7 +267,8 @@ void Element::applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
                          double (&previousSolution)[MAX_NODES+1],
                          double t,
                          double step,
-                         double (&lastStepSolution)[MAX_NODES+1])
+                         double (&lastStepSolution)[MAX_NODES+1],
+                         vector<Element> netlist)
 {
     if (type=='R') {
         double G;
@@ -417,6 +422,38 @@ void Element::applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
             Yn[x][numVariables+1] += V0;
         }
     }
+    else if (type == 'K') {
+        if (t){
+            Element A;
+            Element B;
+            string nameA = inductorA;
+            string nameB = inductorB;
+            for (int i = 0; i < netlist.size(); i++){
+                if (netlist[i].getName() == nameA){
+                    A = netlist[i];
+                    continue;
+                }
+                if (netlist[i].getName() == nameB){
+                    B = netlist[i];
+                    continue;
+                }
+            }
+            int jA = A.getX();
+            int jB = B.getX();
+            double LA = A.getValue();
+            double LB = B.getValue();
+            double M = value*sqrt(LA*LB);
+            double lastjA = lastStepSolution[jA];
+            double lastjB = lastStepSolution[jB];
+            double RK = M / step;
+            double VKA = M*lastjA / step;
+            double VKB = M*lastjB / step;
+            Yn[jA][jB] += RK;
+            Yn[jB][jA] += RK;
+            Yn[jA][numVariables + 1] += VKB;
+            Yn[jB][numVariables + 1] += VKA;
+        }
+    }
 }
 
 
@@ -451,7 +488,7 @@ int Element::getNodeNumber(const char *name,
 bool Element::isValidElement(const char &netlistLinePrefix){
     // Initializing set with tmpElementPrefixes
     char tmpElementPrefixes[] = {
-        'R', 'I', 'V', 'G', 'E', 'F', 'H', 'O', 'L', 'C'
+        'R', 'I', 'V', 'G', 'E', 'F', 'H', 'O', 'L', 'C', 'K'
     };
     set<char> elementPrefixes(
         tmpElementPrefixes,
@@ -468,6 +505,16 @@ bool Element::isValidElement(const char &netlistLinePrefix){
 string Element::getName() const
 {
     return name;
+}
+
+int Element::getX() const
+{
+    return x;
+}
+
+double Element::getValue() const
+{
+    return value;
 }
 
 char Element::getType() const
