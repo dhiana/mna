@@ -9,8 +9,8 @@
 
 using namespace std;
 
-static const int MAX_ATTEMPTS = 50;
-static const int MAX_LOOPS = 100;
+static const int MAX_ATTEMPTS = 500;
+static const int MAX_LOOPS = 1000;
 static const double TOLERANCE = 1e-4;
 
 
@@ -68,11 +68,11 @@ int runNewtonRaphson(Circuit circuit,
     double previousSolution[MAX_NODES+1];
     double Yn[MAX_NODES+1][MAX_NODES+2];
 
+    copySolution(circuit.getNumVariables(), ZERO_SOLUTION, previousSolution);
+
     while(!converged && numAttempts <= MAX_ATTEMPTS ){
         numAttempts++;
         numLoops=0;
-
-        randomize(circuit.getNumVariables(), previousSolution);
 
         while(!converged && numLoops <= MAX_LOOPS){
             numLoops++;
@@ -106,6 +106,7 @@ int runNewtonRaphson(Circuit circuit,
                              previousSolution);
             }
         }
+        randomize(circuit.getNumVariables(), previousSolution);
     }
     if (!converged){
         cout << "Newton Raphson did not converge.";

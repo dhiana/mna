@@ -5,8 +5,8 @@
 ./bin/mna data/chuapolf.net
 ./bin/mna data/chuapolg.net
 ./bin/mna data/chuapolh.net
-./bin/mna data/chuapolg.tab
-./bin/mna data/chuapolr.tab
+./bin/mna data/chuapolg.net
+./bin/mna data/chuapolr.net
 ./bin/mna data/diodop1.net
 ./bin/mna data/diodop2.net
 ./bin/mna data/ebersmoll.net

@@ -227,3 +227,6 @@ FakesAssemblies/
 
 # Output Files
 *.tab
+
+# Windows
+Thumbs.db

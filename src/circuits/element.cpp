@@ -228,35 +228,32 @@ double Element::calcSourceValue(double t, double step){
         if (!fallTime)
             fallTime = step;
         double onTime = params[5];
-        if (!onTime)
-            onTime = step;
         double period = params[6];
         double cycles = params[7];
+
         // Local variables for Operations
-        double CountPeriod = floor(t/period); // Which period is currently analyzing
-        double PeriodTime = (t - (period*CountPeriod)); // Time from the beggining of each period
-        double time2 = (delay + riseTime);
-        double time3 = (delay + riseTime + onTime);
-        double time4 = (delay + riseTime + onTime + fallTime);
+        double CountPeriod = floor((t-delay)/period); // Which period is being analyzed
+        double PeriodTime = (t - delay - (period*CountPeriod)); // Time from the beggining of each period
+        double time2 = riseTime;
+        double time3 = riseTime + onTime;
+        double time4 = riseTime + onTime + fallTime;
+
         // Limiting Cycle Numbers by the End of Period
-        while (CountPeriod < cycles) {
-            // Phase 1 of Pulse Source
-            if (PeriodTime <= delay)
-                return amp1;
-            // Phase 2 of Pulse Source
-            else if ((delay < PeriodTime) && (PeriodTime <= time2))
-                return amp1 + ((PeriodTime - delay) / riseTime) * (amp2 - amp1);
-            // Phase 3 of Pulse Source
-            else if ((time2 < PeriodTime) && (PeriodTime <= time3))
-                return amp2;
-            // Phase 4 of Pulse Source
-            else if ((time3 < PeriodTime) && (PeriodTime <= time4))
-                return amp2 - ((PeriodTime - time3) / fallTime)*(amp2 - amp1);
-            //Phase 5 of Pulse Source
-            else if ((time4 < PeriodTime) && (PeriodTime <= period))
-                return amp1;
-        }
-        // Finishing the last cycle => The amplitude is always == amp1
+
+        if (CountPeriod >= cycles)
+            return amp1;
+        // Phase 1 of Pulse Source
+        if (t < delay)
+            return amp1;
+        // Phase 2 of Pulse Source
+        else if (PeriodTime <= time2)
+            return amp1 + (PeriodTime / riseTime) * (amp2 - amp1);
+        // Phase 3 of Pulse Source
+        else if (PeriodTime <= time3)
+            return amp2;
+        // Phase 4 of Pulse Source
+        else if (PeriodTime < time4)
+            return amp2 - (PeriodTime - time3) / fallTime * (amp2 - amp1);
         return amp1;
     }
 }
@@ -408,7 +405,8 @@ void Element::applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
             Yn[x][a] -= 1;
             Yn[x][b] += 1;
             Yn[x][x] += R;
-        } else {
+        }
+        else {
             double R = value / step;
             double jL = lastStepSolution[x];
             double V0 = (value / step)*jL;
@@ -417,7 +415,7 @@ void Element::applyStamp(double Yn[MAX_NODES+1][MAX_NODES+2],
             Yn[x][a] -= 1;
             Yn[x][b] += 1;
             Yn[x][x] += R;
-            Yn[x][numVariables+1] += V0;
+            Yn[x][numVariables + 1] += V0;
         }
     }
 }
@@ -472,6 +470,17 @@ string Element::getName() const
 {
     return name;
 }
+
+double Element::getValue() const
+{
+    return value;
+}
+
+int Element::getX() const
+{
+    return x;
+}
+
 
 char Element::getType() const
 {

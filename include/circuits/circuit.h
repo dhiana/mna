@@ -1,7 +1,11 @@
 #ifndef MNA_CIRCUIT_CIRCUIT_H_
 #define MNA_CIRCUIT_CIRCUIT_H_
-#include <vector>
+
+#include <map>
 #include <string>
+#include <utility>
+#include <vector>
+
 #include "circuits/element.h"
 #include "matrix/matrix.h"
 #include "consts.h"
@@ -24,7 +28,7 @@ class Circuit {
 
         // Will accept previousSolution in the near future...
         // And ppossibly the PoO/Time...
-        void applyStamps(double Yn[MAX_NODES+1][MAX_NODES+2],						 
+        void applyStamps(double (&Yn)[MAX_NODES+1][MAX_NODES+2],						 
                          double (&previousSolution)[MAX_NODES+1]=ZERO_SOLUTION, // for Newton Raphson
                          double t=0,
                          double (&lastStepSolution)[MAX_NODES+1]=ZERO_SOLUTION); // for Backward Euler
@@ -42,8 +46,8 @@ class Circuit {
         int getNumNodes();
         int getNumVariables();
 
-        double getStep();
-        int getNumInternalSteps();
+        double getInternalStep();
+        double getNumInternalSteps();
         double getFinalTime();
 
     private:
@@ -55,11 +59,15 @@ class Circuit {
         double step;
         double finalTime;
         int numInternalSteps;
+        double internalStep;
         //
         string title;
         vector<string> variablesList;
         vector<Element> netlist;
 
+        multimap< double, pair< Element *, Element *> > coupling; //value, coupled elements
+
+        Element * getElementByName(string);
 };
 
 #endif

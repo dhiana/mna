@@ -23,8 +23,6 @@ int main(int argc, char **argv){
 
     int rc=0;
     ifstream netlistFile;
-    Circuit circuit;
-
 
     // Reads netlist file
     string netlistFileName;
@@ -39,7 +37,7 @@ int main(int argc, char **argv){
 
     // Parses netlist file (constructs Circuit)
     cout << "Reading netlist:" << endl;
-    circuit = Circuit(netlistFile);
+    Circuit circuit(netlistFile);
     netlistFile.close();
 
     // Write solutions file header
@@ -62,19 +60,19 @@ int main(int argc, char **argv){
     circuit.appendSolutionToFile(solutionsFile, solution);
 
     // Transient Analysis
-    double step = circuit.getStep();
+    double internalStep = circuit.getInternalStep();
     int numInternalSteps = circuit.getNumInternalSteps();
-    double realStep = step/(double)numInternalSteps;
     double finalTime = circuit.getFinalTime();
     double lastSolution[MAX_NODES+1];
+    int numIterations = 0;
     do {
-        t += step;
+        numIterations++;
+        t = t + internalStep;
         copySolution(circuit.getNumVariables(),
                      solution,
                      lastSolution);
-        t += realStep;
         runNewtonRaphson(circuit, solution, t, lastSolution);
-        if (fmod(t, realStep) < TOLG)
+        if (!(numIterations % numInternalSteps))
             circuit.appendSolutionToFile(solutionsFile, solution, t);
     } while (t<finalTime);
 

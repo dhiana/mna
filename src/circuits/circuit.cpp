@@ -8,10 +8,10 @@
 #include <string>
 #include <sstream>
 #include <cstdlib>
+#include <cmath>
 
 
 using namespace std;
-
 
 Circuit::Circuit():
      variablesList(MAX_NODES+1),
@@ -27,14 +27,22 @@ Circuit::Circuit(int numElements,
      netlist(netlist),
      numElements(numElements),
      numNodes(numNodes),
-     numVariables(numVariables)
+     numVariables(numVariables),
+     step(0),
+     internalStep(0),
+     finalTime(0),
+     numInternalSteps(1)
 {
 }
 
 
-Circuit::Circuit(ifstream &netlistFile):
-     variablesList(MAX_NODES+1),
-     netlist(MAX_ELEMS)
+Circuit::Circuit(ifstream &netlistFile) :
+    variablesList(MAX_NODES + 1),
+    netlist(MAX_ELEMS),
+    step(0),
+    internalStep(0),
+    finalTime(0),
+    numInternalSteps(1)
 {
     numElements=0;
     numNodes=0;
@@ -67,6 +75,21 @@ Circuit::Circuit(ifstream &netlistFile):
             }
             netlist[numElements] = Element(netlistLine, numNodes, variablesList);
         }
+        else if (netlistLinePrefix == 'K'){
+            stringstream ss(netlistLine);
+            string name, l1, l2;
+            double val;
+            
+            ss >> name >> l1 >> l2 >> val;
+            cout << name << " " << l1 << " " << l2 << " " << val;
+
+            Element *pL1 = getElementByName(l1);
+            Element *pL2 = getElementByName(l2);
+
+            pair< Element *, Element *> coupledElements(pL1, pL2);
+
+            coupling.insert(pair< double, pair<Element *,Element *> >(val, coupledElements));
+        }
         else if (netlistLinePrefix == '.'){
             stringstream ss(netlistLine);
             string name;
@@ -74,6 +97,7 @@ Circuit::Circuit(ifstream &netlistFile):
             if ( !name.compare(".TRAN") ){
                 string analysisType; //value not used, always equal to BE
                 ss >> finalTime >> step >> analysisType >> numInternalSteps;
+                internalStep = step/(double)numInternalSteps;
             }else{
                 cout << "Invalid line: " << netlistLine << endl;
                 #if defined (WIN32) || defined(_WIN32)
@@ -132,7 +156,7 @@ void Circuit::printSummary(){
 }
 
 
-void Circuit::applyStamps(double Yn[MAX_NODES+1][MAX_NODES+2],
+void Circuit::applyStamps(double (&Yn)[MAX_NODES+1][MAX_NODES+2],
                           double (&previousSolution)[MAX_NODES+1],
                           double t,
                           double (&lastStepSolution)[MAX_NODES+1]){
@@ -140,14 +164,34 @@ void Circuit::applyStamps(double Yn[MAX_NODES+1][MAX_NODES+2],
     for (int i=1; i<=numElements; i++) {
         element = netlist[i];
         // Will pass previousSolution in the near future...
-        element.applyStamp(Yn, numVariables, previousSolution, t, step, lastStepSolution);
+        element.applyStamp(Yn, numVariables, previousSolution, t, internalStep, lastStepSolution);
         #ifdef DEBUG
         cout << "System after stamp of " << element.getName() << endl;
         print(numVariables, Yn);
         #endif
-
     }
-}
+    multimap< double, pair< Element *, Element *> >::const_iterator it;
+    for (it = coupling.begin(); it != coupling.end(); it++){
+        double v = it->first;
+        Element * l1 = it->second.first;
+        Element * l2 = it->second.second;
+        int x = l1->getX();
+        int y = l2->getX();
+        double vl1 = l1->getValue();
+        double vl2 = l2->getValue();
+        double M = (v*sqrt(vl1*vl2)/ internalStep);
+        double jx = lastStepSolution[x];
+        double jy = lastStepSolution[y];
+        double Vx = M*jy;
+        double Vy = M*jx;
+        Yn[x][y] += M;
+        Yn[y][x] += M;
+        Yn[x][numVariables + 1] += Vx;
+        Yn[y][numVariables + 1] += Vy;
+        }
+
+       
+    }
 
 void Circuit::printSolution(double Yn[MAX_NODES+1][MAX_NODES+2]){
     for (int i=1; i<=numVariables; i++) {
@@ -185,15 +229,26 @@ int Circuit::getNumVariables(){
     return numVariables;
 };
 
-double Circuit::getStep(){
-    return step;
+double Circuit::getNumInternalSteps(){
+    return numInternalSteps;
 };
 
-int Circuit::getNumInternalSteps(){
-    return numInternalSteps;
+double Circuit::getInternalStep(){
+    return internalStep;
 };
 
 double Circuit::getFinalTime(){
     return finalTime;
 };
 
+Element * Circuit::getElementByName(string el){
+
+    vector<Element>::iterator it;
+
+    for (it = netlist.begin(); it != netlist.end(); it++){
+        if (!it->getName().compare(el))
+            return &(*it);
+    }
+
+    return NULL;
+}

@@ -6,9 +6,13 @@ function checkCircuit(circuit)
     mnae = importdata(mnae_filename);
     fprintf('Files loaded...\n');
     if isstruct(mnae) && isstruct(mnapoly)
+        for i=1:size(mnae.colheaders,2)
+            mnae_index(i) = i;
+            mnapoly_index(i) = find(strcmp(mnapoly.colheaders, mnae.colheaders{i}));
+        end
         endRows = min(size(mnapoly.data,1),size(mnae.data,1));
         if endRows
-            diff = mnae.data(1:endRows,:) - mnapoly.data(1:endRows,:);
+            diff = mnae.data(1:endRows,mnae_index) - mnapoly.data(1:endRows,mnapoly_index);
             f = figure;
             subplot(1,2,1);
             plot(diff');
