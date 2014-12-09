@@ -174,6 +174,27 @@ void Circuit::applyStamps(double (&Yn)[MAX_NODES+1][MAX_NODES+2],
         double v = it->first;
         Element * l1 = it->second.first;
         Element * l2 = it->second.second;
+        int x = l1->getX();
+        int y = l2->getX();
+        if (!t){
+                 double R = TOLG;
+                 Yn[x][y] += R;
+                 Yn[y][x] += R;
+        }
+        else{
+                 double M = (v / step);
+                 double jx = lastStepSolution[x];
+                 double jy = lastStepSolution[y];
+                 double Vx = M*jy;
+                 double Vy = M*jx;
+
+                 Yn[x][y] += M;
+                 Yn[y][x] += M;
+                 Yn[x][numVariables + 1] += Vx;
+                 Yn[y][numVariables + 1] += Vy;
+        }
+
+       
     }
 }
 
