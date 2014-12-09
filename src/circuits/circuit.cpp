@@ -8,6 +8,7 @@
 #include <string>
 #include <sstream>
 #include <cstdlib>
+#include <cmath>
 
 
 using namespace std;
