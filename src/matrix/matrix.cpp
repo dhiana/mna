@@ -51,7 +51,7 @@ int solve( int nv, double Yn[MAX_NODES+1][MAX_NODES+2] ){
                 Yn[a][l] = p;
             }
         }
-        if( fabs( t ) < TOLG ){
+        if( fabs( t ) == 0 ){
             printf("Sistema singular\n");
             return 1;
         }
