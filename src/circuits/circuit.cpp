@@ -31,7 +31,7 @@ Circuit::Circuit(int numElements,
      step(0),
      internalStep(0),
      finalTime(0),
-     numInternalSteps(0)
+     numInternalSteps(1)
 {
 }
 
@@ -42,7 +42,7 @@ Circuit::Circuit(ifstream &netlistFile) :
     step(0),
     internalStep(0),
     finalTime(0),
-    numInternalSteps(0)
+    numInternalSteps(1)
 {
     numElements=0;
     numNodes=0;
