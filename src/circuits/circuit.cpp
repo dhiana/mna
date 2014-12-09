@@ -12,7 +12,6 @@
 
 using namespace std;
 
-
 Circuit::Circuit():
      variablesList(MAX_NODES+1),
      netlist(MAX_ELEMS)
@@ -74,6 +73,21 @@ Circuit::Circuit(ifstream &netlistFile) :
 
             }
             netlist[numElements] = Element(netlistLine, numNodes, variablesList);
+        }
+        else if (netlistLinePrefix == 'K'){
+            stringstream ss(netlistLine);
+            string name, l1, l2;
+            double val;
+            
+            ss >> name >> l1 >> l2 >> val;
+            cout << name << " " << l1 << " " << l2 << " " << val;
+
+            Element *pL1 = getElementByName(l1);
+            Element *pL2 = getElementByName(l2);
+
+            pair< Element *, Element *> coupledElements(pL1, pL2);
+
+            coupling.insert(pair< double, pair<Element *,Element *> >(val, coupledElements));
         }
         else if (netlistLinePrefix == '.'){
             stringstream ss(netlistLine);
@@ -154,7 +168,13 @@ void Circuit::applyStamps(double (&Yn)[MAX_NODES+1][MAX_NODES+2],
         cout << "System after stamp of " << element.getName() << endl;
         print(numVariables, Yn);
         #endif
-
+    }
+    multimap< double, pair< Element *, Element *> >::const_iterator it;
+    for (it = coupling.begin(); it != coupling.end(); it++){
+        //TODO: apply stamp here
+        double v = it->first;
+        Element * l1 = it->second.first;
+        Element * l2 = it->second.second;
     }
 }
 
@@ -202,3 +222,14 @@ double Circuit::getFinalTime(){
     return finalTime;
 };
 
+Element * Circuit::getElementByName(string el){
+
+    vector<Element>::iterator it;
+
+    for (it = netlist.begin(); it != netlist.end(); it++){
+        if (!it->getName().compare(el))
+            return &(*it);
+    }
+
+    return NULL;
+}

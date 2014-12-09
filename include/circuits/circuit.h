@@ -1,7 +1,11 @@
 #ifndef MNA_CIRCUIT_CIRCUIT_H_
 #define MNA_CIRCUIT_CIRCUIT_H_
-#include <vector>
+
+#include <map>
 #include <string>
+#include <utility>
+#include <vector>
+
 #include "circuits/element.h"
 #include "matrix/matrix.h"
 #include "consts.h"
@@ -60,6 +64,9 @@ class Circuit {
         vector<string> variablesList;
         vector<Element> netlist;
 
+        multimap< double, pair< Element *, Element *> > coupling; //value, coupled elements
+
+        Element * getElementByName(string);
 };
 
 #endif

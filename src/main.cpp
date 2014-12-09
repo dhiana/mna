@@ -23,8 +23,6 @@ int main(int argc, char **argv){
 
     int rc=0;
     ifstream netlistFile;
-    Circuit circuit;
-
 
     // Reads netlist file
     string netlistFileName;
@@ -39,7 +37,7 @@ int main(int argc, char **argv){
 
     // Parses netlist file (constructs Circuit)
     cout << "Reading netlist:" << endl;
-    circuit = Circuit(netlistFile);
+    Circuit circuit(netlistFile);
     netlistFile.close();
 
     // Write solutions file header
