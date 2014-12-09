@@ -176,13 +176,16 @@ void Circuit::applyStamps(double (&Yn)[MAX_NODES+1][MAX_NODES+2],
         Element * l2 = it->second.second;
         int x = l1->getX();
         int y = l2->getX();
+        double vl1 = l1->getValue();
+        double vl2 = l2->getValue();
+
         if (!t){
                  double R = TOLG;
                  Yn[x][y] += R;
                  Yn[y][x] += R;
         }
         else{
-                 double M = (v / step);
+                 double M = (v*sqrt(vl1*vl2)/ step);
                  double jx = lastStepSolution[x];
                  double jy = lastStepSolution[y];
                  double Vx = M*jy;
