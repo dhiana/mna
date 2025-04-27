@@ -14,13 +14,5 @@ branches:
     - master
     - mnap
     - mnapoly
-notifications:
-  recipients:
-    - dhiana.deva@gmail.com
-    - silvinov@gmail.com
-    - felipedeleo@gmail.com
-  email:
-    on_success: change
-    on_failure: always
 os:
   - linux
